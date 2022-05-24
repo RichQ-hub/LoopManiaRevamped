@@ -12,8 +12,8 @@ public class Character extends MovingEntity {
     
     public Character(PathPosition position) {
         super(position);
-        this.gold = new SimpleIntegerProperty();
-        this.exp = new SimpleIntegerProperty();
+        this.gold = new SimpleIntegerProperty(0);
+        this.exp = new SimpleIntegerProperty(0);
     }
 
     //////////////////////////////////////////////////////////////////////////////////
