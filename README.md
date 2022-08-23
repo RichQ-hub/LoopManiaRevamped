@@ -8,7 +8,62 @@ https://gitlab.cse.unsw.edu.au/COMP2511/21T2/project-groups/MY_GROUP/21T2-cs2511
 
 ## Contents
 
-[link1](#client-reqs)
+- [COMP2511 Major Project: Loop Mania](#comp2511-major-project-loop-mania)
+- [Contents](#contents)
+- [0. Change Log](#0-change-log)
+- [1. Aims](#1-aims)
+- [2. Client Requirements 🧳](#2-client-requirements-)
+    - [2.1 Enemies 🐙](#21-enemies-)
+    - [2.2 Buildings 🏛️](#22-buildings-️)
+    - [2.3 Basic Items ⚔️](#23-basic-items-️)
+    - [2.4 Rare Items 🔱](#24-rare-items-)
+    - [2.5 Evolution of Requirements 🤖](#25-evolution-of-requirements-)
+  - [2.6 Diversity in Behaviour/Features 🌎](#26-diversity-in-behaviourfeatures-)
+  - [2.7 Goals 🥅](#27-goals-)
+  - [2.8 Input ➡️](#28-input-️)
+  - [2.9 Frontend 🎮](#29-frontend-)
+- [3. Milestone 1: Requirements Analysis and Preliminary Design](#3-milestone-1-requirements-analysis-and-preliminary-design)
+  - [3.1 Task](#31-task)
+  - [3.2 Requirements Analysis](#32-requirements-analysis)
+  - [3.3 Agile Project Management](#33-agile-project-management)
+  - [3.4 Design and UML Diagram](#34-design-and-uml-diagram)
+  - [3.5 Assumptions](#35-assumptions)
+  - [3.6 Low-Fidelity User Interface Design](#36-low-fidelity-user-interface-design)
+  - [3.7 Marking Criteria](#37-marking-criteria)
+  - [3.8 Submission](#38-submission)
+- [4. Milestone 2: Domain Modelling and Implementation](#4-milestone-2-domain-modelling-and-implementation)
+  - [4.1 Design and UML Diagram](#41-design-and-uml-diagram)
+  - [4.2 Testing and Coverage](#42-testing-and-coverage)
+  - [4.3 Assumptions](#43-assumptions)
+  - [4.4 Frontend](#44-frontend)
+  - [4.5 Recommended Approach](#45-recommended-approach)
+  - [4.6 Agile Project Management](#46-agile-project-management)
+  - [4.7 Marking Criteria](#47-marking-criteria)
+  - [4.8 Submission](#48-submission)
+- [5. Milestone 3: Evolution of Requirements and Extensions](#5-milestone-3-evolution-of-requirements-and-extensions)
+  - [5.1 Agile Project Management](#51-agile-project-management)
+  - [5.2 Design and UML Diagram](#52-design-and-uml-diagram)
+  - [5.3 Extensions](#53-extensions)
+    - [5.3.1 Diversity in Behaviour/Features of Extensions](#531-diversity-in-behaviourfeatures-of-extensions)
+    - [5.3.2 Extension Ideas](#532-extension-ideas)
+    - [5.3.3 Assumptions](#533-assumptions)
+  - [5.4 User Experience](#54-user-experience)
+  - [5.5 Marking Criteria](#55-marking-criteria)
+  - [5.6 Submission](#56-submission)
+- [6. Style and Documentation](#6-style-and-documentation)
+- [7. Due Dates and Weightings](#7-due-dates-and-weightings)
+  - [7.1. Late Penalties](#71-late-penalties)
+  - [7.2. Demonstration](#72-demonstration)
+- [8. Other Expectations](#8-other-expectations)
+  - [8.1 Project Check-in](#81-project-check-in)
+  - [8.2 Code contribution](#82-code-contribution)
+  - [8.3 Non-code contribution](#83-non-code-contribution)
+- [9. Plagiarism](#9-plagiarism)
+- [10. Appendices](#10-appendices)
+  - [A. Project Setup/Troubleshooting Tips 🛠️](#a-project-setuptroubleshooting-tips-️)
+  - [B. Starter Code Explanation 🧸](#b-starter-code-explanation-)
+  - [C. Project Management & Git Practices](#c-project-management--git-practices)
+  - [D. Marking Criteria](#d-marking-criteria)
 
 ## 0. Change Log
 
@@ -32,7 +87,7 @@ https://gitlab.cse.unsw.edu.au/COMP2511/21T2/project-groups/MY_GROUP/21T2-cs2511
 * Appreciate issues in design and development
 * Design reusable software solutions
 
-## <a name="client-reqs"></a> 2. Client Requirements 🧳 
+## 2. Client Requirements 🧳 
 
 The client wants you to develop a game application called "Loop Mania" as described below. The proposed game application is like the application "Loop Hero" ([free download is available here](https://fourquarters.itch.io/loopathero-demo?ref=dtf.ru)) with many major changes, so please read the requirements below, as you need to follow them for this project.
 
