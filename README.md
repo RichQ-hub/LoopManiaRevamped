@@ -8,7 +8,7 @@ https://gitlab.cse.unsw.edu.au/COMP2511/21T2/project-groups/MY_GROUP/21T2-cs2511
 
 ## Contents
 
-[[_TOC_]]
+[link1](#client-reqs)
 
 ## 0. Change Log
 
@@ -32,7 +32,7 @@ https://gitlab.cse.unsw.edu.au/COMP2511/21T2/project-groups/MY_GROUP/21T2-cs2511
 * Appreciate issues in design and development
 * Design reusable software solutions
 
-## 2. Client Requirements 🧳
+## <a name="client-reqs"></a> 2. Client Requirements 🧳 
 
 The client wants you to develop a game application called "Loop Mania" as described below. The proposed game application is like the application "Loop Hero" ([free download is available here](https://fourquarters.itch.io/loopathero-demo?ref=dtf.ru)) with many major changes, so please read the requirements below, as you need to follow them for this project.
 
