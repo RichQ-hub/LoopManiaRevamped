@@ -1,14 +1,27 @@
 package unsw.loopmania;
 
+import java.util.List;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+
+//NOTE: ZOMBIE INFECTION IS A WRAPPER CLASS THAT STORES THE ALLIED SOLDIER INSIDE IT.
+//NOTE: HAVE BATTLE AS ITS OWN KEYFRAME IN THE CONTROLLER CLASS IN START TIMER METHOD.
+//NOTE: PERHAPS HAVE A BATTLE CLASS THAT RUNS THE BATTLES AND STORED IN THE LOOPMANIAWORLD CLASS.
+//NOTE: PERHAPS HAVE ENEMIES AND CHARACTERS ATTACK BY SENDING A ATTACK OBJECT WHICH CONTAINS ALL THE INFORMATION.
 
 /**
  * represents the main character in the backend of the game world
  */
 public class Character extends MovingEntity {
-    IntegerProperty gold;
-    IntegerProperty exp;
+
+    private IntegerProperty gold;
+    private IntegerProperty exp;
+    private List<String> activeEffects;
+
+    //For now (Use builder pattern to set stats???????)
+    private Object defenceStats;
+    private Object attackStats;
     
     public Character(PathPosition position) {
         super(position);
