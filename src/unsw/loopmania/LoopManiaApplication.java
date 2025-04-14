@@ -60,7 +60,7 @@ public class LoopManiaApplication extends Application {
     }
 
     @Override
-    public void stop(){
+    public void stop() {
         // wrap up activities when exit program
         mainController.terminate();
     }
@@ -68,7 +68,7 @@ public class LoopManiaApplication extends Application {
     /**
      * switch to a different Root
      */
-    private void switchToRoot(Scene scene, Parent root, Stage stage){
+    private void switchToRoot(Scene scene, Parent root, Stage stage) {
         scene.setRoot(root);
         root.requestFocus();
         stage.setScene(scene);

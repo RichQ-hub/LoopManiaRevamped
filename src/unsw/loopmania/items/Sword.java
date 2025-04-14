@@ -1,22 +1,31 @@
 package unsw.loopmania.items;
 
-import javafx.beans.property.SimpleIntegerProperty;
+import org.javatuples.Pair;
+
+import unsw.loopmania.battle.Attack;
+import unsw.loopmania.inventory.EquipmentType;
 
 /**
  * represents an equipped or unequipped sword in the backend world
  */
 public class Sword extends EquipmentItem {
 
-    private static final int SELL_PRICE = 0;
-    private static final int BUY_PRICE = 0;
+	private static int value = 10;
     
-    public Sword(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y, SELL_PRICE, BUY_PRICE);
+    public Sword(Pair<Integer, Integer> position) {
+        super(position, value, EquipmentType.Weapon);
+		super.setEntityImageByPath("src/images/basic_sword.png");
     }
 
-    @Override
-    public int hello() {
-        // TODO Auto-generated method stub
-        return 0;
-    }    
+	@Override
+	public void modifyIncomingAttack(Attack attack) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'modifyIncomingAttack'");
+	}
+
+	@Override
+	public void modifyOutgoingAttack(Attack attack) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'modifyOutgoingAttack'");
+	}    
 }

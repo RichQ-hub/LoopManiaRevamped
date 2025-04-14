@@ -1,11 +1,28 @@
 package unsw.loopmania;
 
+import java.io.File;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.scene.image.Image;
 
 /**
  * A backend entity in the world.
+ * 
+ * IMPORTANT: The x and y coords refer to the corresponding ImageView node for this
+ * entity on the GridPane itis currently in (e.g. the unequipped invetory gridpane,
+ * or the equipped inventory gridpane). So when we drag an ImageView for this entity
+ * from one gridpane to another, the x and y coords now refer to the NEW gridpane
+ * that it was dropped on.
+ * 
+ * The x and y coords are IntegerProperties, so they have change listeners attatched to
+ * them so that when they change, a handle function makes it so that its corresponding
+ * ImageView on the frontend also has its x and y coordinates changed in the game view.
+ * Hence, the ImageView is essentially updated so that and can change its grid cell
+ * within the GridPane it is ALREADY on. The change listeners are attatched in the
+ * trackPosition() method in LoopManiaController.
+ *
  */
 public abstract class Entity {
     /**
@@ -24,16 +41,20 @@ public abstract class Entity {
      */
     private BooleanProperty shouldExist;
 
-    /**
-     * create an Entity
+	private Image entityImage;
+
+	/**
+     * Create an Entity
      * this constructor should be called for subclass Entities
      */
-    public Entity(){
+    public Entity() {
         shouldExist = new SimpleBooleanProperty(true);
     }
 
+
+
      /**
-      * specify that this entity should destroy itself
+      * Specify that this entity should destroy itself
       * this method will trigger any ChangeListeners attached to shouldExist
       */
     public void destroy() {
@@ -77,4 +98,17 @@ public abstract class Entity {
      * @return y coordinate, as number from 0 to height-1
      */
     public abstract int getY();
+
+	public void setEntityImageByPath(String path) {
+		Image img = new Image((new File(path)).toURI().toString());
+		setEntityImage(img);
+	}
+
+	public Image getEntityImage() {
+		return entityImage;
+	}
+
+	public void setEntityImage(Image entityImage) {
+		this.entityImage = entityImage;
+	}
 }

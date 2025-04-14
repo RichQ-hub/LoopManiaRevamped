@@ -1,6 +1,6 @@
 package unsw.loopmania;
 
-import javafx.beans.property.SimpleIntegerProperty;
+import org.javatuples.Pair;
 
 /**
  * this class represents a path tile.
@@ -52,7 +52,7 @@ public class PathTile extends StaticEntity {
         }
     }
 
-    public PathTile(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+    public PathTile(Pair<Integer, Integer> position) {
+        super(position);
     }
 }

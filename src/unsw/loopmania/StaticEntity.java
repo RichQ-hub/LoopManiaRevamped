@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.javatuples.Pair;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -14,10 +16,10 @@ public abstract class StaticEntity extends Entity {
      */
     private IntegerProperty x, y;
 
-    public StaticEntity(SimpleIntegerProperty x, SimpleIntegerProperty y) {
+    public StaticEntity(Pair<Integer, Integer> position) {
         super();
-        this.x = x;
-        this.y = y;
+        this.x = new SimpleIntegerProperty(position.getValue0());
+        this.y = new SimpleIntegerProperty(position.getValue1());
     }
 
     public IntegerProperty x() {

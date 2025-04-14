@@ -1,69 +1,64 @@
-## COMP2511 Major Project: Loop Mania
+# Loop Mania
 
-> Value: **35%** of course mark
-
-Your group repository can be found here (replace MY_GROUP with your group name, in the format T11A_AERO):
-
-https://gitlab.cse.unsw.edu.au/COMP2511/21T2/project-groups/MY_GROUP/21T2-cs2511-project
+A turn-based 2D RPG game incorporating OOP design principles and design.
 
 ## Contents
-
-- [COMP2511 Major Project: Loop Mania](#comp2511-major-project-loop-mania)
-- [Contents](#contents)
-- [0. Change Log](#0-change-log)
-- [1. Aims](#1-aims)
-- [2. Client Requirements 🧳](#2-client-requirements-)
-    - [2.1 Enemies 🐙](#21-enemies-)
-    - [2.2 Buildings 🏛️](#22-buildings-️)
-    - [2.3 Basic Items ⚔️](#23-basic-items-️)
-    - [2.4 Rare Items 🔱](#24-rare-items-)
-    - [2.5 Evolution of Requirements 🤖](#25-evolution-of-requirements-)
-  - [2.6 Diversity in Behaviour/Features 🌎](#26-diversity-in-behaviourfeatures-)
-  - [2.7 Goals 🥅](#27-goals-)
-  - [2.8 Input ➡️](#28-input-️)
-  - [2.9 Frontend 🎮](#29-frontend-)
-- [3. Milestone 1: Requirements Analysis and Preliminary Design](#3-milestone-1-requirements-analysis-and-preliminary-design)
-  - [3.1 Task](#31-task)
-  - [3.2 Requirements Analysis](#32-requirements-analysis)
-  - [3.3 Agile Project Management](#33-agile-project-management)
-  - [3.4 Design and UML Diagram](#34-design-and-uml-diagram)
-  - [3.5 Assumptions](#35-assumptions)
-  - [3.6 Low-Fidelity User Interface Design](#36-low-fidelity-user-interface-design)
-  - [3.7 Marking Criteria](#37-marking-criteria)
-  - [3.8 Submission](#38-submission)
-- [4. Milestone 2: Domain Modelling and Implementation](#4-milestone-2-domain-modelling-and-implementation)
-  - [4.1 Design and UML Diagram](#41-design-and-uml-diagram)
-  - [4.2 Testing and Coverage](#42-testing-and-coverage)
-  - [4.3 Assumptions](#43-assumptions)
-  - [4.4 Frontend](#44-frontend)
-  - [4.5 Recommended Approach](#45-recommended-approach)
-  - [4.6 Agile Project Management](#46-agile-project-management)
-  - [4.7 Marking Criteria](#47-marking-criteria)
-  - [4.8 Submission](#48-submission)
-- [5. Milestone 3: Evolution of Requirements and Extensions](#5-milestone-3-evolution-of-requirements-and-extensions)
-  - [5.1 Agile Project Management](#51-agile-project-management)
-  - [5.2 Design and UML Diagram](#52-design-and-uml-diagram)
-  - [5.3 Extensions](#53-extensions)
-    - [5.3.1 Diversity in Behaviour/Features of Extensions](#531-diversity-in-behaviourfeatures-of-extensions)
-    - [5.3.2 Extension Ideas](#532-extension-ideas)
-    - [5.3.3 Assumptions](#533-assumptions)
-  - [5.4 User Experience](#54-user-experience)
-  - [5.5 Marking Criteria](#55-marking-criteria)
-  - [5.6 Submission](#56-submission)
-- [6. Style and Documentation](#6-style-and-documentation)
-- [7. Due Dates and Weightings](#7-due-dates-and-weightings)
-  - [7.1. Late Penalties](#71-late-penalties)
-  - [7.2. Demonstration](#72-demonstration)
-- [8. Other Expectations](#8-other-expectations)
-  - [8.1 Project Check-in](#81-project-check-in)
-  - [8.2 Code contribution](#82-code-contribution)
-  - [8.3 Non-code contribution](#83-non-code-contribution)
-- [9. Plagiarism](#9-plagiarism)
-- [10. Appendices](#10-appendices)
-  - [A. Project Setup/Troubleshooting Tips 🛠️](#a-project-setuptroubleshooting-tips-️)
-  - [B. Starter Code Explanation 🧸](#b-starter-code-explanation-)
-  - [C. Project Management & Git Practices](#c-project-management--git-practices)
-  - [D. Marking Criteria](#d-marking-criteria)
+- [Loop Mania](#loop-mania)
+	- [Contents](#contents)
+	- [0. Change Log](#0-change-log)
+	- [1. Aims](#1-aims)
+	- [2. Client Requirements 🧳](#2-client-requirements-)
+			- [2.1 Enemies 🐙](#21-enemies-)
+			- [2.2 Buildings 🏛️](#22-buildings-️)
+			- [2.3 Basic Items ⚔️](#23-basic-items-️)
+			- [2.4 Rare Items 🔱](#24-rare-items-)
+			- [2.5 Evolution of Requirements 🤖](#25-evolution-of-requirements-)
+		- [2.6 Diversity in Behaviour/Features 🌎](#26-diversity-in-behaviourfeatures-)
+		- [2.7 Goals 🥅](#27-goals-)
+		- [2.8 Input ➡️](#28-input-️)
+		- [2.9 Frontend 🎮](#29-frontend-)
+	- [3. Milestone 1: Requirements Analysis and Preliminary Design](#3-milestone-1-requirements-analysis-and-preliminary-design)
+		- [3.1 Task](#31-task)
+		- [3.2 Requirements Analysis](#32-requirements-analysis)
+		- [3.3 Agile Project Management](#33-agile-project-management)
+		- [3.4 Design and UML Diagram](#34-design-and-uml-diagram)
+		- [3.5 Assumptions](#35-assumptions)
+		- [3.6 Low-Fidelity User Interface Design](#36-low-fidelity-user-interface-design)
+		- [3.7 Marking Criteria](#37-marking-criteria)
+		- [3.8 Submission](#38-submission)
+	- [4. Milestone 2: Domain Modelling and Implementation](#4-milestone-2-domain-modelling-and-implementation)
+		- [4.1 Design and UML Diagram](#41-design-and-uml-diagram)
+		- [4.2 Testing and Coverage](#42-testing-and-coverage)
+		- [4.3 Assumptions](#43-assumptions)
+		- [4.4 Frontend](#44-frontend)
+		- [4.5 Recommended Approach](#45-recommended-approach)
+		- [4.6 Agile Project Management](#46-agile-project-management)
+		- [4.7 Marking Criteria](#47-marking-criteria)
+		- [4.8 Submission](#48-submission)
+	- [5. Milestone 3: Evolution of Requirements and Extensions](#5-milestone-3-evolution-of-requirements-and-extensions)
+		- [5.1 Agile Project Management](#51-agile-project-management)
+		- [5.2 Design and UML Diagram](#52-design-and-uml-diagram)
+		- [5.3 Extensions](#53-extensions)
+			- [5.3.1 Diversity in Behaviour/Features of Extensions](#531-diversity-in-behaviourfeatures-of-extensions)
+			- [5.3.2 Extension Ideas](#532-extension-ideas)
+			- [5.3.3 Assumptions](#533-assumptions)
+		- [5.4 User Experience](#54-user-experience)
+		- [5.5 Marking Criteria](#55-marking-criteria)
+		- [5.6 Submission](#56-submission)
+	- [6. Style and Documentation](#6-style-and-documentation)
+	- [7. Due Dates and Weightings](#7-due-dates-and-weightings)
+		- [7.1. Late Penalties](#71-late-penalties)
+		- [7.2. Demonstration](#72-demonstration)
+	- [8. Other Expectations](#8-other-expectations)
+		- [8.1 Project Check-in](#81-project-check-in)
+		- [8.2 Code contribution](#82-code-contribution)
+		- [8.3 Non-code contribution](#83-non-code-contribution)
+	- [9. Plagiarism](#9-plagiarism)
+	- [10. Appendices](#10-appendices)
+		- [A. Project Setup/Troubleshooting Tips 🛠️](#a-project-setuptroubleshooting-tips-️)
+		- [B. Starter Code Explanation 🧸](#b-starter-code-explanation-)
+		- [C. Project Management \& Git Practices](#c-project-management--git-practices)
+		- [D. Marking Criteria](#d-marking-criteria)
 
 ## 0. Change Log
 
@@ -100,12 +95,15 @@ The game world contains a path composed of image tiles ([see more details in thi
 The game world contains buildings (see [buildings table below](#22-buildings-%EF%B8%8F)), enemies (see [enemies table below](#21-enemies-)), gold <img src="src/images/gold_pile.png" width="16">, health potions <img src="src/images/brilliant_blue_new.png" width="16">, and the Character <img src="src/images/human_new.png" width="16">. You can see more information about gold and health potions in the [items table below](#23-basic-items-%EF%B8%8F). Enemies will move around the path, and their method of doing so depends on the enemy type.
 
 It is important to note that in this document, the *Human Player* and *Character* are distinct:
-* The *Character* refers to the main Character within the game which the Human Player wishes to help win the game, represented by a picture of a person <img src="src/images/human_new.png" width="16">. The Character completes many interactions such as moving around and fighting battles automatically, without input from the Human Player.
-* The *Human Player* refers to the user playing the game application. The Human Player wishes to win the game by helping the Character complete all goals, and is able to help the Character win the game by creating buildings (see [buildings table below](#22-buildings-%EF%B8%8F)), equipping items (see [items table below](#23-basic-items-%EF%B8%8F)), purchasing and selling items, consuming health potions, and pausing the game (pausing makes it easier to drag and drop).
+* The **Character** refers to the main Character within the game which the Human Player wishes to help win the game, represented by a picture of a person <img src="src/images/human_new.png" width="16">. The Character completes many interactions such as moving around and fighting battles automatically, without input from the Human Player.
+* The **Human Player** refers to the user playing the game application. The Human Player wishes to win the game by helping the Character complete all goals, and is able to help the Character win the game by creating buildings (see [buildings table below](#22-buildings-%EF%B8%8F)), equipping items (see [items table below](#23-basic-items-%EF%B8%8F)), purchasing and selling items, consuming health potions, and pausing the game (pausing makes it easier to drag and drop).
 
 When the Character is attacked by an enemy, a battle is started involving nearby enemies and the Character, and either the Character will defeat all enemies within this battle and win rewards, which can consist of cards (see [buildings table below](#22-buildings-%EF%B8%8F)), experience, gold, and equipment (see [items table below](#23-basic-items-%EF%B8%8F)). Alternatively, the Character will be killed and the Human Player loses the game, and the game ends. The battle is automatically played - the Human Player has no ability to perform any game interactions during a battle.
 
-More precisely, when the Character moves within the *battle radius* of an enemy on the path (this differs by type of enemy), a battle will commence. Those enemies for which the Character is within their *support radius* (*support radius* is distinct from *battle radius*, and differs by type of enemy) will join the battle against the Character and its allies. Some enemies such as vampires have a larger support radius (see [enemies table below](#21-enemies-)).
+More precisely, when the Character moves within the `battle radius` of an enemy on the path (this differs by type of enemy), a battle will commence. Those enemies for which the Character is within their `support radius` (*support radius* is distinct from *battle radius*, and differs by type of enemy) will join the battle against the Character and its allies. Some enemies such as vampires have a larger support radius (see [enemies table below](#21-enemies-)).
+
+> [!Important]
+> `Support radius` and `battle radius` are not always the same!
 
 <img src="examples/simple_example_influence_radius.png" width="400">
 

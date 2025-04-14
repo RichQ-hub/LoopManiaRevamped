@@ -140,5 +140,4 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
         return new LoopManiaWorldController(load(), entities);        
     }
 
-
 }

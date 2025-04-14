@@ -5,11 +5,12 @@ import org.javatuples.Pair;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.inventory.EquipmentType;
 
-public class Stake extends EquipmentItem {
+public class Shield extends EquipmentItem {
 
-	public Stake(Pair<Integer, Integer> position) {
-		super(position, 20, EquipmentType.Weapon);
-		super.setEntityImageByPath("src/images/stake.png");
+
+	public Shield(Pair<Integer, Integer> position) {
+		super(position, 20, EquipmentType.Shield);
+		super.setEntityImageByPath("src/images/shield.png");
 	}
 
 	@Override
@@ -24,4 +25,5 @@ public class Stake extends EquipmentItem {
 		throw new UnsupportedOperationException("Unimplemented method 'modifyOutgoingAttack'");
 	}
 
+	
 }
