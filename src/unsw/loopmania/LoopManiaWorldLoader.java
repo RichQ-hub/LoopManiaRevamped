@@ -9,8 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
-import javafx.beans.property.SimpleIntegerProperty;
-
 import java.util.List;
 
 /**
@@ -94,7 +92,7 @@ public abstract class LoopManiaWorldLoader {
             throw new RuntimeException(
                     "Path object requires path_tile type.  No other path types supported at this moment.");
         }
-        PathTile starting = new PathTile(new SimpleIntegerProperty(path.getInt("x")), new SimpleIntegerProperty(path.getInt("y")));
+        PathTile starting = new PathTile(new Pair<>(path.getInt("x"), path.getInt("y")));
         if (starting.getY() >= height || starting.getY() < 0 || starting.getX() >= width || starting.getX() < 0) {
             throw new IllegalArgumentException("Starting point of path is out of bounds");
         }
@@ -126,7 +124,7 @@ public abstract class LoopManiaWorldLoader {
             }
             
             PathTile.Direction dir = connections.get(i);
-            PathTile tile = new PathTile(new SimpleIntegerProperty(x), new SimpleIntegerProperty(y));
+            PathTile tile = new PathTile(new Pair<>(x, y));
             x += dir.getXOffset();
             y += dir.getYOffset();
             if (orderedPath.contains(Pair.with(x, y)) && !(x == starting.getX() && y == starting.getY())) {

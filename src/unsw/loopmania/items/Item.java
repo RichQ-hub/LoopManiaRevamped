@@ -1,20 +1,23 @@
 package unsw.loopmania.items;
 
-import javafx.beans.property.SimpleIntegerProperty;
+import org.javatuples.Pair;
+
 import unsw.loopmania.StaticEntity;
 
 public abstract class Item extends StaticEntity {
 
-    private int sellPrice;
-    private int buyPrice;
+    private int value;
 
-    public Item(SimpleIntegerProperty x, SimpleIntegerProperty y, int sellPrice, int buyPrice) {
-        super(x, y);
-        this.sellPrice = sellPrice;
-        this.buyPrice = buyPrice;
+    public Item(Pair<Integer, Integer> position, int value) {
+        super(position);
     }
 
-    
+	public int getValue() {
+		return value;
+	}
 
+	public void setValue(int value) {
+		this.value = value;
+	}
     
 }

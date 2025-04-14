@@ -6,7 +6,7 @@ import java.util.Random;
 
 import org.javatuples.Pair;
 
-import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.inventory.InventoryManager;
 import unsw.loopmania.items.Sword;
 
 /**
@@ -37,10 +37,11 @@ public class LoopManiaWorld {
     private List<Entity> nonSpecifiedEntities;
 
     private Character character;
+	private InventoryManager inventoryManager;
 
     // TODO = add more lists for other entities, for equipped inventory items, etc...
 
-    // TODO = expand the range of enemies
+	// TODO = expand the range of enemies
     private List<BasicEnemy> enemies;
 
     // TODO = expand the range of cards
@@ -74,22 +75,7 @@ public class LoopManiaWorld {
         unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * set the character. This is necessary because it is loaded as a special entity out of the file
-     * @param character the character
-     */
-    public void setCharacter(Character character) {
-        this.character = character;
+		this.inventoryManager = new InventoryManager();
     }
 
     /**
@@ -106,7 +92,7 @@ public class LoopManiaWorld {
      * spawns enemies if the conditions warrant it, adds to world
      * @return list of the enemies to be displayed on screen
      */
-    public List<BasicEnemy> possiblySpawnEnemies(){
+    public List<BasicEnemy> possiblySpawnEnemies() {
         // TODO = expand this very basic version
         Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
         List<BasicEnemy> spawningEnemies = new ArrayList<>();
@@ -156,13 +142,15 @@ public class LoopManiaWorld {
      * spawn a card in the world and return the card entity
      * @return a card to be spawned in the controller as a JavaFX node
      */
-    public VampireCastleCard loadVampireCard(){
+    public VampireCastleCard loadVampireCard() {
         // if adding more cards than have, remove the first card...
         if (cardEntities.size() >= getWidth()){
             // TODO = give some cash/experience/item rewards for the discarding of the oldest card
             removeCard(0);
         }
-        VampireCastleCard vampireCastleCard = new VampireCastleCard(new SimpleIntegerProperty(cardEntities.size()), new SimpleIntegerProperty(0));
+
+		Pair<Integer, Integer> position = new Pair<>(cardEntities.size(), 0);
+        VampireCastleCard vampireCastleCard = new VampireCastleCard(position);
         cardEntities.add(vampireCastleCard);
         return vampireCastleCard;
     }
@@ -171,7 +159,7 @@ public class LoopManiaWorld {
      * remove card at a particular index of cards (position in gridpane of unplayed cards)
      * @param index the index of the card, from 0 to length-1
      */
-    private void removeCard(int index){
+    private void removeCard(int index) {
         Card c = cardEntities.get(index);
         int x = c.getX();
         c.destroy();
@@ -183,10 +171,10 @@ public class LoopManiaWorld {
      * spawn a sword in the world and return the sword entity
      * @return a sword to be spawned in the controller as a JavaFX node
      */
-    public Sword addUnequippedSword(){
+    public Sword addUnequippedSword() {
         // TODO = expand this - we would like to be able to add multiple types of items, apart from swords
         Pair<Integer, Integer> firstAvailableSlot = getFirstAvailableSlotForItem();
-        if (firstAvailableSlot == null){
+        if (firstAvailableSlot == null) {
             // eject the oldest unequipped item and replace it... oldest item is that at beginning of items
             // TODO = give some cash/experience rewards for the discarding of the oldest sword
             removeItemByPositionInUnequippedInventoryItems(0);
@@ -194,7 +182,7 @@ public class LoopManiaWorld {
         }
         
         // now we insert the new sword, as we know we have at least made a slot available...
-        Sword sword = new Sword(new SimpleIntegerProperty(firstAvailableSlot.getValue0()), new SimpleIntegerProperty(firstAvailableSlot.getValue1()));
+        Sword sword = new Sword(firstAvailableSlot);
         unequippedInventoryItems.add(sword);
         return sword;
     }
@@ -256,12 +244,12 @@ public class LoopManiaWorld {
      * get the first pair of x,y coordinates which don't have any items in it in the unequipped inventory
      * @return x,y coordinate pair
      */
-    private Pair<Integer, Integer> getFirstAvailableSlotForItem(){
+    private Pair<Integer, Integer> getFirstAvailableSlotForItem() {
         // first available slot for an item...
         // IMPORTANT - have to check by y then x, since trying to find first available slot defined by looking row by row
-        for (int y=0; y<unequippedInventoryHeight; y++){
-            for (int x=0; x<unequippedInventoryWidth; x++){
-                if (getUnequippedInventoryItemEntityByCoordinates(x, y) == null){
+        for (int y = 0; y < unequippedInventoryHeight; y++) {
+            for (int x = 0; x < unequippedInventoryWidth; x++) {
+                if (getUnequippedInventoryItemEntityByCoordinates(x, y) == null) {
                     return new Pair<Integer, Integer>(x, y);
                 }
             }
@@ -273,9 +261,9 @@ public class LoopManiaWorld {
      * shift card coordinates down starting from x coordinate
      * @param x x coordinate which can range from 0 to width-1
      */
-    private void shiftCardsDownFromXCoordinate(int x){
+    private void shiftCardsDownFromXCoordinate(int x) {
         for (Card c: cardEntities){
-            if (c.getX() >= x){
+            if (c.getX() >= x) {
                 c.x().set(c.getX()-1);
             }
         }
@@ -295,21 +283,21 @@ public class LoopManiaWorld {
      * get a randomly generated position which could be used to spawn an enemy
      * @return null if random choice is that wont be spawning an enemy or it isn't possible, or random coordinate pair if should go ahead
      */
-    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition(){
+    private Pair<Integer, Integer> possiblyGetBasicEnemySpawnPosition() {
         // TODO = modify this
         
         // has a chance spawning a basic enemy on a tile the character isn't on or immediately before or after (currently space required = 2)...
         Random rand = new Random();
         int choice = rand.nextInt(2); // TODO = change based on spec... currently low value for dev purposes...
         // TODO = change based on spec
-        if ((choice == 0) && (enemies.size() < 2)){
+        if ((choice == 0) && (enemies.size() < 2)) {
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
             int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
             int endNotAllowed = (indexPosition + 3)%orderedPath.size();
             // note terminating condition has to be != rather than < since wrap around...
-            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()){
+            for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()) {
                 orderedPathSpawnCandidates.add(orderedPath.get(i));
             }
 
@@ -331,22 +319,51 @@ public class LoopManiaWorld {
     public VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
         // start by getting card
         Card card = null;
-        for (Card c: cardEntities){
-            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)){
+        for (Card c: cardEntities) {
+            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)) {
                 card = c;
                 break;
             }
         }
         
-        // now spawn building
-        VampireCastleBuilding newBuilding = new VampireCastleBuilding(new SimpleIntegerProperty(buildingNodeX), new SimpleIntegerProperty(buildingNodeY));
+        // Now spawn building
+		Pair<Integer, Integer> position = new Pair<>(buildingNodeX, buildingNodeY);
+        VampireCastleBuilding newBuilding = new VampireCastleBuilding(position);
         buildingEntities.add(newBuilding);
 
-        // destroy the card
+        // Destroy the card
         card.destroy();
         cardEntities.remove(card);
         shiftCardsDownFromXCoordinate(cardNodeX);
 
         return newBuilding;
+    }
+	
+	// ==================================================================================
+	// Getters and Setters.
+	// ==================================================================================
+
+	public InventoryManager getInventoryManager() {
+		return inventoryManager;
+	}
+
+	public void setInventoryManager(InventoryManager inventoryManager) {
+		this.inventoryManager = inventoryManager;
+	}
+
+	public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    /**
+     * Set the character. This is necessary because it is loaded as a special entity out of the file
+     * @param character the character
+     */
+    public void setCharacter(Character character) {
+        this.character = character;
     }
 }

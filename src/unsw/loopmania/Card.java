@@ -1,5 +1,7 @@
 package unsw.loopmania;
 
+import org.javatuples.Pair;
+
 import javafx.beans.property.SimpleIntegerProperty;
 
 /**
@@ -8,7 +10,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  */
 public abstract class Card extends StaticEntity {
     // TODO = implement other varieties of card than VampireCastleCard
-    public Card(SimpleIntegerProperty x, SimpleIntegerProperty y) {
-        super(x, y);
+    public Card(Pair<Integer, Integer> position) {
+        super(position);
     }
 }
