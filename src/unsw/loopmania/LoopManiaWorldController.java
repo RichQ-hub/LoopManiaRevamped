@@ -29,6 +29,10 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import unsw.loopmania.buildings.VampireCastleBuilding;
+import unsw.loopmania.cards.VampireCastleCard;
+import unsw.loopmania.combatants.BasicEnemy;
+import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
 import unsw.loopmania.items.EquipmentItem;
 import unsw.loopmania.items.Item;
@@ -115,6 +119,9 @@ public class LoopManiaWorldController {
      */
     private DragIcon draggedEntity;
 
+	/**
+	 * Backend Models. Use the following variables to control the backend model.
+	 */
     private boolean isPaused;
     private LoopManiaWorld world;
 	private InventoryManager inventoryManager;
@@ -502,8 +509,14 @@ public class LoopManiaWorldController {
 
 								Pair<EquipmentItem, Item> items = inventoryManager.equipInventoryItemByCoordinates(nodeX, nodeY, x, y);
 								
-								// Ensure item was NOT successfully equipped.
+								// Ensure item was successfully equipped.
 								if (items == null) {
+									// IMPORTANT: Before we started dragging the item, we set it's ImageView to invisible.
+									// Technically, the ImageView is still on the unequipped inventory because
+									// we just set it invisble for the drag effect. Since equipping this item
+									// was unsuccessful, we set it back to visible which reveals its image back on
+									// the unequipped inventory.
+									currentlyDraggedImage.setVisible(true);
 									break;
 								}
 

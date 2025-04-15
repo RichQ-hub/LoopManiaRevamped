@@ -2,7 +2,7 @@ package unsw.loopmania.items;
 
 import org.javatuples.Pair;
 
-import unsw.loopmania.StaticEntity;
+import unsw.loopmania.entity.StaticEntity;
 
 public abstract class Item extends StaticEntity {
 

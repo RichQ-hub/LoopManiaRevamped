@@ -1,4 +1,4 @@
-package unsw.loopmania;
+package unsw.loopmania.entity;
 
 import java.io.File;
 
@@ -6,6 +6,7 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.image.Image;
+import unsw.loopmania.battle.BattleManager;
 
 /**
  * A backend entity in the world.
@@ -50,8 +51,6 @@ public abstract class Entity {
     public Entity() {
         shouldExist = new SimpleBooleanProperty(true);
     }
-
-
 
      /**
       * Specify that this entity should destroy itself

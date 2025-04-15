@@ -1,6 +1,7 @@
-package unsw.loopmania;
+package unsw.loopmania.entity;
 
 import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.PathPosition;
 
 /**
  * The moving entity

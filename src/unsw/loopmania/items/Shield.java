@@ -23,7 +23,5 @@ public class Shield extends EquipmentItem {
 	public void modifyOutgoingAttack(Attack attack) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'modifyOutgoingAttack'");
-	}
-
-	
+	}	
 }
