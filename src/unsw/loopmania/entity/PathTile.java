@@ -1,4 +1,4 @@
-package unsw.loopmania;
+package unsw.loopmania.entity;
 
 import org.javatuples.Pair;
 

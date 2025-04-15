@@ -13,7 +13,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  *     so we can return them and attach ChangeListers, to decouple the frontend and backend.
  * The SimpleIntegerProperties are updated automatically when we move through the path.
  */
-public class PathPosition{
+public class PathPosition {
 
     private int currentPositionInPath;
     private List<Pair<Integer, Integer>> orderedPath;
@@ -55,16 +55,16 @@ public class PathPosition{
      * change the x and y SimpleIntegerProperties to reflect the current values of
      * the current position in the path, and the ordered path.
      */
-    private void resetCoordinatesBasedOnPositionInPath(){
+    private void resetCoordinatesBasedOnPositionInPath() {
         x.set(orderedPath.get(currentPositionInPath).getValue0());
         y.set(orderedPath.get(currentPositionInPath).getValue1());
     }
 
-    public SimpleIntegerProperty getX(){
+    public SimpleIntegerProperty getX() {
         return x;
     }
 
-    public SimpleIntegerProperty getY(){
+    public SimpleIntegerProperty getY() {
         return y;
     }
 }

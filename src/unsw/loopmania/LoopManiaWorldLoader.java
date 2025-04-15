@@ -9,6 +9,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import unsw.loopmania.combatants.Character;
+import unsw.loopmania.entity.Entity;
+import unsw.loopmania.entity.PathTile;
+
 import java.util.List;
 
 /**

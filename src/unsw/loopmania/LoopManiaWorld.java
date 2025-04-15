@@ -6,6 +6,12 @@ import java.util.Random;
 
 import org.javatuples.Pair;
 
+import unsw.loopmania.buildings.VampireCastleBuilding;
+import unsw.loopmania.cards.Card;
+import unsw.loopmania.cards.VampireCastleCard;
+import unsw.loopmania.combatants.BasicEnemy;
+import unsw.loopmania.combatants.Character;
+import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
 import unsw.loopmania.items.Sword;
 
@@ -294,8 +300,8 @@ public class LoopManiaWorld {
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
-            int startNotAllowed = (indexPosition - 2 + orderedPath.size())%orderedPath.size();
-            int endNotAllowed = (indexPosition + 3)%orderedPath.size();
+            int startNotAllowed = (indexPosition - 2 + orderedPath.size()) % orderedPath.size();
+            int endNotAllowed = (indexPosition + 3) % orderedPath.size();
             // note terminating condition has to be != rather than < since wrap around...
             for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()) {
                 orderedPathSpawnCandidates.add(orderedPath.get(i));
