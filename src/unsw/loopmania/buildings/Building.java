@@ -10,5 +10,7 @@ public abstract class Building extends StaticEntity implements Battleable {
 	public Building(Pair<Integer, Integer> position) {
 		super(position);
 	}
+
+	public abstract void addToBuildingManager(BuildingManager manager);
 	
 }

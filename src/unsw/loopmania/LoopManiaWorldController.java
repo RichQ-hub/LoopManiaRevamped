@@ -29,7 +29,11 @@ import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
+import unsw.loopmania.buildings.Building;
+import unsw.loopmania.buildings.BuildingManager;
 import unsw.loopmania.buildings.VampireCastleBuilding;
+import unsw.loopmania.cards.Card;
+import unsw.loopmania.cards.TrapCard;
 import unsw.loopmania.cards.VampireCastleCard;
 import unsw.loopmania.combatants.BasicEnemy;
 import unsw.loopmania.entity.Entity;
@@ -125,6 +129,7 @@ public class LoopManiaWorldController {
     private boolean isPaused;
     private LoopManiaWorld world;
 	private InventoryManager inventoryManager;
+	private BuildingManager buildingManager;
 
     /**
      * runs the periodic game logic - second-by-second moving of character through maze, as well as enemies, and running of battles
@@ -181,6 +186,7 @@ public class LoopManiaWorldController {
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
         this.world = world;
 		this.inventoryManager = world.getInventoryManager();
+		this.buildingManager = world.getBuildingManager();
         entityImages = new ArrayList<>(initialEntities);
         vampireCastleCardImage = new Image((new File("src/images/vampire_castle_card.png")).toURI().toString());
         basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
@@ -206,8 +212,8 @@ public class LoopManiaWorldController {
 		Image inventorySlotImg = loadImage("src/images/empty_slot.png");
 
         // Add the ground first so it is below all other entities (inculding all the twists and turns)
-        for (int x = 0; x < world.getWidth(); x++) {
-            for (int y = 0; y < world.getHeight(); y++) {
+        for (int x = 0; x < world.getMapWidth(); x++) {
+            for (int y = 0; y < world.getMapHeight(); y++) {
                 ImageView groundView = new ImageView(pathTilesImg);
                 groundView.setViewport(imagePart);
                 squares.add(groundView, x, y);
@@ -220,7 +226,7 @@ public class LoopManiaWorldController {
         }
         
         // add the ground underneath the cards
-        for (int x = 0; x < world.getWidth(); x++) {
+        for (int x = 0; x < world.getMapWidth(); x++) {
             ImageView groundView = new ImageView(pathTilesImg);
             groundView.setViewport(imagePart);
             cards.add(groundView, x, 0);
@@ -338,7 +344,13 @@ public class LoopManiaWorldController {
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
         // loadSword();
-        loadVampireCard();
+        
+		VampireCastleCard vampireCastle = new VampireCastleCard(new Pair<Integer,Integer>(0, 0));
+		TrapCard trapCard = new TrapCard(new Pair<Integer,Integer>(0, 0));
+		buildingManager.addCard(vampireCastle);
+		buildingManager.addCard(trapCard);
+		onLoadCard(vampireCastle);
+		onLoadCard(trapCard);
 
 		Sword sword = new Sword(new Pair<Integer,Integer>(0, 0));
 		Stake stake = new Stake(new Pair<Integer,Integer>(0, 0));
@@ -432,6 +444,27 @@ public class LoopManiaWorldController {
 		equippedItems.getChildren().add(view);
 	}
 
+	/**
+	 * Loads cards into the card gridpane.
+	 * @param card
+	 */
+	private void onLoadCard(Card card) {
+		ImageView view = new ImageView(card.getEntityImage());
+        addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
+        addEntity(card, view);
+        cards.getChildren().add(view);
+	}
+
+	/**
+	 * Loads map entites including buildings and enemies onto the game map gridpane.
+	 * @param entity
+	 */
+	private void onLoadMapEntity(Entity entity) {
+		ImageView view = new ImageView(entity.getEntityImage());
+        addEntity(entity, view);
+        squares.getChildren().add(view);
+	}
+
     /**
      * Add drag event handlers for dropping into gridpanes, dragging over the background, dropping over the background.
      * These are not attached to invidual items such as swords/cards.
@@ -498,8 +531,18 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
                                 // TODO = spawn a building here of different types
-                                VampireCastleBuilding newBuilding = convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
-                                onLoad(newBuilding);
+                                Building newBuilding = buildingManager.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+								if (newBuilding == null) {
+									currentlyDraggedImage.setVisible(true);
+									break; 
+								}
+
+								if (newBuilding instanceof VampireCastleBuilding) {
+									VampireCastleBuilding vBuild = (VampireCastleBuilding) newBuilding;
+									System.out.println(vBuild.getSpawnLocation());
+								}
+
+                                onLoadMapEntity(newBuilding);
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
@@ -626,18 +669,6 @@ public class LoopManiaWorldController {
                 event.consume();
             }
         });
-    }
-
-    /**
-     * remove the card from the world, and spawn and return a building instead where the card was dropped
-     * @param cardNodeX the x coordinate of the card which was dragged, from 0 to width-1
-     * @param cardNodeY the y coordinate of the card which was dragged (in starter code this is 0 as only 1 row of cards)
-     * @param buildingNodeX the x coordinate of the drop location for the card, where the building will spawn, from 0 to width-1
-     * @param buildingNodeY the y coordinate of the drop location for the card, where the building will spawn, from 0 to height-1
-     * @return building entity returned from the world
-     */
-    private VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
-        return world.convertCardToBuildingByCoordinates(cardNodeX, cardNodeY, buildingNodeX, buildingNodeY);
     }
 
     /**
