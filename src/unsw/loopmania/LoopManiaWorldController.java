@@ -33,6 +33,7 @@ import unsw.loopmania.buildings.Building;
 import unsw.loopmania.buildings.BuildingManager;
 import unsw.loopmania.buildings.VampireCastleBuilding;
 import unsw.loopmania.cards.Card;
+import unsw.loopmania.cards.TrapCard;
 import unsw.loopmania.cards.VampireCastleCard;
 import unsw.loopmania.combatants.BasicEnemy;
 import unsw.loopmania.entity.Entity;
@@ -345,8 +346,11 @@ public class LoopManiaWorldController {
         // loadSword();
         
 		VampireCastleCard vampireCastle = new VampireCastleCard(new Pair<Integer,Integer>(0, 0));
+		TrapCard trapCard = new TrapCard(new Pair<Integer,Integer>(0, 0));
 		buildingManager.addCard(vampireCastle);
+		buildingManager.addCard(trapCard);
 		onLoadCard(vampireCastle);
+		onLoadCard(trapCard);
 
 		Sword sword = new Sword(new Pair<Integer,Integer>(0, 0));
 		Stake stake = new Stake(new Pair<Integer,Integer>(0, 0));

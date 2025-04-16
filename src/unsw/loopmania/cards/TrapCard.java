@@ -4,6 +4,7 @@ import org.javatuples.Pair;
 
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.buildings.Building;
+import unsw.loopmania.buildings.TrapBuilding;
 
 public class TrapCard extends Card {
 
@@ -14,14 +15,18 @@ public class TrapCard extends Card {
 
 	@Override
 	public boolean isValidDropLocation(LoopManiaWorld world, int buildingX, int buildingY) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'isValidDropLocation'");
+		return (
+			world.isOnPath(buildingX, buildingY) &&
+			!world.hasExistingBuilding(buildingX, buildingY)
+		);
 	}
 
 	@Override
 	public Building createBuilding(LoopManiaWorld world, int buildingX, int buildingY) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'createBuilding'");
+		Pair<Integer, Integer> buildingPos = new Pair<Integer, Integer>(buildingX, buildingY);
+
+		TrapBuilding trap = new TrapBuilding(buildingPos);
+		return trap;
 	}
 	
 }
