@@ -66,10 +66,22 @@ public class InventoryManager {
 		EquipmentItem item = equippedInventory.removeEquippedItemByCoordinates(slotX, slotY);
 		Item newItem = inventory.addItem(item);
 		return newItem;
-
 	}
 
 	public Item addItemToInventory(Item item) {
 		return inventory.addItem(item);
+	}
+
+	public boolean canEquipInventoryItemByCoordinates(int itemX, int itemY, int slotX, int slotY) {
+		Item item = inventory.getInventoryItemByCoordinates(itemX, itemY);
+
+		if (item != null && item instanceof EquipmentItem) {
+			EquipmentItem equipment = (EquipmentItem) item;
+			if (equipment.isValidEquipSlot(slotX, slotY)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }

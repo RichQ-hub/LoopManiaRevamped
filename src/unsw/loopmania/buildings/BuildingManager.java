@@ -67,6 +67,15 @@ public class BuildingManager {
         }
     }
 
+	public Card getCardByCoordinates(int x, int y) {
+		for (Card c : cards) {
+			if (c.getX() == x && c.getY() == y) {
+				return c;
+			}
+		}
+		return null;
+	}
+
 	public Building getBuildingByCoordinates(int x, int y) {
 		for (Building b : buildings) {
 			if (b.getX() == x && b.getY() == y) {
@@ -76,6 +85,9 @@ public class BuildingManager {
 		return null;
 	}
 
+	/**
+	 * Double dispatch method
+	 */
 	public void addBuildingSpawner(Building building) {
 		building.addToBuildingManager(this);
 	}

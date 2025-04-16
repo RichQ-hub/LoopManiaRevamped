@@ -530,7 +530,7 @@ public class LoopManiaWorldController {
                         switch (draggableType) {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
-                                // TODO = spawn a building here of different types
+
                                 Building newBuilding = buildingManager.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
 								if (newBuilding == null) {
 									currentlyDraggedImage.setVisible(true);
@@ -734,7 +734,31 @@ public class LoopManiaWorldController {
 								// The drag-and-drop gesture entered the target
 								// show the user that it is an actual gesture target
                                 if (event.getGestureSource() != n && event.getDragboard().hasImage()) {
-                                    n.setOpacity(0.7);
+									Integer cIndex = GridPane.getColumnIndex(n);
+									Integer rIndex = GridPane.getRowIndex(n);
+									int x = cIndex == null ? 0 : cIndex;
+									int y = rIndex == null ? 0 : rIndex;
+
+									// We get the x and y coords of the currently dragged image from where it was originally
+									// dragged from (the starting x and y before the image was dragged).
+									Node source = (Node) event.getGestureSource();
+									int sourceX = GridPane.getColumnIndex(source);
+									int sourceY = GridPane.getRowIndex(source);
+									switch (draggableType) {
+										case CARD:
+											Card card = buildingManager.getCardByCoordinates(sourceX, sourceY);
+											if (card != null && card.isValidDropLocation(world, x, y)) {
+												n.setOpacity(0.7);
+											}
+											break;
+										case ITEM:
+											if (inventoryManager.canEquipInventoryItemByCoordinates(sourceX, sourceY, x, y)) {
+												n.setOpacity(0.7);
+											}
+											break;
+										default:
+											break;
+									}
                                 }
                             }
                             event.consume();
