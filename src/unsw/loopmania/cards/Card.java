@@ -2,6 +2,8 @@ package unsw.loopmania.cards;
 
 import org.javatuples.Pair;
 
+import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.buildings.Building;
 import unsw.loopmania.entity.StaticEntity;
 
 /**
@@ -13,4 +15,7 @@ public abstract class Card extends StaticEntity {
     public Card(Pair<Integer, Integer> position) {
         super(position);
     }
+
+	public abstract boolean isValidDropLocation(LoopManiaWorld world, int buildingX, int buildingY);
+	public abstract Building createBuilding(LoopManiaWorld world, int buildingX, int buildingY);
 }

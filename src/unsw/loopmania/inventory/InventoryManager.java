@@ -42,6 +42,8 @@ public class InventoryManager {
 
 				if (result == null) {
 					System.out.println("Were you equipped: NAH");
+					// If we couldn't equip it, put it back in the inventory.
+					inventory.addItem(equipment);
 					return null;
 				}
 

@@ -18,7 +18,19 @@ public class BattleManager {
 		this.buildings = new ArrayList<>();
 	}
 
+	/**
+	 * Double dispatch method.
+	 * @param entity
+	 */
 	public void addBattleableEntity(Battleable entity) {
 		entity.addToBattleManager(this);
+	}
+
+	public void addEnemy(Combatant enemy) {
+		enemies.add(enemy);
+	}
+
+	public void addBuilding(Building building) {
+		buildings.add(building);
 	}
 }

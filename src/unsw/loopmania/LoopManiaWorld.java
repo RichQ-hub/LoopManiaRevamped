@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.javatuples.Pair;
 
+import unsw.loopmania.buildings.BuildingManager;
 import unsw.loopmania.buildings.VampireCastleBuilding;
 import unsw.loopmania.cards.Card;
 import unsw.loopmania.cards.VampireCastleCard;
@@ -30,12 +31,12 @@ public class LoopManiaWorld {
     /**
      * width of the world in GridPane cells
      */
-    private int width;
+    private int mapWidth;
 
     /**
      * height of the world in GridPane cells
      */
-    private int height;
+    private int mapHeight;
 
     /**
      * generic entitites - i.e. those which don't have dedicated fields
@@ -44,6 +45,7 @@ public class LoopManiaWorld {
 
     private Character character;
 	private InventoryManager inventoryManager;
+	private BuildingManager buildingManager;
 
     // TODO = add more lists for other entities, for equipped inventory items, etc...
 
@@ -71,9 +73,9 @@ public class LoopManiaWorld {
      * @param height height of world in number of cells
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
-    public LoopManiaWorld(int width, int height, List<Pair<Integer, Integer>> orderedPath) {
-        this.width = width;
-        this.height = height;
+    public LoopManiaWorld(int mapWidth, int mapHeight, List<Pair<Integer, Integer>> orderedPath) {
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
         nonSpecifiedEntities = new ArrayList<>();
         character = null;
         enemies = new ArrayList<>();
@@ -82,6 +84,7 @@ public class LoopManiaWorld {
         this.orderedPath = orderedPath;
         buildingEntities = new ArrayList<>();
 		this.inventoryManager = new InventoryManager();
+		this.buildingManager = new BuildingManager(this);
     }
 
     /**
@@ -150,7 +153,7 @@ public class LoopManiaWorld {
      */
     public VampireCastleCard loadVampireCard() {
         // if adding more cards than have, remove the first card...
-        if (cardEntities.size() >= getWidth()){
+        if (cardEntities.size() >= getMapWidth()){
             // TODO = give some cash/experience/item rewards for the discarding of the oldest card
             removeCard(0);
         }
@@ -315,36 +318,48 @@ public class LoopManiaWorld {
         return null;
     }
 
-    /**
-     * remove a card by its x, y coordinates
-     * @param cardNodeX x index from 0 to width-1 of card to be removed
-     * @param cardNodeY y index from 0 to height-1 of card to be removed
-     * @param buildingNodeX x index from 0 to width-1 of building to be added
-     * @param buildingNodeY y index from 0 to height-1 of building to be added
-     */
-    public VampireCastleBuilding convertCardToBuildingByCoordinates(int cardNodeX, int cardNodeY, int buildingNodeX, int buildingNodeY) {
-        // start by getting card
-        Card card = null;
-        for (Card c: cardEntities) {
-            if ((c.getX() == cardNodeX) && (c.getY() == cardNodeY)) {
-                card = c;
-                break;
-            }
-        }
-        
-        // Now spawn building
-		Pair<Integer, Integer> position = new Pair<>(buildingNodeX, buildingNodeY);
-        VampireCastleBuilding newBuilding = new VampireCastleBuilding(position);
-        buildingEntities.add(newBuilding);
+	// ==================================================================================
+	// Path Methods.
+	// ==================================================================================
 
-        // Destroy the card
-        card.destroy();
-        cardEntities.remove(card);
-        shiftCardsDownFromXCoordinate(cardNodeX);
+	public Pair<Integer, Integer> getAdjacentPath(int x, int y) {
+		int[] rowNum = {-1, 0, 1, 0};
+		int[] colNum = {0, 1, 0, -1};
 
-        return newBuilding;
-    }
+		for (int i = 0; i < 4; i++) {
+			int adjCellRow = x + rowNum[i];
+			int adjCellCol = y + colNum[i];
+
+			if (
+				isValidCell(adjCellRow, adjCellCol) &&
+				isOnPath(adjCellRow, adjCellCol)
+			) {
+				return new Pair<Integer, Integer>(adjCellRow, adjCellCol);
+			}	
+		}
+
+		return null;
+	}
 	
+	public boolean isOnPath(int x, int y) {
+		return orderedPath.contains(Pair.with(x, y));
+	}
+
+	public boolean isValidCell(int x, int y) {
+		return (
+			x >= 0 && x < mapWidth && 
+           	y >= 0 && y < mapHeight
+		);
+	}
+
+	public boolean isAdjacentToPath(int x, int y) {
+		return getAdjacentPath(x, y) != null;
+	}
+
+	public boolean hasExistingBuilding(int x, int y) {
+		return buildingManager.getBuildingByCoordinates(x, y) != null;
+	}
+
 	// ==================================================================================
 	// Getters and Setters.
 	// ==================================================================================
@@ -357,12 +372,20 @@ public class LoopManiaWorld {
 		this.inventoryManager = inventoryManager;
 	}
 
-	public int getWidth() {
-        return width;
+	public BuildingManager getBuildingManager() {
+		return buildingManager;
+	}
+
+	public void setBuildingManager(BuildingManager buildingManager) {
+		this.buildingManager = buildingManager;
+	}
+
+	public int getMapWidth() {
+        return mapWidth;
     }
 
-    public int getHeight() {
-        return height;
+    public int getMapHeight() {
+        return mapHeight;
     }
 
     /**
