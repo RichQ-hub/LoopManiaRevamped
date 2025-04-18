@@ -65,6 +65,12 @@ public class InventoryManager {
 	public Item unequipEquipmentItemByCoordinates(int slotX, int slotY) {
 		EquipmentItem item = equippedInventory.removeEquippedItemByCoordinates(slotX, slotY);
 		Item newItem = inventory.addItem(item);
+		if (newItem == null) {
+			// If the inventory was full, equip it back.
+			equippedInventory.equipItem(item);
+			return null;
+		}
+
 		return newItem;
 	}
 

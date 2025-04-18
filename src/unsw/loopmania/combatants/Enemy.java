@@ -1,31 +1,31 @@
 package unsw.loopmania.combatants;
 
-import java.util.Random;
-
 import unsw.loopmania.PathPosition;
-import unsw.loopmania.entity.MovingEntity;
 
 /**
- * a basic form of enemy in the world
+ * A basic form of enemy in the world.
  */
-public class Enemy extends MovingEntity {
-    // TODO = modify this, and add additional forms of enemy
-    public Enemy(PathPosition position) {
-        super(position);
+public abstract class Enemy extends Combatant {
+	private int battleRadius;
+    private int supportRadius;
+	
+    public Enemy(PathPosition position, double maxHealth) {
+        super(position, maxHealth);
     }
 
-    /**
-     * move the enemy
-     */
-    public void move() {
-        // TODO = modify this, since this implementation doesn't provide the expected enemy behaviour
-        // this basic enemy moves in a random direction... 25% chance up or down, 50% chance not at all...
-        int directionChoice = (new Random()).nextInt(2);
-        if (directionChoice == 0){
-            moveUpPath();
-        }
-        else if (directionChoice == 1){
-            moveDownPath();
-        }
-    }
+	public int getBattleRadius() {
+		return battleRadius;
+	}
+
+	public void setBattleRadius(int battleRadius) {
+		this.battleRadius = battleRadius;
+	}
+
+	public int getSupportRadius() {
+		return supportRadius;
+	}
+
+	public void setSupportRadius(int supportRadius) {
+		this.supportRadius = supportRadius;
+	}
 }

@@ -26,6 +26,7 @@ public class Inventory {
 		Pair<Integer, Integer> position = getFirstAvailableSlotForItem();
 	
 		if (position == null) {
+			System.out.println("Inventory is FULL");
 			return null;
 		}
 

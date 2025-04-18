@@ -31,8 +31,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import unsw.loopmania.buildings.Building;
-import unsw.loopmania.buildings.BuildingManager;
-import unsw.loopmania.buildings.VampireCastleBuilding;
 import unsw.loopmania.cards.Card;
 import unsw.loopmania.cards.TrapCard;
 import unsw.loopmania.cards.VampireCastleCard;
@@ -44,6 +42,9 @@ import unsw.loopmania.items.Item;
 import unsw.loopmania.items.Shield;
 import unsw.loopmania.items.Stake;
 import unsw.loopmania.items.Sword;
+import unsw.loopmania.managers.BattleManager;
+import unsw.loopmania.managers.BuildingManager;
+import unsw.loopmania.managers.CardManager;
 
 import java.util.EnumMap;
 
@@ -131,13 +132,13 @@ public class LoopManiaWorldController {
     private LoopManiaWorld world;
 	private InventoryManager inventoryManager;
 	private BuildingManager buildingManager;
+	private CardManager cardManager;
+	private BattleManager battleManager;
 
     /**
      * runs the periodic game logic - second-by-second moving of character through maze, as well as enemies, and running of battles
      */
     private Timeline timeline;
-
-    private Image basicEnemyImage;
 
     /**
      * the image currently being dragged, if there is one, otherwise null.
@@ -182,20 +183,26 @@ public class LoopManiaWorldController {
      * @param initialEntities the initial JavaFX nodes (ImageViews) which should be loaded into the GUI
      */
     public LoopManiaWorldController(LoopManiaWorld world, List<ImageView> initialEntities) {
+		// Initialise world.
         this.world = world;
+
+		// Grab entity managers.
 		this.inventoryManager = world.getInventoryManager();
 		this.buildingManager = world.getBuildingManager();
-        entityImages = new ArrayList<>(initialEntities);
-        basicEnemyImage = new Image((new File("src/images/slug.png")).toURI().toString());
-        currentlyDraggedImage = null;
-        currentlyDraggedType = null;
+		this.cardManager = world.getCardManager();
+		this.battleManager = world.getBattleManager();
+
+		// Initialise entity images.
+        this.entityImages = new ArrayList<>(initialEntities);
+        this.currentlyDraggedImage = null;
+        this.currentlyDraggedType = null;
 
         // initialize them all...
-        gridPaneSetOnDragDropped = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
-        anchorPaneRootSetOnDragOver = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
-        anchorPaneRootSetOnDragDropped = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
-        gridPaneNodeSetOnDragEntered = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
-        gridPaneNodeSetOnDragExited = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
+        this.gridPaneSetOnDragDropped = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
+        this.anchorPaneRootSetOnDragOver = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
+        this.anchorPaneRootSetOnDragDropped = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
+        this.gridPaneNodeSetOnDragEntered = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
+        this.gridPaneNodeSetOnDragExited = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
     }
 
     @FXML
@@ -275,14 +282,13 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+			// Move all moving entities.
             world.runTickMoves();
-            List<Enemy> defeatedEnemies = world.runBattles();
+
+			// Run battles on every tick.
+            List<Enemy> defeatedEnemies = battleManager.runBattles();
             for (Enemy e: defeatedEnemies) {
                 reactToEnemyDefeat(e);
-            }
-            List<Enemy> newEnemies = world.possiblySpawnEnemies();
-            for (Enemy newEnemy: newEnemies) {
-                onLoad(newEnemy);
             }
 
 			// Spawn new enemies when the character is at the start.
@@ -337,8 +343,8 @@ public class LoopManiaWorldController {
         
 		VampireCastleCard vampireCastle = new VampireCastleCard(new Pair<Integer,Integer>(0, 0));
 		TrapCard trapCard = new TrapCard(new Pair<Integer,Integer>(0, 0));
-		buildingManager.addCard(vampireCastle);
-		buildingManager.addCard(trapCard);
+		cardManager.addCard(vampireCastle);
+		cardManager.addCard(trapCard);
 		onLoadCard(vampireCastle);
 		onLoadCard(trapCard);
 
@@ -346,23 +352,13 @@ public class LoopManiaWorldController {
 		Stake stake = new Stake(new Pair<Integer,Integer>(0, 0));
 		Shield shield = new Shield(new Pair<Integer,Integer>(0, 0));
 
-		inventoryManager.addItemToInventory(sword);
-		inventoryManager.addItemToInventory(stake);
-		inventoryManager.addItemToInventory(shield);
+		Item newSword = inventoryManager.addItemToInventory(sword);
+		Item newStake = inventoryManager.addItemToInventory(stake);
+		Item newShield = inventoryManager.addItemToInventory(shield);
 
-		onLoadItem(sword);
-		onLoadItem(stake);
-		onLoadItem(shield);
-    }
-
-    /**
-     * load an enemy into the GUI
-     * @param enemy
-     */
-    private void onLoad(Enemy enemy) {
-        ImageView view = new ImageView(basicEnemyImage);
-        addEntity(enemy, view);
-        squares.getChildren().add(view);
+		onLoadItem(newSword);
+		onLoadItem(newStake);
+		onLoadItem(newShield);
     }
 
 	/**
@@ -374,6 +370,9 @@ public class LoopManiaWorldController {
 	 * @param item
 	 */
 	private void onLoadItem(Item item) {
+		if (item == null) {
+			return;
+		}
 		ImageView view = new ImageView(item.getEntityImage());
 		addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
 		addEntity(item, view);
@@ -386,6 +385,9 @@ public class LoopManiaWorldController {
 	 * @param equipment
 	 */
 	private void onLoadEquipmentItem(EquipmentItem equipment) {
+		if (equipment == null) {
+			return;
+		}
 		ImageView view = new ImageView(equipment.getEntityImage());
 		addDragEventHandlers(view, DRAGGABLE_TYPE.EQUIPMENT, equippedItems, unequippedInventory);
 		addEntity(equipment, view);
@@ -397,6 +399,9 @@ public class LoopManiaWorldController {
 	 * @param card
 	 */
 	private void onLoadCard(Card card) {
+		if (card == null) {
+			return;
+		}
 		ImageView view = new ImageView(card.getEntityImage());
         addDragEventHandlers(view, DRAGGABLE_TYPE.CARD, cards, squares);
         addEntity(card, view);
@@ -408,6 +413,9 @@ public class LoopManiaWorldController {
 	 * @param entity
 	 */
 	private void onLoadMapEntity(Entity entity) {
+		if (entity == null) {
+			return;
+		}
 		ImageView view = new ImageView(entity.getEntityImage());
         addEntity(entity, view);
         squares.getChildren().add(view);
@@ -479,18 +487,14 @@ public class LoopManiaWorldController {
                             case CARD:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
 
-                                Building newBuilding = buildingManager.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
+                                Building newBuilding = world.convertCardToBuildingByCoordinates(nodeX, nodeY, x, y);
 								if (newBuilding == null) {
 									currentlyDraggedImage.setVisible(true);
 									break; 
 								}
 
-								if (newBuilding instanceof VampireCastleBuilding) {
-									VampireCastleBuilding vBuild = (VampireCastleBuilding) newBuilding;
-									System.out.println(vBuild.getSpawnLocation());
-								}
-
                                 onLoadMapEntity(newBuilding);
+
                                 break;
                             case ITEM:
                                 removeDraggableDragEventHandlers(draggableType, targetGridPane);
@@ -536,16 +540,19 @@ public class LoopManiaWorldController {
 								}
 								
 								Item unequippedItem = inventoryManager.unequipEquipmentItemByCoordinates(nodeX, nodeY);
-
-								if (unequippedItem != null) {
-									// Remove the currently dragged image, which is the equipment item we
-									// want to remove from the equipment gridpane.
-									equippedItems.getChildren().remove(currentlyDraggedImage);
-
-									// Load the newly unequipped item back into the unequipped gridpane.
-									onLoadItem(unequippedItem);
+								if (unequippedItem == null) {
+									// If we couldn't unequip the item because the inventory was full, we break.
+									currentlyDraggedImage.setVisible(true);
+									break; 
 								}
 
+								// Remove the currently dragged image, which is the equipment item we
+								// want to remove from the equipment gridpane.
+								equippedItems.getChildren().remove(currentlyDraggedImage);
+
+								// Load the newly unequipped item back into the unequipped gridpane.
+								onLoadItem(unequippedItem);
+					
 								break;
                             default:
                                 break;
@@ -685,7 +692,7 @@ public class LoopManiaWorldController {
 									int sourceY = GridPane.getRowIndex(source);
 									switch (draggableType) {
 										case CARD:
-											Card card = buildingManager.getCardByCoordinates(sourceX, sourceY);
+											Card card = cardManager.getCardByCoordinates(sourceX, sourceY);
 											if (card != null && card.isValidDropLocation(world, x, y)) {
 												n.setOpacity(0.7);
 											}
