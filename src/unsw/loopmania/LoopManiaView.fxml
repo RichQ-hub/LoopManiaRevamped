@@ -81,9 +81,9 @@
                   <Insets top="5.0" />
                </VBox.margin>
             </GridPane>
-
+         
             <!-- clicking this button returns the human player to the main menu -->
-            <Button onAction="#switchToMainMenu" text="Exit to Main Menu" />
+            <Button onAction="#switchToMainMenu" prefHeight="25.0" prefWidth="127.0" text="Exit to Main Menu" />
          </children>
       </VBox>
    </HBox>

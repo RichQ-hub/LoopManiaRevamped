@@ -3,8 +3,11 @@ package unsw.loopmania.buildings;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.javatuples.Pair;
+
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.cards.Card;
+import unsw.loopmania.entity.Entity;
 import unsw.loopmania.spawners.Spawner;
 
 public class BuildingManager {
@@ -45,7 +48,7 @@ public class BuildingManager {
         
         // Now spawn building
         Building newBuilding = card.createBuilding(world, buildingX, buildingY);
-        addBuilding(newBuilding);
+        addBuildingSpawner(newBuilding);
 
         // Destroy the card
         card.destroy();
@@ -56,7 +59,7 @@ public class BuildingManager {
     }
 
 	/**
-     * shift card coordinates down starting from x coordinate
+     * Shift card coordinates down starting from x coordinate
      * @param x x coordinate which can range from 0 to width-1
      */
     private void shiftCardsDownFromXCoordinate(int x) {
@@ -100,6 +103,7 @@ public class BuildingManager {
 		// Remove the oldest card (first card) if the cards list is full.
 		if (cards.size() >= world.getMapWidth()) {
 			cards.remove(0);
+			shiftCardsDownFromXCoordinate(1);
 		}
 
 		// Ensure that its x value is the last in the list.
@@ -109,5 +113,13 @@ public class BuildingManager {
 
 	public void addSpawner(Spawner spawner) {
 		spawners.add(spawner);
+	}
+
+	public List<Entity> spawnEntities(int cycleCount, List<Pair<Integer, Integer>> orderedPath) {
+		List<Entity> entitiesToLoad = new ArrayList<>();
+		for (Spawner s : spawners) {
+			entitiesToLoad.addAll(s.spawn(cycleCount, orderedPath, world.getBattleManager()));
+		}
+		return entitiesToLoad;
 	}
 }

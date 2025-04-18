@@ -25,16 +25,20 @@ public class VampireCastleBuilding extends Building implements Spawner {
     }
 
 	@Override
-	public void addToBattleManager(BattleManager manager) {
-		manager.addBuilding(this);
+	public List<Entity> spawn(int cycleCount, List<Pair<Integer, Integer>> orderedPath, BattleManager battleManager) {
+		List<Entity> vampires = new ArrayList<>();
+		if (cycleCount % 2 == 0) {
+			PathPosition pos = new PathPosition(orderedPath.indexOf(spawnLocation), orderedPath);
+			Vampire newVampire = new Vampire(pos);
+			vampires.add(newVampire);
+			battleManager.addBattleableEntity(newVampire);
+		}
+		return vampires;
 	}
 
 	@Override
-	public List<Entity> spawn(int cycleCount, List<Pair<Integer, Integer>> orderedPath) {
-		List<Entity> vampires = new ArrayList<>();
-		PathPosition pos = new PathPosition(orderedPath.indexOf(spawnLocation), orderedPath);
-		vampires.add(new Vampire(pos));
-		return vampires;
+	public void addToBattleManager(BattleManager manager) {
+		manager.addBuilding(this);
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
+import unsw.loopmania.buildings.HeroCastleBuilding;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.entity.PathTile;
@@ -70,14 +71,18 @@ public abstract class LoopManiaWorldLoader {
         Entity entity = null;
         // TODO = load more entity types from the file
         switch (type) {
-        case "hero_castle":
-            Character character = new Character(new PathPosition(indexInPath, orderedPath));
-            world.setCharacter(character);
-            onLoad(character);
-            entity = character;
-            break;
-        case "path_tile":
-            throw new RuntimeException("path_tile's aren't valid entities, define the path externally.");
+			case "hero_castle":
+				// Spawn both hero castle building and character at the same location.
+				Character character = new Character(new PathPosition(indexInPath, orderedPath));
+				world.setCharacter(character);
+				HeroCastleBuilding heroCastle = new HeroCastleBuilding(new Pair<Integer, Integer>(x, y));
+				world.setHeroCastle(heroCastle);
+				onLoad(character);
+				onLoad(heroCastle);
+				entity = character;
+				break;
+			case "path_tile":
+				throw new RuntimeException("path_tile's aren't valid entities, define the path externally.");
         // TODO Handle other possible entities
         }
         world.addEntity(entity);
@@ -146,7 +151,7 @@ public abstract class LoopManiaWorldLoader {
         return orderedPath;
     }
 
-    public abstract void onLoad(Character character);
+    public abstract void onLoad(Entity mapEntity);
     public abstract void onLoad(PathTile pathTile, PathTile.Direction into, PathTile.Direction out);
 
     // TODO Create additional abstract methods for the other entities
