@@ -6,11 +6,11 @@ import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.managers.BattleManager;
 
-public class Vampire extends Enemy {
+public class Slug extends Enemy {
 
-	public Vampire(PathPosition position) {
-		super(position, 30);
-		super.setEntityImageByPath("src/images/vampire.png");
+	public Slug(PathPosition position) {
+		super(position, 20);
+		super.setEntityImageByPath("src/images/slug.png");
 	}
 
 	@Override

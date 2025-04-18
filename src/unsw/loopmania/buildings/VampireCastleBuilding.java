@@ -6,9 +6,10 @@ import java.util.List;
 import org.javatuples.Pair;
 
 import unsw.loopmania.PathPosition;
-import unsw.loopmania.battle.BattleManager;
 import unsw.loopmania.combatants.Vampire;
 import unsw.loopmania.entity.Entity;
+import unsw.loopmania.managers.BattleManager;
+import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.spawners.Spawner;
 
 /**

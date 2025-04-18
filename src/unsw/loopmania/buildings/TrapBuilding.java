@@ -2,7 +2,8 @@ package unsw.loopmania.buildings;
 
 import org.javatuples.Pair;
 
-import unsw.loopmania.battle.BattleManager;
+import unsw.loopmania.managers.BattleManager;
+import unsw.loopmania.managers.BuildingManager;
 
 public class TrapBuilding extends Building {
 
