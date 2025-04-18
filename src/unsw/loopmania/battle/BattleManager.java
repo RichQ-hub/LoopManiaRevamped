@@ -3,19 +3,26 @@ package unsw.loopmania.battle;
 import java.util.ArrayList;
 import java.util.List;
 
+import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.buildings.Building;
 import unsw.loopmania.combatants.Combatant;
 import unsw.loopmania.entity.Battleable;
 
 public class BattleManager {
-	private Character character;
+	private LoopManiaWorld world;
 	private List<Combatant> enemies;
 	private List<Building> buildings;
 
-	public BattleManager(Character character) {
-		this.character = character;
+	public BattleManager(LoopManiaWorld world) {
+		this.world = world;
 		this.enemies = new ArrayList<>();
 		this.buildings = new ArrayList<>();
+	}
+
+	public void moveEnemies() {
+		for (Combatant e : enemies) {
+			e.move();
+		}
 	}
 
 	/**

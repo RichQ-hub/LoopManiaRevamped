@@ -6,12 +6,15 @@ import java.util.Random;
 
 import org.javatuples.Pair;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import unsw.loopmania.battle.BattleManager;
 import unsw.loopmania.buildings.BuildingManager;
-import unsw.loopmania.buildings.VampireCastleBuilding;
+import unsw.loopmania.buildings.HeroCastleBuilding;
 import unsw.loopmania.cards.Card;
 import unsw.loopmania.cards.VampireCastleCard;
-import unsw.loopmania.combatants.BasicEnemy;
 import unsw.loopmania.combatants.Character;
+import unsw.loopmania.combatants.Enemy;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
 import unsw.loopmania.items.Sword;
@@ -44,13 +47,17 @@ public class LoopManiaWorld {
     private List<Entity> nonSpecifiedEntities;
 
     private Character character;
+	private HeroCastleBuilding heroCastle;
+	private IntegerProperty cycleCount;
+
 	private InventoryManager inventoryManager;
 	private BuildingManager buildingManager;
+	private BattleManager battleManager;
 
     // TODO = add more lists for other entities, for equipped inventory items, etc...
 
 	// TODO = expand the range of enemies
-    private List<BasicEnemy> enemies;
+    private List<Enemy> enemies;
 
     // TODO = expand the range of cards
     private List<Card> cardEntities;
@@ -58,15 +65,12 @@ public class LoopManiaWorld {
     // TODO = expand the range of items
     private List<Entity> unequippedInventoryItems;
 
-    // TODO = expand the range of buildings
-    private List<VampireCastleBuilding> buildingEntities;
-
     /**
      * list of x,y coordinate pairs in the order by which moving entities traverse them
      */
     private List<Pair<Integer, Integer>> orderedPath;
 
-    /**
+	/**
      * create the world (constructor)
      * 
      * @param width width of world in number of cells
@@ -76,15 +80,19 @@ public class LoopManiaWorld {
     public LoopManiaWorld(int mapWidth, int mapHeight, List<Pair<Integer, Integer>> orderedPath) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
-        nonSpecifiedEntities = new ArrayList<>();
-        character = null;
-        enemies = new ArrayList<>();
-        cardEntities = new ArrayList<>();
-        unequippedInventoryItems = new ArrayList<>();
+        this.nonSpecifiedEntities = new ArrayList<>();
+        this.character = null;
+		this.heroCastle = null;
+        this.enemies = new ArrayList<>();
+        this.cardEntities = new ArrayList<>();
+        this.unequippedInventoryItems = new ArrayList<>();
         this.orderedPath = orderedPath;
-        buildingEntities = new ArrayList<>();
+		this.cycleCount = new SimpleIntegerProperty(1);
+
+		// Entity Managers.
 		this.inventoryManager = new InventoryManager();
 		this.buildingManager = new BuildingManager(this);
+		this.battleManager = new BattleManager(this);
     }
 
     /**
@@ -101,13 +109,13 @@ public class LoopManiaWorld {
      * spawns enemies if the conditions warrant it, adds to world
      * @return list of the enemies to be displayed on screen
      */
-    public List<BasicEnemy> possiblySpawnEnemies() {
+    public List<Enemy> possiblySpawnEnemies() {
         // TODO = expand this very basic version
         Pair<Integer, Integer> pos = possiblyGetBasicEnemySpawnPosition();
-        List<BasicEnemy> spawningEnemies = new ArrayList<>();
+        List<Enemy> spawningEnemies = new ArrayList<>();
         if (pos != null){
             int indexInPath = orderedPath.indexOf(pos);
-            BasicEnemy enemy = new BasicEnemy(new PathPosition(indexInPath, orderedPath));
+            Enemy enemy = new Enemy(new PathPosition(indexInPath, orderedPath));
             enemies.add(enemy);
             spawningEnemies.add(enemy);
         }
@@ -118,7 +126,7 @@ public class LoopManiaWorld {
      * kill an enemy
      * @param enemy enemy to be killed
      */
-    private void killEnemy(BasicEnemy enemy){
+    private void killEnemy(Enemy enemy) {
         enemy.destroy();
         enemies.remove(enemy);
     }
@@ -127,10 +135,10 @@ public class LoopManiaWorld {
      * run the expected battles in the world, based on current world state
      * @return list of enemies which have been killed
      */
-    public List<BasicEnemy> runBattles() {
+    public List<Enemy> runBattles() {
         // TODO = modify this - currently the character automatically wins all battles without any damage!
-        List<BasicEnemy> defeatedEnemies = new ArrayList<BasicEnemy>();
-        for (BasicEnemy e: enemies){
+        List<Enemy> defeatedEnemies = new ArrayList<Enemy>();
+        for (Enemy e: enemies){
             // Pythagoras: a^2+b^2 < radius^2 to see if within radius
             // TODO = you should implement different RHS on this inequality, based on influence radii and battle radii
             if (Math.pow((character.getX()-e.getX()), 2) +  Math.pow((character.getY()-e.getY()), 2) < 4){
@@ -138,7 +146,7 @@ public class LoopManiaWorld {
                 defeatedEnemies.add(e);
             }
         }
-        for (BasicEnemy e: defeatedEnemies){
+        for (Enemy e: defeatedEnemies){
             // IMPORTANT = we kill enemies here, because killEnemy removes the enemy from the enemies list
             // if we killEnemy in prior loop, we get java.util.ConcurrentModificationException
             // due to mutating list we're iterating over
@@ -201,7 +209,7 @@ public class LoopManiaWorld {
      * @param x x coordinate from 0 to width-1
      * @param y y coordinate from 0 to height-1
      */
-    public void removeUnequippedInventoryItemByCoordinates(int x, int y){
+    public void removeUnequippedInventoryItemByCoordinates(int x, int y) {
         Entity item = getUnequippedInventoryItemEntityByCoordinates(x, y);
         removeUnequippedInventoryItem(item);
     }
@@ -209,16 +217,29 @@ public class LoopManiaWorld {
     /**
      * run moves which occur with every tick without needing to spawn anything immediately
      */
-    public void runTickMoves(){
+    public void runTickMoves() {
         character.moveDownPath();
         moveBasicEnemies();
+
+		battleManager.moveEnemies();
+		
+		if (isCharacterAtCastle()) {
+			setCycleCount(getCycleCount() + 1);
+		}
     }
+
+	public boolean isCharacterAtCastle() {
+		return (
+			heroCastle.getX() == character.getX() &&
+			heroCastle.getY() == character.getY()
+		);
+	}
 
     /**
      * remove an item from the unequipped inventory
      * @param item item to be removed
      */
-    private void removeUnequippedInventoryItem(Entity item){
+    private void removeUnequippedInventoryItem(Entity item) {
         item.destroy();
         unequippedInventoryItems.remove(item);
     }
@@ -230,7 +251,7 @@ public class LoopManiaWorld {
      * @param y y index from 0 to height-1
      * @return unequipped inventory item at the input position
      */
-    private Entity getUnequippedInventoryItemEntityByCoordinates(int x, int y){
+    private Entity getUnequippedInventoryItemEntityByCoordinates(int x, int y) {
         for (Entity e: unequippedInventoryItems){
             if ((e.getX() == x) && (e.getY() == y)){
                 return e;
@@ -243,7 +264,7 @@ public class LoopManiaWorld {
      * remove item at a particular index in the unequipped inventory items list (this is ordered based on age in the starter code)
      * @param index index from 0 to length-1
      */
-    private void removeItemByPositionInUnequippedInventoryItems(int index){
+    private void removeItemByPositionInUnequippedInventoryItems(int index) {
         Entity item = unequippedInventoryItems.get(index);
         item.destroy();
         unequippedInventoryItems.remove(index);
@@ -283,7 +304,7 @@ public class LoopManiaWorld {
      */
     private void moveBasicEnemies() {
         // TODO = expand to more types of enemy
-        for (BasicEnemy e: enemies){
+        for (Enemy e: enemies){
             e.move();
         }
     }
@@ -303,7 +324,11 @@ public class LoopManiaWorld {
             List<Pair<Integer, Integer>> orderedPathSpawnCandidates = new ArrayList<>();
             int indexPosition = orderedPath.indexOf(new Pair<Integer, Integer>(character.getX(), character.getY()));
             // inclusive start and exclusive end of range of positions not allowed
+
+			// 2 tiles behind the character on the path.
             int startNotAllowed = (indexPosition - 2 + orderedPath.size()) % orderedPath.size();
+
+			// 3 tiles ahead of the character in the path.
             int endNotAllowed = (indexPosition + 3) % orderedPath.size();
             // note terminating condition has to be != rather than < since wrap around...
             for (int i=endNotAllowed; i!=startNotAllowed; i=(i+1)%orderedPath.size()) {
@@ -380,6 +405,14 @@ public class LoopManiaWorld {
 		this.buildingManager = buildingManager;
 	}
 
+	public BattleManager getBattleManager() {
+		return battleManager;
+	}
+
+	public void setBattleManager(BattleManager battleManager) {
+		this.battleManager = battleManager;
+	}
+
 	public int getMapWidth() {
         return mapWidth;
     }
@@ -388,11 +421,43 @@ public class LoopManiaWorld {
         return mapHeight;
     }
 
+	public List<Pair<Integer, Integer>> getOrderedPath() {
+		return orderedPath;
+	}
+
+	public void setOrderedPath(List<Pair<Integer, Integer>> orderedPath) {
+		this.orderedPath = orderedPath;
+	}
+	
+	public Character getCharacter() {
+        return character;
+    }
+
     /**
      * Set the character. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
      */
     public void setCharacter(Character character) {
         this.character = character;
+    }
+
+	public HeroCastleBuilding getHeroCastle() {
+		return heroCastle;
+	}
+
+	/**
+     * Set the character. This is necessary because it is loaded as a special entity out of the file
+     * @param character the character
+     */
+	public void setHeroCastle(HeroCastleBuilding heroCastle) {
+		this.heroCastle = heroCastle;
+	}
+
+	public int getCycleCount() {
+        return cycleCount.get();
+    }
+
+    public void setCycleCount(int cycleCount) {
+        this.cycleCount.set(cycleCount);
     }
 }
