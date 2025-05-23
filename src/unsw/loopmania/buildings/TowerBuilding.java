@@ -4,11 +4,10 @@ import org.javatuples.Pair;
 
 import unsw.loopmania.managers.BuildingManager;
 
-public class HeroCastleBuilding extends Building {
+public class TowerBuilding extends Building {
 
-	public HeroCastleBuilding(Pair<Integer, Integer> position) {
+	public TowerBuilding(Pair<Integer, Integer> position) {
 		super(position);
-		super.setEntityImageByPath("src/images/heros_castle.png");
 	}
 
 	@Override

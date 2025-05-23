@@ -6,12 +6,10 @@ import java.util.List;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import unsw.loopmania.PathPosition;
-import unsw.loopmania.battle.Attack;
 import unsw.loopmania.effects.Effect;
-import unsw.loopmania.entity.Battleable;
 import unsw.loopmania.entity.MovingEntity;
 
-public abstract class Combatant extends MovingEntity implements Battleable {
+public abstract class Combatant extends MovingEntity {
 	private DoubleProperty health;
 
 	private DoubleProperty maxHealth;
@@ -23,10 +21,6 @@ public abstract class Combatant extends MovingEntity implements Battleable {
 		this.maxHealth = new SimpleDoubleProperty(maxHealth);
 		this.effects = new ArrayList<>();
 	}
-
-	public abstract void attack(Combatant opponent);
-	public abstract void takeDamage(Attack attack);
-	public abstract void move();
 
 	// ==================================================================================
 	// Property Getters.

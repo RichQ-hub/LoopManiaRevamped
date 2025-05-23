@@ -7,7 +7,6 @@ import unsw.loopmania.inventory.EquipmentType;
 
 public class Shield extends EquipmentItem {
 
-
 	public Shield(Pair<Integer, Integer> position) {
 		super(position, 20, EquipmentType.Shield);
 		super.setEntityImageByPath("src/images/shield.png");
@@ -23,5 +22,10 @@ public class Shield extends EquipmentItem {
 	public void modifyOutgoingAttack(Attack attack) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'modifyOutgoingAttack'");
-	}	
+	}
+
+	@Override
+	public Item copyItem() {
+		return new Shield(Pair.with(0, 0));
+	}
 }

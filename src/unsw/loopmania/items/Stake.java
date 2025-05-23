@@ -24,4 +24,9 @@ public class Stake extends EquipmentItem {
 		throw new UnsupportedOperationException("Unimplemented method 'modifyOutgoingAttack'");
 	}
 
+	@Override
+	public Item copyItem() {
+		return new Stake(Pair.with(0, 0));
+	}
+
 }

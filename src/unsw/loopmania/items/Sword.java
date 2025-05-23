@@ -27,5 +27,10 @@ public class Sword extends EquipmentItem {
 	public void modifyOutgoingAttack(Attack attack) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'modifyOutgoingAttack'");
-	}    
+	}
+
+	@Override
+	public Item copyItem() {
+		return new Sword(Pair.with(0, 0));
+	}
 }

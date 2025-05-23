@@ -30,18 +30,14 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import unsw.loopmania.battle.Battleable;
+import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.buildings.Building;
 import unsw.loopmania.cards.Card;
-import unsw.loopmania.cards.TrapCard;
-import unsw.loopmania.cards.VampireCastleCard;
-import unsw.loopmania.combatants.Enemy;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
 import unsw.loopmania.items.EquipmentItem;
 import unsw.loopmania.items.Item;
-import unsw.loopmania.items.Shield;
-import unsw.loopmania.items.Stake;
-import unsw.loopmania.items.Sword;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.managers.CardManager;
@@ -282,21 +278,23 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
-			// Move all moving entities.
-            world.runTickMoves();
-
-			// Run battles on every tick.
-            List<Enemy> defeatedEnemies = battleManager.runBattles();
-            for (Enemy e: defeatedEnemies) {
-                reactToEnemyDefeat(e);
-            }
-
 			// Spawn new enemies when the character is at the start.
 			if (world.isCharacterAtCastle()) {
 				// TEST
 				List<Entity> newMapEntities = buildingManager.spawnEntities(world.getCycleCount(), world.getOrderedPath());
 				for (Entity e : newMapEntities) {
 					onLoadMapEntity(e);
+				}
+			}
+			
+			// Move all moving entities.
+            world.runTickMoves();
+
+			// Run battles on every tick.
+            List<Battleable> defeatedEnemies = battleManager.battle();
+			if (defeatedEnemies != null) {
+				for (Battleable e: defeatedEnemies) {
+					reactToEnemyDefeat(e);
 				}
 			}
 
@@ -335,30 +333,42 @@ public class LoopManiaWorldController {
      * run GUI events after an enemy is defeated, such as spawning items/experience/gold
      * @param enemy defeated enemy for which we should react to the death of
      */
-    private void reactToEnemyDefeat(Enemy enemy) {
+    private void reactToEnemyDefeat(Battleable enemy) {
         // react to character defeating an enemy
         // in starter code, spawning extra card/weapon...
         // TODO = provide different benefits to defeating the enemy based on the type of enemy
         // loadSword();
         
-		VampireCastleCard vampireCastle = new VampireCastleCard(new Pair<Integer,Integer>(0, 0));
-		TrapCard trapCard = new TrapCard(new Pair<Integer,Integer>(0, 0));
-		cardManager.addCard(vampireCastle);
-		cardManager.addCard(trapCard);
-		onLoadCard(vampireCastle);
-		onLoadCard(trapCard);
+		// VampireCastleCard vampireCastle = new VampireCastleCard(new Pair<Integer,Integer>(0, 0));
+		// TrapCard trapCard = new TrapCard(new Pair<Integer,Integer>(0, 0));
+		// cardManager.addCard(vampireCastle);
+		// cardManager.addCard(trapCard);
+		// onLoadCard(vampireCastle);
+		// onLoadCard(trapCard);
 
-		Sword sword = new Sword(new Pair<Integer,Integer>(0, 0));
-		Stake stake = new Stake(new Pair<Integer,Integer>(0, 0));
-		Shield shield = new Shield(new Pair<Integer,Integer>(0, 0));
+		// Sword sword = new Sword(new Pair<Integer,Integer>(0, 0));
+		// Stake stake = new Stake(new Pair<Integer,Integer>(0, 0));
+		// Shield shield = new Shield(new Pair<Integer,Integer>(0, 0));
 
-		Item newSword = inventoryManager.addItemToInventory(sword);
-		Item newStake = inventoryManager.addItemToInventory(stake);
-		Item newShield = inventoryManager.addItemToInventory(shield);
+		// Item newSword = inventoryManager.addItemToInventory(sword);
+		// Item newStake = inventoryManager.addItemToInventory(stake);
+		// Item newShield = inventoryManager.addItemToInventory(shield);
 
-		onLoadItem(newSword);
-		onLoadItem(newStake);
-		onLoadItem(newShield);
+		// onLoadItem(newSword);
+		// onLoadItem(newStake);
+		// onLoadItem(newShield);
+
+		Loot loot = enemy.dropLoot();
+
+		for (Item i : loot.getItems()) {
+			inventoryManager.addItemToInventory(i);
+			onLoadItem(i);
+		}
+
+		for (Card c : loot.getCards()) {
+			cardManager.addCard(c);
+			onLoadCard(c);
+		}
     }
 
 	/**

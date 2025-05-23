@@ -32,14 +32,9 @@ public class VampireCastleBuilding extends Building implements Spawner {
 			PathPosition pos = new PathPosition(orderedPath.indexOf(spawnLocation), orderedPath);
 			Vampire newVampire = new Vampire(pos);
 			vampires.add(newVampire);
-			battleManager.addBattleableEntity(newVampire);
+			battleManager.addEnemy(newVampire);
 		}
 		return vampires;
-	}
-
-	@Override
-	public void addToBattleManager(BattleManager manager) {
-		manager.addBuilding(this);
 	}
 
 	@Override
