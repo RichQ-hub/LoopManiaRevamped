@@ -3,7 +3,6 @@ package unsw.loopmania.combatants;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.PathPosition;
@@ -33,7 +32,6 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	private BattleAttributes battleAttributes;
     private IntegerProperty gold;
     private IntegerProperty exp;
-	private DoubleProperty health;
 
 	private List<LocationObserver<Character>> locationObservers;
     
