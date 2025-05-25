@@ -3,7 +3,6 @@ package unsw.loopmania.combatants;
 import java.util.ArrayList;
 import java.util.List;
 
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import unsw.loopmania.PathPosition;
