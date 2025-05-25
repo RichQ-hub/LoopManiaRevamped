@@ -33,7 +33,6 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	private BattleAttributes battleAttributes;
     private IntegerProperty gold;
     private IntegerProperty exp;
-	private DoubleProperty health;
 
 	private List<LocationObserver<Character>> locationObservers;
     
