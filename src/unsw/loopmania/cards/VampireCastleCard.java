@@ -10,7 +10,7 @@ import unsw.loopmania.buildings.VampireCastleBuilding;
  * represents a vampire castle card in the backend game world
  */
 public class VampireCastleCard extends Card {
-    // TODO = add more types of card
+
     public VampireCastleCard(Pair<Integer, Integer> position) {
         super(position);
 		super.setEntityImageByPath("src/images/vampire_castle_card.png");
@@ -36,5 +36,10 @@ public class VampireCastleCard extends Card {
 
 		VampireCastleBuilding vampireCastle = new VampireCastleBuilding(buildingPos, spawnPos);
 		return vampireCastle;
-	}    
+	}
+
+	@Override
+	public Card copyCard() {
+		return new VampireCastleCard(Pair.with(0, 0));
+	}
 }

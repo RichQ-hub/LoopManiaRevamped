@@ -2,32 +2,36 @@ package unsw.loopmania.combatants;
 
 import java.util.Random;
 
+import org.javatuples.Pair;
+
 import unsw.loopmania.PathPosition;
-import unsw.loopmania.battle.Attack;
-import unsw.loopmania.managers.BattleManager;
+import unsw.loopmania.battle.BattleAttributes;
+import unsw.loopmania.battle.battleState.EnemyState;
+import unsw.loopmania.battle.effects.DamageEffect;
+import unsw.loopmania.battle.loot.LootItem;
+import unsw.loopmania.battle.loot.LootTable;
+import unsw.loopmania.items.Shield;
+import unsw.loopmania.items.Stake;
+import unsw.loopmania.items.Sword;
 
 public class Vampire extends Enemy {
 
 	public Vampire(PathPosition position) {
-		super(position, 30);
+		super(position);
 		super.setEntityImageByPath("src/images/vampire.png");
-	}
 
-	@Override
-	public void addToBattleManager(BattleManager manager) {
-		manager.addEnemy(this);
-	}
+		// Set battle attributes.
+		BattleAttributes attr = new BattleAttributes(this, 40, 4, 20, new EnemyState());
+		attr.addAttackEffect(new DamageEffect(null, 2));
 
-	@Override
-	public void attack(Combatant opponent) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'attack'");
-	}
+		super.setBattleAttributes(attr);
 
-	@Override
-	public void takeDamage(Attack attack) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'takeDamage'");
+		// Set Loot Table.
+		LootTable lootTable = new LootTable();
+		lootTable.addLootItem(new LootItem(new Sword(Pair.with(0, 0)), 50));
+		lootTable.addLootItem(new LootItem(new Stake(Pair.with(0, 0)), 20));
+		lootTable.addLootItem(new LootItem(new Shield(Pair.with(0, 0)), 20));
+		super.setLootTable(lootTable);
 	}
 
 	@Override
@@ -38,6 +42,5 @@ public class Vampire extends Enemy {
         } else if (directionChoice == 1){
             moveDownPath();
         }
-	}
-	
+	}	
 }

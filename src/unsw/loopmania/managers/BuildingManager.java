@@ -6,19 +6,31 @@ import java.util.List;
 import org.javatuples.Pair;
 
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.buildings.Building;
+import unsw.loopmania.combatants.Enemy;
 import unsw.loopmania.entity.Entity;
+import unsw.loopmania.observers.LocationObserver;
 import unsw.loopmania.spawners.Spawner;
+import unsw.loopmania.combatants.Character;
 
 public class BuildingManager {
 	private LoopManiaWorld world;
 	private List<Building> buildings;
-	private List<Spawner> spawners;
+	private List<Spawner> spawnerBuildings;
+	private List<Battleable> battleBuildings;
+
+	// Observer Buildings (ones that update whenever the entities move).
+	private List<LocationObserver<Enemy>> enemyObserverBuildings;;
+	private List<LocationObserver<Character>> characterObserverBuildings;
 
 	public BuildingManager(LoopManiaWorld world) {
 		this.world = world;
 		this.buildings = new ArrayList<>();
-		this.spawners = new ArrayList<>();
+		this.spawnerBuildings = new ArrayList<>();
+		this.battleBuildings = new ArrayList<>();
+		this.enemyObserverBuildings = new ArrayList<>();
+		this.characterObserverBuildings = new ArrayList<>();
 	}
 
 	public Building getBuildingByCoordinates(int x, int y) {
@@ -29,6 +41,24 @@ public class BuildingManager {
 		}
 		return null;
 	}
+
+	/**
+	 * Spawns map entities on every cycle.
+	 * @param cycleCount
+	 * @param orderedPath
+	 * @return List of map entities to spawn.
+	 */
+	public List<Entity> spawnEntities(int cycleCount, List<Pair<Integer, Integer>> orderedPath) {
+		List<Entity> entitiesToLoad = new ArrayList<>();
+		for (Spawner s : spawnerBuildings) {
+			entitiesToLoad.addAll(s.spawn(cycleCount, orderedPath, world.getBattleManager()));
+		}
+		return entitiesToLoad;
+	}
+
+	// ==================================================================================
+	// Append methods.
+	// ==================================================================================
 
 	/**
 	 * Double dispatch method
@@ -42,15 +72,29 @@ public class BuildingManager {
 	}
 
 	public void addSpawner(Spawner spawner) {
-		spawners.add(spawner);
+		spawnerBuildings.add(spawner);
 	}
 
-	public List<Entity> spawnEntities(int cycleCount, List<Pair<Integer, Integer>> orderedPath) {
-		List<Entity> entitiesToLoad = new ArrayList<>();
-		for (Spawner s : spawners) {
-			entitiesToLoad.addAll(s.spawn(cycleCount, orderedPath, world.getBattleManager()));
-		}
-		return entitiesToLoad;
+	public void addBattleBuilding(Battleable building) {
+		battleBuildings.add(building);
+	}
+
+	// public void addEnemyObserverBuilding(LocationObserver<Enemy> observer) {
+	// 	enemyObserverBuildings.add(observer);
+
+	// 	// Add it to the enemy observer lists.
+	// 	BattleManager manager = world.getBattleManager();
+	// 	List<Enemy> enemies = manager.getEnemies();
+	// 	for (Battleable e : enemies) {
+	// 		e.subscribe(observer);
+	// 	}
+	// }
+
+	public void addCharacterObserverBuilding(LocationObserver<Character> observer) {
+		characterObserverBuildings.add(observer);
+
+		Character character = world.getCharacter();
+		character.subscribe(observer);
 	}
 
 	// ==================================================================================
@@ -63,14 +107,6 @@ public class BuildingManager {
 
 	public void setBuildings(List<Building> buildings) {
 		this.buildings = buildings;
-	}
-
-	public List<Spawner> getSpawners() {
-		return spawners;
-	}
-
-	public void setSpawners(List<Spawner> spawners) {
-		this.spawners = spawners;
 	}
 
 }

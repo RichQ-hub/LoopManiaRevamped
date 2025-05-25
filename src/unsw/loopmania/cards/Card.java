@@ -18,4 +18,5 @@ public abstract class Card extends StaticEntity {
 
 	public abstract boolean isValidDropLocation(LoopManiaWorld world, int buildingX, int buildingY);
 	public abstract Building createBuilding(LoopManiaWorld world, int buildingX, int buildingY);
+	public abstract Card copyCard();
 }

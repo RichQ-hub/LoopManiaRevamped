@@ -28,5 +28,10 @@ public class TrapCard extends Card {
 		TrapBuilding trap = new TrapBuilding(buildingPos);
 		return trap;
 	}
+
+	@Override
+	public Card copyCard() {
+		return new TrapCard(Pair.with(0, 0));
+	}
 	
 }

@@ -333,12 +333,16 @@ public class LoopManiaWorld {
 	}
 
 	/**
-     * Set the character. This is necessary because it is loaded as a special entity out of the file
+     * Set the castle. This is necessary because it is loaded as a special entity out of the file
      * @param character the character
      */
 	public void setHeroCastle(HeroCastleBuilding heroCastle) {
 		this.heroCastle = heroCastle;
 	}
+
+	public IntegerProperty getCycleProperty() {
+        return cycleCount;
+    }
 
 	public int getCycleCount() {
         return cycleCount.get();

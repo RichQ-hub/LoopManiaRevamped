@@ -51,4 +51,6 @@ public abstract class MovingEntity extends Entity {
     public int getY() {
         return y().get();
     }
+
+	public abstract void move();
 }

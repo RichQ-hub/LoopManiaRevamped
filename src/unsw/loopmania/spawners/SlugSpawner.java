@@ -31,7 +31,7 @@ public class SlugSpawner implements Spawner {
 			PathPosition newPos = new PathPosition(orderedPath.indexOf(world.getPositionToSpawnEnemy()), orderedPath);
 			Slug newSlug = new Slug(newPos);
 			slugs.add(newSlug);
-			battleManager.addBattleableEntity(newSlug);
+			battleManager.addEnemy(newSlug);
 		}
 
 		return slugs;
