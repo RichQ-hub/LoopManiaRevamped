@@ -8,10 +8,10 @@ import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.BattleState;
+import unsw.loopmania.battle.effects.Effect;
+import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.battle.loot.LootTable;
-import unsw.loopmania.effects.Effect;
-import unsw.loopmania.effects.modifiers.EffectModifier;
 import unsw.loopmania.entity.MovingEntity;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.observers.LocationObserver;
@@ -51,8 +51,9 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 		
 		List<Effect> attackEffects = battleAttributes.getAttackEffects();
 		for (Effect e : attackEffects) {
-			e.setTarget(combatant);
-			attack.addEffect(e);
+			Effect copy = e.copyEffect();
+			copy.setTarget(combatant);
+			attack.addEffect(copy);
 		}
 
 		combatant.takeAttack(attack);
@@ -74,6 +75,17 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 
 		// Trigger on-hit effects.
 		battleAttributes.triggerEffects(Effect.EffectTrigger.ON_HIT);
+	}
+
+	@Override
+	public void printInfo() {
+		System.out.println(String.format("  Health: %f", getBattleAttributes().getHealth()));
+
+		System.out.println("  Active Effects: {");
+		for (Effect e : getBattleAttributes().getActiveEffects()) {
+			e.printInfo();
+		}
+		System.out.println("  }");
 	}
 
 	@Override

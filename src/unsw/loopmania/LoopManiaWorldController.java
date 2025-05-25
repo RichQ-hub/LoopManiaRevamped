@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
@@ -28,7 +29,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.text.Text;
 import javafx.util.Duration;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.loot.Loot;
@@ -41,6 +41,7 @@ import unsw.loopmania.items.Item;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.managers.CardManager;
+import unsw.loopmania.combatants.Character;
 
 import java.util.EnumMap;
 
@@ -112,6 +113,22 @@ public class LoopManiaWorldController {
 
     @FXML
     private GridPane unequippedInventory;
+
+	/**
+	 * Labels
+	 */
+
+	@FXML
+    private Label healthLabel;
+
+	@FXML
+    private Label goldLabel;
+
+	@FXML
+    private Label expLabel;
+
+	@FXML
+    private Label cycleLabel;
 
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
@@ -252,9 +269,12 @@ public class LoopManiaWorldController {
 		equippedItems.add(shieldSlotView, 2, 0);
 		equippedItems.add(weaponSlotView, 3, 0);
 
-		// 
-		Text goldDisplay = new Text("0");
-		goldDisplay.textProperty().bind(world.getCharacter().getGoldProperty().asString());
+		// Bind Label Properties.
+		Character character = world.getCharacter();
+		healthLabel.textProperty().bind(character.getBattleAttributes().getHealthProperty().asString());
+		goldLabel.textProperty().bind(character.getGoldProperty().asString());
+		expLabel.textProperty().bind(character.getExpProperty().asString());
+		cycleLabel.textProperty().bind(world.getCycleProperty().asString());
 
         // Create the draggable icon. Initially the dragged entity is invisible, since we aren't dragging anything.
 		// But once the user drags some entity, then the dragged entity gets set to the entity (i.e. sword item)
@@ -334,30 +354,6 @@ public class LoopManiaWorldController {
      * @param enemy defeated enemy for which we should react to the death of
      */
     private void reactToEnemyDefeat(Battleable enemy) {
-        // react to character defeating an enemy
-        // in starter code, spawning extra card/weapon...
-        // TODO = provide different benefits to defeating the enemy based on the type of enemy
-        // loadSword();
-        
-		// VampireCastleCard vampireCastle = new VampireCastleCard(new Pair<Integer,Integer>(0, 0));
-		// TrapCard trapCard = new TrapCard(new Pair<Integer,Integer>(0, 0));
-		// cardManager.addCard(vampireCastle);
-		// cardManager.addCard(trapCard);
-		// onLoadCard(vampireCastle);
-		// onLoadCard(trapCard);
-
-		// Sword sword = new Sword(new Pair<Integer,Integer>(0, 0));
-		// Stake stake = new Stake(new Pair<Integer,Integer>(0, 0));
-		// Shield shield = new Shield(new Pair<Integer,Integer>(0, 0));
-
-		// Item newSword = inventoryManager.addItemToInventory(sword);
-		// Item newStake = inventoryManager.addItemToInventory(stake);
-		// Item newShield = inventoryManager.addItemToInventory(shield);
-
-		// onLoadItem(newSword);
-		// onLoadItem(newStake);
-		// onLoadItem(newShield);
-
 		Loot loot = enemy.dropLoot();
 
 		for (Item i : loot.getItems()) {

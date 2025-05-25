@@ -3,8 +3,8 @@ package unsw.loopmania.battle;
 import java.util.ArrayList;
 import java.util.List;
 
-import unsw.loopmania.effects.Effect;
-import unsw.loopmania.effects.modifiers.EffectModifier;
+import unsw.loopmania.battle.effects.Effect;
+import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
 public class Attack {
 	private List<Effect> effects;

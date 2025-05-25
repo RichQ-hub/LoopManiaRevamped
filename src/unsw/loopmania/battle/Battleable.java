@@ -16,6 +16,7 @@ public interface Battleable {
 	public void destroy();
 	public void move();
 	public Loot dropLoot();
+	public void printInfo();
 
 	public List<Battleable> getEntitiesToAttack(List<Battleable> battleEntities);
 

@@ -1,6 +1,6 @@
-package unsw.loopmania.effects.modifiers;
+package unsw.loopmania.battle.effects.modifiers;
 
-import unsw.loopmania.effects.DamageEffect;
+import unsw.loopmania.battle.effects.DamageEffect;
 
 public class DamageEffectModifier extends EffectModifier {
 

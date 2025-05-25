@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import unsw.loopmania.battle.battleState.BattleState;
+import unsw.loopmania.battle.effects.Effect;
+import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 import unsw.loopmania.combatants.Character;
-import unsw.loopmania.effects.Effect;
-import unsw.loopmania.effects.modifiers.EffectModifier;
 import unsw.loopmania.entity.Entity;
 
 public class BattleAttributes {
 	private Entity combatant;
-	private double health;
+	private DoubleProperty health;
 	private double maxHealth;
 
 	private double battleRadius;
@@ -24,12 +26,13 @@ public class BattleAttributes {
 	// Battle Effects.
 	private List<Effect> attackEffects;
 	private List<EffectModifier> defenseModifiers;
+	// private List<EffectModifier> attackModifiers;
 
 
 	public BattleAttributes(Entity combatant, double maxHealth, double battleRadius, double supportRadius, BattleState battleState) {
 		this.combatant = combatant;
 		this.maxHealth = maxHealth;
-		this.health = maxHealth;
+		this.health = new SimpleDoubleProperty(maxHealth);
 		this.battleRadius = battleRadius;
 		this.supportRadius = supportRadius;
 		this.battleState = battleState;
@@ -71,8 +74,16 @@ public class BattleAttributes {
 		return Math.pow((combatant.getX() - character.getX()), 2) + Math.pow((combatant.getY() - character.getY()), 2) <= supportRadius;
 	}
 
+	/**
+	 * Adds an effect into the list of active effects. If it already contains that object (by value
+	 * not by reference), then we ignore.
+	 * @param effect
+	 */
 	public void addActiveEffect(Effect effect) {
-		activeEffects.add(effect);
+		boolean hasEffect = activeEffects.stream().anyMatch(e -> e.getClass().equals(effect.getClass()));
+		if (!hasEffect) {
+			activeEffects.add(effect);
+		}
 	}
 
 	public void addAttackEffect(Effect effect) {
@@ -84,15 +95,23 @@ public class BattleAttributes {
 	}
 
 	// ==================================================================================
+	// Property Getters.
+	// ==================================================================================
+
+	public DoubleProperty getHealthProperty() {
+        return health;
+    }
+
+	// ==================================================================================
 	// Getters and Setters.
 	// ==================================================================================
 
 	public double getHealth() {
-		return health;
+		return health.get();
 	}
 
 	public void setHealth(double health) {
-		this.health = health;
+		this.health.set(health);
 	}
 
 	public double getMaxHealth() {

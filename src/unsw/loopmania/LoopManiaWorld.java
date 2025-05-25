@@ -340,6 +340,10 @@ public class LoopManiaWorld {
 		this.heroCastle = heroCastle;
 	}
 
+	public IntegerProperty getCycleProperty() {
+        return cycleCount;
+    }
+
 	public int getCycleCount() {
         return cycleCount.get();
     }

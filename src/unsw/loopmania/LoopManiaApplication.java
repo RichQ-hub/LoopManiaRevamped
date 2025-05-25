@@ -44,6 +44,9 @@ public class LoopManiaApplication extends Application {
 
         // create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
+
+		// Adding css stylesheet to the scene.
+		// scene.getStylesheets().add(getClass().getResource("css/GameView.css").toExternalForm());
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu

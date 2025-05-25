@@ -1,8 +1,8 @@
-package unsw.loopmania.effects;
+package unsw.loopmania.battle.effects;
 
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
-import unsw.loopmania.effects.modifiers.EffectModifier;
+import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
 public class DamageEffect extends Effect {
 
@@ -25,6 +25,22 @@ public class DamageEffect extends Effect {
 		attr.setHealth(attr.getHealth() - dmg);
 	}
 
+	@Override
+	public void printInfo() {
+		System.out.println(
+			String.format(" - %s: [Dmg: %f, Uses: %d]", getClass().getSimpleName(), getDmg(), getUses())
+		);
+	}
+
+	@Override
+	public Effect copyEffect() {
+		return new DamageEffect(null, dmg);
+	}
+
+	// ==================================================================================
+	// Getters and Setters.
+	// ==================================================================================
+	
 	public double getDmg() {
 		return dmg;
 	}
@@ -32,5 +48,4 @@ public class DamageEffect extends Effect {
 	public void setDmg(double dmg) {
 		this.dmg = dmg;
 	}
-	
 }

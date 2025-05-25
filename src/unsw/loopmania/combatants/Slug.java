@@ -7,11 +7,11 @@ import org.javatuples.Pair;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.battleState.EnemyState;
+import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.loot.LootCard;
 import unsw.loopmania.battle.loot.LootItem;
 import unsw.loopmania.battle.loot.LootTable;
 import unsw.loopmania.cards.VampireCastleCard;
-import unsw.loopmania.effects.DamageEffect;
 import unsw.loopmania.items.Sword;
 
 public class Slug extends Enemy {

@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.battle.Battleable;
+import unsw.loopmania.battle.effects.Effect;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.combatants.Enemy;
 
@@ -95,19 +96,26 @@ public class BattleManager {
                 // For each entity, attack all opponents.
                 List<Battleable> entitiesToAttack = e.getEntitiesToAttack(battleEntities);
 
-				System.out.println("Opponents:");
-				for (Battleable o : entitiesToAttack) {
-					System.out.println("- " + o.getClass().getSimpleName());
+				System.out.println("Attack Effects:");
+				for (Effect ae : e.getBattleAttributes().getAttackEffects()) {
+					ae.printInfo();
 				}
+
+				System.out.println("\nOpponents:");
+				for (Battleable o : entitiesToAttack) {
+					System.out.println(" - " + o.getClass().getSimpleName());
+				}
+
+				System.out.println("\n--------------------------------------------");
 
                 for (Battleable opponent : entitiesToAttack) {
 					// Can only attack opponent if they are alive.
 					if (opponent.isAlive()) {
-						System.out.println("\nAttacking -- {" + opponent.getClass().getSimpleName() + "}");
+						System.out.println("\nAttacking -- {" + opponent.getClass().getSimpleName() + "}: {" + opponent.getBattleAttributes().getMaxHealth() + "}");
 						e.attack(opponent);
 
-						// TODO: Log attack.
-						System.out.println("Health: " + opponent.getBattleAttributes().getHealth());
+						// Log info.
+						opponent.printInfo();
 					}
 
 					// If opponent dies, add to the list of defeated enemies.
@@ -120,7 +128,8 @@ public class BattleManager {
 						}
 					}
 				}
-				System.out.println("============================================");
+
+				System.out.println();
             }
 
             // After every entity has their turn, note down the defeated entities

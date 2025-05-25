@@ -1,7 +1,7 @@
-package unsw.loopmania.effects;
+package unsw.loopmania.battle.effects;
 
 import unsw.loopmania.battle.Battleable;
-import unsw.loopmania.effects.modifiers.EffectModifier;
+import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
 public abstract class Effect {
 	private Battleable target;
@@ -21,7 +21,9 @@ public abstract class Effect {
 	}
 
 	public abstract void useEffect();
+	public abstract Effect copyEffect();
 	public abstract void acceptModifier(EffectModifier modifier);
+	public abstract void printInfo();
 
 	public void activate() {
 		useEffect();
@@ -31,6 +33,10 @@ public abstract class Effect {
 	public void decrementUses() {
 		this.uses--;
 	}
+
+	// ==================================================================================
+	// Getters and Setters.
+	// ==================================================================================
 
 	public Battleable getTarget() {
 		return target;

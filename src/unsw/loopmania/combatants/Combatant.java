@@ -6,7 +6,7 @@ import java.util.List;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import unsw.loopmania.PathPosition;
-import unsw.loopmania.effects.Effect;
+import unsw.loopmania.battle.effects.Effect;
 import unsw.loopmania.entity.MovingEntity;
 
 public abstract class Combatant extends MovingEntity {
