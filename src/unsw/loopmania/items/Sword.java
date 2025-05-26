@@ -3,6 +3,7 @@ package unsw.loopmania.items;
 import org.javatuples.Pair;
 
 import unsw.loopmania.battle.Attack;
+import unsw.loopmania.battle.effects.modifiers.SwordModifier;
 import unsw.loopmania.inventory.EquipmentType;
 
 /**
@@ -24,7 +25,7 @@ public class Sword extends EquipmentItem {
 
 	@Override
 	public void modifyOutgoingAttack(Attack attack) {
-		return;
+		attack.applyModifier(new SwordModifier());
 	}
 
 	@Override
