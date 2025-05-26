@@ -16,6 +16,9 @@ import unsw.loopmania.items.Sword;
 
 public class Vampire extends Enemy {
 
+	private final int goldReward = 20;
+	private final int expReward = 30;
+
 	public Vampire(PathPosition position) {
 		super(position);
 		super.setEntityImageByPath("src/images/vampire.png");
@@ -27,7 +30,7 @@ public class Vampire extends Enemy {
 		super.setBattleAttributes(attr);
 
 		// Set Loot Table.
-		LootTable lootTable = new LootTable();
+		LootTable lootTable = new LootTable(goldReward, expReward);
 		lootTable.addLootItem(new LootItem(new Sword(Pair.with(0, 0)), 50));
 		lootTable.addLootItem(new LootItem(new Stake(Pair.with(0, 0)), 20));
 		lootTable.addLootItem(new LootItem(new Shield(Pair.with(0, 0)), 20));

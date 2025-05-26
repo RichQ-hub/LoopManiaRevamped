@@ -16,6 +16,9 @@ import unsw.loopmania.items.Sword;
 
 public class Slug extends Enemy {
 
+	private final int goldReward = 10;
+	private final int expReward = 14;
+
 	public Slug(PathPosition position) {
 		super(position);
 		super.setEntityImageByPath("src/images/slug.png");
@@ -27,7 +30,7 @@ public class Slug extends Enemy {
 		super.setBattleAttributes(attr);
 
 		// Set Loot Table.
-		LootTable lootTable = new LootTable();
+		LootTable lootTable = new LootTable(goldReward, expReward);
 		lootTable.addLootItem(new LootItem(new Sword(Pair.with(0, 0)), 50));
 		lootTable.addLootCard(new LootCard(new VampireCastleCard(Pair.with(0, 0)), 100));
 		super.setLootTable(lootTable);

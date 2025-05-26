@@ -365,6 +365,10 @@ public class LoopManiaWorldController {
 			cardManager.addCard(c);
 			onLoadCard(c);
 		}
+
+		Character character = world.getCharacter();
+		character.setGold(character.getGold() + loot.getGold());
+		character.setExp(character.getExp() + loot.getExp());
     }
 
 	/**
