@@ -289,9 +289,9 @@ public class LoopManiaWorldController {
         anchorPaneRoot.getChildren().add(draggedEntity);
 
 		// TESTING: Initially give the character all items.
-		Sword sword = new Sword(Pair.with(0, 0));
-		Shield shield = new Shield(Pair.with(0, 0));
-		Stake stake = new Stake(Pair.with(0, 0));
+		Sword sword = new Sword();
+		Shield shield = new Shield();
+		Stake stake = new Stake();
 		onLoadItem(inventoryManager.addItemToInventory(sword));
 		onLoadItem(inventoryManager.addItemToInventory(shield));
 		onLoadItem(inventoryManager.addItemToInventory(stake));

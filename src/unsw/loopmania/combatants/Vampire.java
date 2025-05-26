@@ -2,8 +2,6 @@ package unsw.loopmania.combatants;
 
 import java.util.Random;
 
-import org.javatuples.Pair;
-
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
@@ -36,9 +34,9 @@ public class Vampire extends Enemy {
 
 		// Set Loot Table.
 		LootTable lootTable = new LootTable(goldReward, expReward);
-		lootTable.addLootItem(new LootItem(new Sword(Pair.with(0, 0)), 50));
-		lootTable.addLootItem(new LootItem(new Stake(Pair.with(0, 0)), 20));
-		lootTable.addLootItem(new LootItem(new Shield(Pair.with(0, 0)), 20));
+		lootTable.addLootItem(new LootItem(new Sword(), 50));
+		lootTable.addLootItem(new LootItem(new Stake(), 20));
+		lootTable.addLootItem(new LootItem(new Shield(), 20));
 		super.setLootTable(lootTable);
 	}
 

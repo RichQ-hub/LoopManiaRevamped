@@ -34,8 +34,8 @@ public class Slug extends Enemy {
 
 		// Set Loot Table.
 		LootTable lootTable = new LootTable(goldReward, expReward);
-		lootTable.addLootItem(new LootItem(new Sword(Pair.with(0, 0)), 50));
-		lootTable.addLootItem(new LootItem(new Shield(Pair.with(0, 0)), 50));
+		lootTable.addLootItem(new LootItem(new Sword(), 50));
+		lootTable.addLootItem(new LootItem(new Shield(), 50));
 		lootTable.addLootCard(new LootCard(new VampireCastleCard(Pair.with(0, 0)), 100));
 		super.setLootTable(lootTable);
 	}
