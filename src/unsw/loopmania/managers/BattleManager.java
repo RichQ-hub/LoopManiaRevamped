@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import unsw.loopmania.LoopManiaWorld;
-import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.effects.Effect;
 import unsw.loopmania.combatants.Character;
