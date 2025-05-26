@@ -121,6 +121,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 		// Add all offensive effects onto the person.
 		for (Effect e : attack.getEffects()) {
+			e.setTarget(this);
 			battleAttributes.addActiveEffect(e);
 		}
 

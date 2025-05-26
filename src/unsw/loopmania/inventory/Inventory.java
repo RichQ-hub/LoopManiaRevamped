@@ -17,6 +17,11 @@ public class Inventory {
 		this.items = new ArrayList<>();
 	}
 
+	/**
+	 * Adds an item into the unequipped inventory.
+	 * @param item
+	 * @return Item with new coordinates pertaining to its position in the unequipped inventory.
+	 */
 	public Item addItem(Item item) {
 		if (item == null) {
 			System.out.println("No item to add to inventory");

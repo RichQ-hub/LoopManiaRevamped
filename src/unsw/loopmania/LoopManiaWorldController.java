@@ -34,10 +34,14 @@ import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.buildings.Building;
 import unsw.loopmania.cards.Card;
+import unsw.loopmania.cards.VampireCastleCard;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
 import unsw.loopmania.items.EquipmentItem;
 import unsw.loopmania.items.Item;
+import unsw.loopmania.items.Shield;
+import unsw.loopmania.items.Stake;
+import unsw.loopmania.items.Sword;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.managers.CardManager;
@@ -283,6 +287,19 @@ public class LoopManiaWorldController {
         draggedEntity.setVisible(false);
         draggedEntity.setOpacity(0.7);
         anchorPaneRoot.getChildren().add(draggedEntity);
+
+		// TESTING: Initially give the character all items.
+		Sword sword = new Sword(Pair.with(0, 0));
+		Shield shield = new Shield(Pair.with(0, 0));
+		Stake stake = new Stake(Pair.with(0, 0));
+		onLoadItem(inventoryManager.addItemToInventory(sword));
+		onLoadItem(inventoryManager.addItemToInventory(shield));
+		onLoadItem(inventoryManager.addItemToInventory(stake));
+
+		VampireCastleCard vCard1 = new VampireCastleCard(Pair.with(0, 0));
+		VampireCastleCard vCard2 = new VampireCastleCard(Pair.with(0, 0));
+		onLoadCard(cardManager.addCard(vCard1));
+		onLoadCard(cardManager.addCard(vCard2));
     }
 
 	public Image loadImage(String pathname) {
@@ -314,7 +331,7 @@ public class LoopManiaWorldController {
             List<Battleable> defeatedEnemies = battleManager.battle();
 			if (defeatedEnemies != null) {
 				for (Battleable e: defeatedEnemies) {
-					reactToEnemyDefeat(e);
+					// reactToEnemyDefeat(e);
 				}
 			}
 

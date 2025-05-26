@@ -74,6 +74,11 @@ public class InventoryManager {
 		return newItem;
 	}
 
+	/**
+	 * Adds an item into the unequipped inventory.
+	 * @param item
+	 * @return Item with new coordinates pertaining to its position in the unequipped inventory.
+	 */
 	public Item addItemToInventory(Item item) {
 		return inventory.addItem(item);
 	}
