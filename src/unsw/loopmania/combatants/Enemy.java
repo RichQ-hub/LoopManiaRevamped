@@ -31,6 +31,8 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 		this.locationObservers = new ArrayList<>();
     }
 
+	public abstract void specialAttack(Battleable combatant, Attack attack);
+
 	// ==================================================================================
 	// Battleable Methods.
 	// ==================================================================================
@@ -46,7 +48,7 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 	}
 
 	@Override
-	public void attack(Battleable combatant) {
+	public Attack attack(Battleable combatant) {
 		Attack attack = new Attack();
 		
 		List<Effect> attackEffects = battleAttributes.getAttackEffects();
@@ -56,7 +58,13 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 			attack.addEffect(copy);
 		}
 
+		specialAttack(combatant, attack);
+
+		// DEBUG: Print attack.
+		attack.printInfo("Initial Attack");
+
 		combatant.takeAttack(attack);
+		return attack;
 	}
 
 	@Override
@@ -67,6 +75,9 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 		for (EffectModifier m : defenseModifiers) {
 			attack.applyModifier(m);
 		}
+
+		// DEBUG: Print attack.
+		attack.printInfo("Final Modified Attack");
 
 		// Add all offensive effects onto the person.
 		for (Effect e : attack.getEffects()) {

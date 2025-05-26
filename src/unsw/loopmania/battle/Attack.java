@@ -2,6 +2,7 @@ package unsw.loopmania.battle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import unsw.loopmania.battle.effects.Effect;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
@@ -19,6 +20,8 @@ public class Attack {
 		for (Effect e : effects) {
 			e.acceptModifier(modifier);
 		}
+
+		cleanseEffects();
 	}
 
 	public void addEffect(Effect effect) {
@@ -28,6 +31,23 @@ public class Attack {
 	public void addEffectModifier(EffectModifier modifier) {
 		effectModifiers.add(modifier);
 	}
+
+	public void cleanseEffects() {
+		this.effects = effects.stream().filter(effect -> effect.getUses() > 0).collect(Collectors.toList());
+	}
+
+	public void printInfo(String title) {
+		System.out.println(String.format("  %s: {", title));
+
+		for (Effect e : effects) {
+			e.printInfo();
+		}
+		System.out.println("  }");
+	}
+
+	// ==================================================================================
+	// Getters and Setters.
+	// ==================================================================================
 
 	public List<Effect> getEffects() {
 		return effects;

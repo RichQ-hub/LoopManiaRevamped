@@ -10,9 +10,13 @@ import unsw.loopmania.items.Item;
 public class LootTable {
 	private List<LootItem> lootItems;
 	private List<LootCard> lootCards;
+	private int goldReward;
+	private int expReward;
 	private final Random random = new Random();
 
-	public LootTable() {
+	public LootTable(int goldReward, int expReward) {
+		this.goldReward = goldReward;
+		this.expReward = expReward;
 		this.lootItems = new ArrayList<>();
 		this.lootCards = new ArrayList<>();
 	}
@@ -26,7 +30,7 @@ public class LootTable {
 	}
 
 	public Loot dropLoot() {
-		Loot loot = new Loot();
+		Loot loot = new Loot(goldReward, expReward);
 
 		Item newItem = dropRandomItem();
 		if (newItem != null) {
@@ -71,6 +75,42 @@ public class LootTable {
 		}
 
 		return null;
+	}
+
+	// ==================================================================================
+	// Getters and Setters.
+	// ==================================================================================
+
+	public List<LootItem> getLootItems() {
+		return lootItems;
+	}
+
+	public void setLootItems(List<LootItem> lootItems) {
+		this.lootItems = lootItems;
+	}
+
+	public List<LootCard> getLootCards() {
+		return lootCards;
+	}
+
+	public void setLootCards(List<LootCard> lootCards) {
+		this.lootCards = lootCards;
+	}
+
+	public int getGoldReward() {
+		return goldReward;
+	}
+
+	public void setGoldReward(int goldReward) {
+		this.goldReward = goldReward;
+	}
+
+	public int getExpReward() {
+		return expReward;
+	}
+
+	public void setExpReward(int expReward) {
+		this.expReward = expReward;
 	}
 
 }

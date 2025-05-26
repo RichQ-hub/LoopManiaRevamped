@@ -1,5 +1,7 @@
 package unsw.loopmania.battle.effects;
 
+import java.util.ListIterator;
+
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
@@ -19,7 +21,7 @@ public class DamageEffect extends Effect {
 	}
 
 	@Override
-	public void useEffect() {
+	public void useEffect(ListIterator<Effect> activeEffectsIterator) {
 		Battleable target = super.getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
 		attr.setHealth(attr.getHealth() - dmg);
@@ -28,7 +30,7 @@ public class DamageEffect extends Effect {
 	@Override
 	public void printInfo() {
 		System.out.println(
-			String.format(" - %s: [Dmg: %f, Uses: %d]", getClass().getSimpleName(), getDmg(), getUses())
+			String.format("	- %s: [Dmg: %f, Uses: %d]", getClass().getSimpleName(), dmg, getUses())
 		);
 	}
 

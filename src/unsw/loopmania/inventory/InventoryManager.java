@@ -90,4 +90,24 @@ public class InventoryManager {
 
 		return false;
 	}
+
+	// ==================================================================================
+	// Getters and Setters.
+	// ==================================================================================
+
+	public EquippedInventory getEquippedInventory() {
+		return equippedInventory;
+	}
+
+	public void setEquippedInventory(EquippedInventory equippedInventory) {
+		this.equippedInventory = equippedInventory;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(Inventory inventory) {
+		this.inventory = inventory;
+	}
 }

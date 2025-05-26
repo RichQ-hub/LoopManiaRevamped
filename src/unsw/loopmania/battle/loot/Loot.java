@@ -9,8 +9,12 @@ import unsw.loopmania.items.Item;
 public class Loot {
 	private List<Item> items;
 	private List<Card> cards;
+	private int gold;
+	private int exp;
 
-	public Loot() {
+	public Loot(int gold, int exp) {
+		this.gold = gold;
+		this.exp = exp;
 		this.items = new ArrayList<>();
 		this.cards = new ArrayList<>();
 	}
@@ -23,12 +27,40 @@ public class Loot {
 		cards.add(card);
 	}
 
+	// ==================================================================================
+	// Getters and Setters.
+	// ==================================================================================
+
 	public List<Item> getItems() {
 		return items;
 	}
 
+	public void setItems(List<Item> items) {
+		this.items = items;
+	}
+
 	public List<Card> getCards() {
 		return cards;
+	}
+
+	public void setCards(List<Card> cards) {
+		this.cards = cards;
+	}
+
+	public int getGold() {
+		return gold;
+	}
+
+	public void setGold(int gold) {
+		this.gold = gold;
+	}
+
+	public int getExp() {
+		return exp;
+	}
+
+	public void setExp(int exp) {
+		this.exp = exp;
 	}
 
 }

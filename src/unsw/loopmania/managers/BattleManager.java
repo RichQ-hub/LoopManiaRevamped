@@ -91,10 +91,11 @@ public class BattleManager {
                 for (Battleable opponent : entitiesToAttack) {
 					// Can only attack opponent if they are alive.
 					if (opponent.isAlive()) {
-						System.out.println("\nAttacking -- {" + opponent.getClass().getSimpleName() + "}: {" + opponent.getBattleAttributes().getMaxHealth() + "}");
+						System.out.println("\nAttacking -- {" + opponent.getClass().getSimpleName() + "}: {" + opponent.getBattleAttributes().getHealth() + "}");
 						e.attack(opponent);
 
 						// Log info.
+						System.out.println("  ************************");
 						opponent.printInfo();
 					}
 
