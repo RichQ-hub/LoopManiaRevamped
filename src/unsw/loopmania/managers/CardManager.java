@@ -15,7 +15,7 @@ public class CardManager {
 		this.cards = new ArrayList<>();
 	}
 
-	public void addCard(Card card) {
+	public Card addCard(Card card) {
 		// Remove the oldest card (first card) if the cards list is full.
 		if (cards.size() >= world.getMapWidth()) {
 			destroyCardByIndex(0);
@@ -24,6 +24,7 @@ public class CardManager {
 		// Ensure that its x value is the last in the list.
 		card.x().setValue(cards.size());
 		cards.add(card);
+		return card;
 	}
 
 	/**

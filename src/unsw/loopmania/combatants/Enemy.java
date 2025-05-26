@@ -81,6 +81,8 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 
 		// Add all offensive effects onto the person.
 		for (Effect e : attack.getEffects()) {
+			// Ensure the effect's target is this class.
+			e.setTarget(this);
 			battleAttributes.addActiveEffect(e);
 		}
 

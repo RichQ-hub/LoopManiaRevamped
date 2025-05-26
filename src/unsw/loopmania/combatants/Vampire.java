@@ -11,6 +11,7 @@ import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.VampireBite;
+import unsw.loopmania.battle.effects.modifiers.StakeEffectModifier;
 import unsw.loopmania.battle.loot.LootItem;
 import unsw.loopmania.battle.loot.LootTable;
 import unsw.loopmania.items.Shield;
@@ -29,6 +30,7 @@ public class Vampire extends Enemy {
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 40, 4, 20, new EnemyState());
 		attr.addAttackEffect(new DamageEffect(null, 7));
+		attr.addDefenseModifier(new StakeEffectModifier(5)); // Weak to stake attacks.
 
 		super.setBattleAttributes(attr);
 
