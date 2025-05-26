@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.javatuples.Pair;
 
+import unsw.loopmania.battle.Attack;
 import unsw.loopmania.items.EquipmentItem;
 import unsw.loopmania.items.Item;
 
@@ -75,6 +76,45 @@ public class EquippedInventory {
 			}
 		}
 		return null;
+	}
+
+
+	// ==================================================================================
+	// Attack Methods.
+	// ==================================================================================
+
+	/**
+	 * Applies all equipment modifiers onto the incoming attack.
+	 * @param attack
+	 */
+	public void modifyIncomingAttack(Attack attack) {
+		for (EquipmentSlot slot : slots) {
+			EquipmentItem equipment = slot.getItem();
+			if (equipment != null) {
+				equipment.modifyIncomingAttack(attack);
+			}
+		}
+	}
+
+	/**
+	 * Applies all equipment modifiers onto the incoming attack.
+	 * @param attack
+	 */
+	public void modifyOutgoingAttack(Attack attack) {
+		for (EquipmentSlot slot : slots) {
+			EquipmentItem equipment = slot.getItem();
+			if (equipment != null) {
+				equipment.modifyOutgoingAttack(attack);
+			}
+		}
+	}
+
+	public List<EquipmentSlot> getSlots() {
+		return slots;
+	}
+
+	public void setSlots(List<EquipmentSlot> slots) {
+		this.slots = slots;
 	}
 	
 }

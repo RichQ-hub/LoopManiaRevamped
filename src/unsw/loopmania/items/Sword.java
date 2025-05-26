@@ -19,14 +19,12 @@ public class Sword extends EquipmentItem {
 
 	@Override
 	public void modifyIncomingAttack(Attack attack) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'modifyIncomingAttack'");
+		return;
 	}
 
 	@Override
 	public void modifyOutgoingAttack(Attack attack) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'modifyOutgoingAttack'");
+		return;
 	}
 
 	@Override

@@ -1,8 +1,11 @@
 package unsw.loopmania.items;
 
+import java.util.Random;
+
 import org.javatuples.Pair;
 
 import unsw.loopmania.battle.Attack;
+import unsw.loopmania.battle.effects.modifiers.VampireBiteModifier;
 import unsw.loopmania.inventory.EquipmentType;
 
 public class Shield extends EquipmentItem {
@@ -12,16 +15,24 @@ public class Shield extends EquipmentItem {
 		super.setEntityImageByPath("src/images/shield.png");
 	}
 
+	/**
+	 * 60% of blocking a vampire critical bite.
+	 */
 	@Override
 	public void modifyIncomingAttack(Attack attack) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'modifyIncomingAttack'");
+		Random rand = new Random();
+
+		if (rand.nextDouble() < 0.6) {
+			System.out.println("  Blocking Vampire Bites");
+			// Sets any incomving vampire bites to have uses = 0, essentially
+			// blocking it.
+			attack.applyModifier(new VampireBiteModifier(0));
+		}
 	}
 
 	@Override
 	public void modifyOutgoingAttack(Attack attack) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'modifyOutgoingAttack'");
+		return;
 	}
 
 	@Override

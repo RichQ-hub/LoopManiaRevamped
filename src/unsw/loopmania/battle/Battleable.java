@@ -7,7 +7,7 @@ import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.combatants.Character;
 
 public interface Battleable {
-	public void attack(Battleable combatant);
+	public Attack attack(Battleable combatant);
 	public void takeAttack(Attack attack);
 	public boolean isEnemy();
 	public boolean isAlive();

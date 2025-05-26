@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import unsw.loopmania.LoopManiaWorld;
+import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.effects.Effect;
 import unsw.loopmania.combatants.Character;
@@ -91,10 +92,11 @@ public class BattleManager {
                 for (Battleable opponent : entitiesToAttack) {
 					// Can only attack opponent if they are alive.
 					if (opponent.isAlive()) {
-						System.out.println("\nAttacking -- {" + opponent.getClass().getSimpleName() + "}: {" + opponent.getBattleAttributes().getMaxHealth() + "}");
+						System.out.println("\nAttacking -- {" + opponent.getClass().getSimpleName() + "}: {" + opponent.getBattleAttributes().getHealth() + "}");
 						e.attack(opponent);
 
 						// Log info.
+						System.out.println("  ************************");
 						opponent.printInfo();
 					}
 

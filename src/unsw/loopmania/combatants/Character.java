@@ -16,6 +16,10 @@ import unsw.loopmania.battle.effects.Effect;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.entity.MovingEntity;
+import unsw.loopmania.inventory.EquipmentSlot;
+import unsw.loopmania.inventory.EquippedInventory;
+import unsw.loopmania.inventory.InventoryManager;
+import unsw.loopmania.items.EquipmentItem;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.observers.LocationObserver;
 import unsw.loopmania.observers.LocationPublisher;
@@ -28,10 +32,11 @@ import unsw.loopmania.observers.LocationPublisher;
  * represents the main character in the backend of the game world
  */
 public class Character extends MovingEntity implements Battleable, LocationPublisher<Character> {
-
-	private BattleAttributes battleAttributes;
     private IntegerProperty gold;
     private IntegerProperty exp;
+
+	private BattleAttributes battleAttributes;
+	private InventoryManager inventory;
 
 	private List<LocationObserver<Character>> locationObservers;
     
@@ -78,7 +83,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	// ==================================================================================
 
 	@Override
-	public void attack(Battleable combatant) {
+	public Attack attack(Battleable combatant) {
 		Attack attack = new Attack();
 		
 		List<Effect> attackEffects = battleAttributes.getAttackEffects();
@@ -88,17 +93,31 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 			attack.addEffect(copy);
 		}
 
+		// Apply outgoing attack modifiers provided by equipped items.
+		EquippedInventory eInv = inventory.getEquippedInventory();
+		eInv.modifyOutgoingAttack(attack);
+
+		// DEBUG: Print attack.
+		attack.printInfo("Initial Attack");
+
 		combatant.takeAttack(attack);
+		return attack;
 	}
 
 	@Override
 	public void takeAttack(Attack attack) {
-		List<EffectModifier> defenseModifiers = battleAttributes.getDefenseModifiers();
+		// Modify incoming attack with equipment defense modifiers.
+		EquippedInventory eInv = inventory.getEquippedInventory();
+		eInv.modifyIncomingAttack(attack);
 
-		// Modify any incoming effects.
+		// Modify any incoming effects by the characters pre-existing defense modifiers.
+		List<EffectModifier> defenseModifiers = battleAttributes.getDefenseModifiers();
 		for (EffectModifier m : defenseModifiers) {
 			attack.applyModifier(m);
 		}
+
+		// DEBUG: Print attack.
+		attack.printInfo("Final Modified Attack");
 
 		// Add all offensive effects onto the person.
 		for (Effect e : attack.getEffects()) {
@@ -112,6 +131,20 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	@Override
 	public void printInfo() {
 		System.out.println(String.format("  Health: %f", getBattleAttributes().getHealth()));
+
+		// Print equipment.
+		System.out.print("  Equipment: [");
+		for (EquipmentSlot slot : inventory.getEquippedInventory().getSlots()) {
+			EquipmentItem item = slot.getItem();
+			if (item == null) {
+				System.out.print("null");
+			} else {
+				System.out.print(item.getClass().getSimpleName());
+			}
+			System.out.print(", ");
+		}
+		System.out.print("]\n");
+
 
 		System.out.println("  Active Effects: {");
 		for (Effect e : getBattleAttributes().getActiveEffects()) {
@@ -198,5 +231,13 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
     public void setExp(int exp) {
         this.exp.set(exp);
     }
+
+	public InventoryManager getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(InventoryManager inventory) {
+		this.inventory = inventory;
+	}
     
 }

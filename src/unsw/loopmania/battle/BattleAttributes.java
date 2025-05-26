@@ -2,6 +2,7 @@ package unsw.loopmania.battle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.stream.Collectors;
 
 import javafx.beans.property.DoubleProperty;
@@ -49,10 +50,26 @@ public class BattleAttributes {
 		}
 	}
 
+	/**
+	 * Activate effects via some trigger. Uses an iterator so that inserting new effects
+	 * into the list is valid whilst iterating over it. (Some effects insert new effects
+	 * into the list when activated).
+	 * @param trigger
+	 */
 	public void triggerEffects(Effect.EffectTrigger trigger) {
-		for (Effect e : activeEffects) {
+		// for (Effect e : activeEffects) {
+		// 	if (e.getTrigger() == trigger) {
+		// 		e.activate();
+		// 	}
+		// }
+
+		// Generate a new list iterator so that it resets to the beginning of the list.
+		ListIterator<Effect> activeEffectsIterator = activeEffects.listIterator();
+
+		while (activeEffectsIterator.hasNext()) {
+			Effect e = activeEffectsIterator.next();
 			if (e.getTrigger() == trigger) {
-				e.activate();
+				e.activate(activeEffectsIterator);
 			}
 		}
 
@@ -75,8 +92,7 @@ public class BattleAttributes {
 	}
 
 	/**
-	 * Adds an effect into the list of active effects. If it already contains that object (by value
-	 * not by reference), then we ignore.
+	 * Adds an effect into the list of active effects.
 	 * @param effect
 	 */
 	public void addActiveEffect(Effect effect) {

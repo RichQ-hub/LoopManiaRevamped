@@ -326,6 +326,8 @@ public class LoopManiaWorld {
     public void setCharacter(Character character) {
         this.character = character;
 		this.battleManager.setCharacter(character);
+		this.character.setInventory(inventoryManager);
+
     }
 
 	public HeroCastleBuilding getHeroCastle() {
