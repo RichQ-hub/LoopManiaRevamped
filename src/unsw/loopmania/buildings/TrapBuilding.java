@@ -2,20 +2,16 @@ package unsw.loopmania.buildings;
 
 import org.javatuples.Pair;
 
-import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.combatants.Enemy;
 import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.observers.LocationObserver;
 
 public class TrapBuilding extends Building implements LocationObserver<Enemy> {
-	
-	private LoopManiaWorld world;
 
-	public TrapBuilding(Pair<Integer, Integer> position, LoopManiaWorld world) {
+	public TrapBuilding(Pair<Integer, Integer> position) {
 		super(position);
 		super.setEntityImageByPath("src/images/trap.png");
-		this.world = world;
 	}
 
 	@Override
