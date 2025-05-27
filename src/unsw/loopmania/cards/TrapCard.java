@@ -25,7 +25,7 @@ public class TrapCard extends Card {
 	public Building createBuilding(LoopManiaWorld world, int buildingX, int buildingY) {
 		Pair<Integer, Integer> buildingPos = new Pair<Integer, Integer>(buildingX, buildingY);
 
-		TrapBuilding trap = new TrapBuilding(buildingPos);
+		TrapBuilding trap = new TrapBuilding(buildingPos, world);
 		return trap;
 	}
 

@@ -13,7 +13,7 @@ import unsw.loopmania.combatants.Enemy;
 public class BattleManager {
 	private LoopManiaWorld world;
 	private Character character;
-	private List<Battleable> enemies;
+	private List<Enemy> enemies;
 
 	public BattleManager(LoopManiaWorld world, Character character) {
 		this.world = world;
@@ -129,7 +129,7 @@ public class BattleManager {
      * Kill an enemy.
      * @param enemy enemy to be killed
      */
-    private void killEnemy(Battleable enemy) {
+    public void killEnemy(Battleable enemy) {
         enemy.destroy();
         enemies.remove(enemy);
     }
@@ -138,6 +138,24 @@ public class BattleManager {
 		for (Battleable e : enemies) {
 			e.move();
 		}
+
+		// If any enemies are killed on move, then we clear them.
+		removeDeadEnemies();
+	}
+
+	public void removeDeadEnemies() {
+		List<Enemy> deadEnemies = new ArrayList<>();
+		for (Enemy e : enemies) {
+			if (!e.isAlive()) {
+				deadEnemies.add(e);
+			}
+		}
+
+		for (Enemy e : deadEnemies) {
+			e.destroy();
+		}
+
+		enemies.removeAll(deadEnemies);
 	}
 
 	/**
@@ -172,11 +190,11 @@ public class BattleManager {
 		this.character = character;
 	}
 
-	public List<Battleable> getEnemies() {
+	public List<Enemy> getEnemies() {
 		return enemies;
 	}
 
-	public void setEnemies(List<Battleable> enemies) {
+	public void setEnemies(List<Enemy> enemies) {
 		this.enemies = enemies;
 	}
 

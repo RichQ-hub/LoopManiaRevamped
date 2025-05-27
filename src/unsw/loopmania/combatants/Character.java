@@ -193,7 +193,8 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 	@Override
 	public void move() {
-		return;
+		moveDownPath();
+		notifyObservers();
 	}
 
 	@Override

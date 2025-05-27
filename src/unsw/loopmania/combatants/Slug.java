@@ -48,6 +48,8 @@ public class Slug extends Enemy {
         } else if (directionChoice == 1){
             moveDownPath();
         }
+
+		notifyObservers();
 	}
 
 	@Override

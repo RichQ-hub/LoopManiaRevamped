@@ -34,6 +34,7 @@ import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.buildings.Building;
 import unsw.loopmania.cards.Card;
+import unsw.loopmania.cards.TrapCard;
 import unsw.loopmania.cards.VampireCastleCard;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
@@ -298,8 +299,12 @@ public class LoopManiaWorldController {
 
 		VampireCastleCard vCard1 = new VampireCastleCard(Pair.with(0, 0));
 		VampireCastleCard vCard2 = new VampireCastleCard(Pair.with(0, 0));
+		TrapCard trap1 = new TrapCard(Pair.with(0, 0));
+		TrapCard trap2 = new TrapCard(Pair.with(0, 0));
 		onLoadCard(cardManager.addCard(vCard1));
 		onLoadCard(cardManager.addCard(vCard2));
+		onLoadCard(cardManager.addCard(trap1));
+		onLoadCard(cardManager.addCard(trap2));
     }
 
 	public Image loadImage(String pathname) {

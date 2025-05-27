@@ -105,9 +105,11 @@ public class LoopManiaWorld {
      * Run moves which occur with every tick without needing to spawn anything immediately
      */
     public void runTickMoves() {
-        character.moveDownPath();
+        character.move();
 
 		battleManager.moveEnemies();
+
+		buildingManager.removeInactiveBuildings();
 		
 		if (isCharacterAtCastle()) {
 			setCycleCount(getCycleCount() + 1);
@@ -151,7 +153,7 @@ public class LoopManiaWorld {
         
         // Now spawn building
         Building newBuilding = card.createBuilding(this, buildingX, buildingY);
-        buildingManager.addBuildingSpawner(newBuilding);
+        buildingManager.addBuildingToManager(newBuilding);
 
         // Destroy the card
 		cardManager.destroyCardByIndex(cardX);

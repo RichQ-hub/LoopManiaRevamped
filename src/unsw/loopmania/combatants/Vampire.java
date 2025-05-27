@@ -48,6 +48,8 @@ public class Vampire extends Enemy {
         } else if (directionChoice == 1){
             moveDownPath();
         }
+
+		notifyObservers();
 	}
 
 	@Override

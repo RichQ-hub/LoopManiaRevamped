@@ -11,6 +11,7 @@ import unsw.loopmania.PathPosition;
 import unsw.loopmania.combatants.Slug;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.managers.BattleManager;
+import unsw.loopmania.managers.BuildingManager;
 
 public class SlugSpawner implements Spawner {
 
@@ -32,6 +33,10 @@ public class SlugSpawner implements Spawner {
 			Slug newSlug = new Slug(newPos);
 			slugs.add(newSlug);
 			battleManager.addEnemy(newSlug);
+
+			// Subscribe all the enemy observers into this slug list.
+			BuildingManager bm = world.getBuildingManager();
+			bm.subscribeNewEnemy(newSlug);
 		}
 
 		return slugs;

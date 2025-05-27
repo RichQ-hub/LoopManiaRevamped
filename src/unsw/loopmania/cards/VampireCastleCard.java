@@ -34,7 +34,7 @@ public class VampireCastleCard extends Card {
 		Pair<Integer, Integer> buildingPos = new Pair<Integer, Integer>(buildingX, buildingY);
 		Pair<Integer, Integer> spawnPos = world.getAdjacentPath(buildingX, buildingY);
 
-		VampireCastleBuilding vampireCastle = new VampireCastleBuilding(buildingPos, spawnPos);
+		VampireCastleBuilding vampireCastle = new VampireCastleBuilding(buildingPos, spawnPos, world);
 		return vampireCastle;
 	}
 
