@@ -33,6 +33,7 @@ import javafx.util.Duration;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.buildings.Building;
+import unsw.loopmania.cards.CampfireCard;
 import unsw.loopmania.cards.Card;
 import unsw.loopmania.cards.TrapCard;
 import unsw.loopmania.cards.VampireCastleCard;
@@ -301,10 +302,12 @@ public class LoopManiaWorldController {
 		VampireCastleCard vCard2 = new VampireCastleCard(Pair.with(0, 0));
 		TrapCard trap1 = new TrapCard(Pair.with(0, 0));
 		TrapCard trap2 = new TrapCard(Pair.with(0, 0));
+		CampfireCard camp = new CampfireCard(Pair.with(0, 0));
 		onLoadCard(cardManager.addCard(vCard1));
 		onLoadCard(cardManager.addCard(vCard2));
 		onLoadCard(cardManager.addCard(trap1));
 		onLoadCard(cardManager.addCard(trap2));
+		onLoadCard(cardManager.addCard(camp));
     }
 
 	public Image loadImage(String pathname) {

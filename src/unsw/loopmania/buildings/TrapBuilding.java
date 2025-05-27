@@ -31,7 +31,7 @@ public class TrapBuilding extends Building implements LocationObserver<Enemy> {
 	 */
 	@Override
 	public void update(Enemy entity) {
-		 if (entity.getX() == getX() && entity.getY() == getY()) {
+		if (entity.getX() == getX() && entity.getY() == getY()) {
             BattleAttributes attr = entity.getBattleAttributes();
 
 			attr.setHealth(attr.getHealth() - 20);
