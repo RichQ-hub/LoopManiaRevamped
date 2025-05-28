@@ -8,8 +8,7 @@ import unsw.loopmania.buildings.CampfireBuilding;
 
 public class CampfireCard extends Card {
 
-	public CampfireCard(Pair<Integer, Integer> position) {
-		super(position);
+	public CampfireCard() {
 		super.setEntityImageByPath("src/images/campfire_card.png");
 	}
 
@@ -31,7 +30,7 @@ public class CampfireCard extends Card {
 
 	@Override
 	public Card copyCard() {
-		return new CampfireCard(Pair.with(0, 0));
+		return new CampfireCard();
 	}
 	
 }

@@ -2,8 +2,6 @@ package unsw.loopmania.combatants;
 
 import java.util.Random;
 
-import org.javatuples.Pair;
-
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
@@ -36,7 +34,7 @@ public class Slug extends Enemy {
 		LootTable lootTable = new LootTable(goldReward, expReward);
 		lootTable.addLootItem(new LootItem(new Sword(), 50));
 		lootTable.addLootItem(new LootItem(new Shield(), 50));
-		lootTable.addLootCard(new LootCard(new VampireCastleCard(Pair.with(0, 0)), 100));
+		lootTable.addLootCard(new LootCard(new VampireCastleCard(), 100));
 		super.setLootTable(lootTable);
 	}
 

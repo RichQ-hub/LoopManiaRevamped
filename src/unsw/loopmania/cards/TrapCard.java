@@ -8,8 +8,7 @@ import unsw.loopmania.buildings.TrapBuilding;
 
 public class TrapCard extends Card {
 
-	public TrapCard(Pair<Integer, Integer> position) {
-		super(position);
+	public TrapCard() {
 		super.setEntityImageByPath("src/images/trap_card.png");
 	}
 
@@ -31,7 +30,7 @@ public class TrapCard extends Card {
 
 	@Override
 	public Card copyCard() {
-		return new TrapCard(Pair.with(0, 0));
+		return new TrapCard();
 	}
 	
 }

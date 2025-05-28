@@ -304,11 +304,11 @@ public class LoopManiaWorldController {
 		onLoadItem(inventoryManager.addItemToInventory(armour));
 		onLoadItem(inventoryManager.addItemToInventory(helm));
 
-		VampireCastleCard vCard1 = new VampireCastleCard(Pair.with(0, 0));
-		VampireCastleCard vCard2 = new VampireCastleCard(Pair.with(0, 0));
-		TrapCard trap1 = new TrapCard(Pair.with(0, 0));
-		TrapCard trap2 = new TrapCard(Pair.with(0, 0));
-		CampfireCard camp = new CampfireCard(Pair.with(0, 0));
+		VampireCastleCard vCard1 = new VampireCastleCard();
+		VampireCastleCard vCard2 = new VampireCastleCard();
+		TrapCard trap1 = new TrapCard();
+		TrapCard trap2 = new TrapCard();
+		CampfireCard camp = new CampfireCard();
 		onLoadCard(cardManager.addCard(vCard1));
 		onLoadCard(cardManager.addCard(vCard2));
 		onLoadCard(cardManager.addCard(trap1));
