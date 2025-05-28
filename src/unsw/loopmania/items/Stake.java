@@ -1,15 +1,13 @@
 package unsw.loopmania.items;
 
-import org.javatuples.Pair;
-
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.effects.StakeEffect;
 import unsw.loopmania.inventory.EquipmentType;
 
 public class Stake extends EquipmentItem {
 
-	public Stake(Pair<Integer, Integer> position) {
-		super(position, 20, EquipmentType.Weapon);
+	public Stake() {
+		super(20, EquipmentType.Weapon);
 		super.setEntityImageByPath("src/images/stake.png");
 	}
 
@@ -25,7 +23,7 @@ public class Stake extends EquipmentItem {
 
 	@Override
 	public Item copyItem() {
-		return new Stake(Pair.with(0, 0));
+		return new Stake();
 	}
 
 }

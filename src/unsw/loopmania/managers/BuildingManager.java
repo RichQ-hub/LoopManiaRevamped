@@ -2,6 +2,7 @@ package unsw.loopmania.managers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.javatuples.Pair;
 
@@ -56,6 +57,25 @@ public class BuildingManager {
 		return entitiesToLoad;
 	}
 
+	public void subscribeNewEnemy(Enemy enemy) {
+		for (LocationObserver<Enemy> o : enemyObserverBuildings) {
+			enemy.subscribe(o);
+		}
+	}
+
+	public void runTickChecks() {
+		// Cleanse unwanted buildings.
+		removeInactiveBuildings();
+	}
+
+	public void removeInactiveBuildings() {
+		List<Building> inactiveBuildings = buildings.stream().filter(b -> !b.isActive()).collect(Collectors.toList());
+		for (Building b : inactiveBuildings) {
+			removeBuildingFromManager(b);
+			b.destroy();
+		}
+	}
+
 	// ==================================================================================
 	// Append methods.
 	// ==================================================================================
@@ -63,7 +83,7 @@ public class BuildingManager {
 	/**
 	 * Double dispatch method
 	 */
-	public void addBuildingSpawner(Building building) {
+	public void addBuildingToManager(Building building) {
 		building.addToBuildingManager(this);
 	}
 
@@ -79,16 +99,16 @@ public class BuildingManager {
 		battleBuildings.add(building);
 	}
 
-	// public void addEnemyObserverBuilding(LocationObserver<Enemy> observer) {
-	// 	enemyObserverBuildings.add(observer);
+	public void addEnemyObserverBuilding(LocationObserver<Enemy> observer) {
+		enemyObserverBuildings.add(observer);
 
-	// 	// Add it to the enemy observer lists.
-	// 	BattleManager manager = world.getBattleManager();
-	// 	List<Enemy> enemies = manager.getEnemies();
-	// 	for (Battleable e : enemies) {
-	// 		e.subscribe(observer);
-	// 	}
-	// }
+		// Add it to the enemy observer lists.
+		BattleManager manager = world.getBattleManager();
+		List<Enemy> enemies = manager.getEnemies();
+		for (Enemy e : enemies) {
+			e.subscribe(observer);
+		}
+	}
 
 	public void addCharacterObserverBuilding(LocationObserver<Character> observer) {
 		characterObserverBuildings.add(observer);
@@ -96,6 +116,48 @@ public class BuildingManager {
 		Character character = world.getCharacter();
 		character.subscribe(observer);
 	}
+
+	// ==================================================================================
+	// Remove methods.
+	// ==================================================================================
+
+	/**
+	 * Double dispatch method
+	 */
+	public void removeBuildingFromManager(Building building) {
+		building.removeFromBuildingManager(this);
+	}
+
+	public void removeBuilding(Building building) {
+		buildings.remove(building);
+	}
+
+	public void removeSpawner(Spawner spawner) {
+		spawnerBuildings.remove(spawner);
+	}
+
+	public void removeBattleBuilding(Battleable building) {
+		battleBuildings.remove(building);
+	}
+
+	public void removeEnemyObserverBuilding(LocationObserver<Enemy> observer) {
+		enemyObserverBuildings.remove(observer);
+
+		// Add it to the enemy observer lists.
+		BattleManager manager = world.getBattleManager();
+		List<Enemy> enemies = manager.getEnemies();
+		for (Enemy e : enemies) {
+			e.unsubscribe(observer);
+		}
+	}
+
+	public void removeCharacterObserverBuilding(LocationObserver<Character> observer) {
+		characterObserverBuildings.add(observer);
+
+		Character character = world.getCharacter();
+		character.unsubscribe(observer);
+	}
+
 
 	// ==================================================================================
 	// Getters and Setters.

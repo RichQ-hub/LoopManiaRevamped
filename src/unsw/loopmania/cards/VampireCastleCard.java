@@ -11,8 +11,7 @@ import unsw.loopmania.buildings.VampireCastleBuilding;
  */
 public class VampireCastleCard extends Card {
 
-    public VampireCastleCard(Pair<Integer, Integer> position) {
-        super(position);
+    public VampireCastleCard() {
 		super.setEntityImageByPath("src/images/vampire_castle_card.png");
     }
 
@@ -34,12 +33,12 @@ public class VampireCastleCard extends Card {
 		Pair<Integer, Integer> buildingPos = new Pair<Integer, Integer>(buildingX, buildingY);
 		Pair<Integer, Integer> spawnPos = world.getAdjacentPath(buildingX, buildingY);
 
-		VampireCastleBuilding vampireCastle = new VampireCastleBuilding(buildingPos, spawnPos);
+		VampireCastleBuilding vampireCastle = new VampireCastleBuilding(buildingPos, spawnPos, world);
 		return vampireCastle;
 	}
 
 	@Override
 	public Card copyCard() {
-		return new VampireCastleCard(Pair.with(0, 0));
+		return new VampireCastleCard();
 	}
 }

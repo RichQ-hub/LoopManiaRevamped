@@ -2,16 +2,14 @@ package unsw.loopmania.items;
 
 import java.util.Random;
 
-import org.javatuples.Pair;
-
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.effects.modifiers.VampireBiteModifier;
 import unsw.loopmania.inventory.EquipmentType;
 
 public class Shield extends EquipmentItem {
 
-	public Shield(Pair<Integer, Integer> position) {
-		super(position, 20, EquipmentType.Shield);
+	public Shield() {
+		super(20, EquipmentType.Shield);
 		super.setEntityImageByPath("src/images/shield.png");
 	}
 
@@ -37,6 +35,6 @@ public class Shield extends EquipmentItem {
 
 	@Override
 	public Item copyItem() {
-		return new Shield(Pair.with(0, 0));
+		return new Shield();
 	}
 }

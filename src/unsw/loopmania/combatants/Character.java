@@ -93,12 +93,18 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 			attack.addEffect(copy);
 		}
 
+		// DEBUG: Print attack.
+		attack.printInfo("Initial Attack Effects");
+
 		// Apply outgoing attack modifiers provided by equipped items.
 		EquippedInventory eInv = inventory.getEquippedInventory();
 		eInv.modifyOutgoingAttack(attack);
 
+		// Apply attack modifiers (buffs) the character might have.
+		battleAttributes.modifyOutgoingAttack(attack); 
+
 		// DEBUG: Print attack.
-		attack.printInfo("Initial Attack");
+		attack.printInfo("Sent Attack");
 
 		combatant.takeAttack(attack);
 		return attack;
@@ -111,10 +117,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		eInv.modifyIncomingAttack(attack);
 
 		// Modify any incoming effects by the characters pre-existing defense modifiers.
-		List<EffectModifier> defenseModifiers = battleAttributes.getDefenseModifiers();
-		for (EffectModifier m : defenseModifiers) {
-			attack.applyModifier(m);
-		}
+		battleAttributes.modifyIncomingAttack(attack);
 
 		// DEBUG: Print attack.
 		attack.printInfo("Final Modified Attack");
@@ -146,10 +149,24 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		}
 		System.out.print("]\n");
 
-
+		// Print Active Effects.
 		System.out.println("  Active Effects: {");
 		for (Effect e : getBattleAttributes().getActiveEffects()) {
 			e.printInfo();
+		}
+		System.out.println("  }");
+
+		// Print Defense Modifiers.
+		System.out.println("  Defense Modifiers: {");
+		for (EffectModifier m : getBattleAttributes().getDefenseModifiers()) {
+			System.out.println(m.getClass().getSimpleName());
+		}
+		System.out.println("  }");
+
+		// Print Attack Modifiers.
+		System.out.println("  Attack Modifiers: {");
+		for (EffectModifier m : getBattleAttributes().getAttackModifiers()) {
+			System.out.println(m.getClass().getSimpleName());
 		}
 		System.out.println("  }");
 	}
@@ -193,7 +210,8 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 	@Override
 	public void move() {
-		return;
+		moveDownPath();
+		notifyObservers();
 	}
 
 	@Override

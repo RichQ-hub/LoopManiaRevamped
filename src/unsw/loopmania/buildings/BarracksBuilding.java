@@ -25,5 +25,11 @@ public class BarracksBuilding extends Building implements LocationObserver<Chara
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'addToBuildingManager'");
 	}
+
+	@Override
+	public void removeFromBuildingManager(BuildingManager manager) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'removeFromBuildingManager'");
+	}
 	
 }

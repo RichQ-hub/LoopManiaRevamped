@@ -11,9 +11,8 @@ import unsw.loopmania.entity.StaticEntity;
  * which doesn't move
  */
 public abstract class Card extends StaticEntity {
-    // TODO = implement other varieties of card than VampireCastleCard
-    public Card(Pair<Integer, Integer> position) {
-        super(position);
+    public Card() {
+        super(Pair.with(0, 0));
     }
 
 	public abstract boolean isValidDropLocation(LoopManiaWorld world, int buildingX, int buildingY);

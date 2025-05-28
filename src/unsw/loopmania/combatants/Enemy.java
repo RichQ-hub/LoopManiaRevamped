@@ -9,7 +9,6 @@ import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.BattleState;
 import unsw.loopmania.battle.effects.Effect;
-import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.battle.loot.LootTable;
 import unsw.loopmania.entity.MovingEntity;
@@ -58,10 +57,16 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 			attack.addEffect(copy);
 		}
 
+		// DEBUG: Print attack.
+		attack.printInfo("Initial Attack Effects");
+
 		specialAttack(combatant, attack);
 
+		// Apply attack modifiers (buffs) this enemy might have.
+		battleAttributes.modifyOutgoingAttack(attack);
+
 		// DEBUG: Print attack.
-		attack.printInfo("Initial Attack");
+		attack.printInfo("Sent Attack");
 
 		combatant.takeAttack(attack);
 		return attack;
@@ -69,12 +74,8 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 
 	@Override
 	public void takeAttack(Attack attack) {
-		List<EffectModifier> defenseModifiers = battleAttributes.getDefenseModifiers();
-
 		// Modify any incoming effects.
-		for (EffectModifier m : defenseModifiers) {
-			attack.applyModifier(m);
-		}
+		battleAttributes.modifyIncomingAttack(attack);
 
 		// DEBUG: Print attack.
 		attack.printInfo("Final Modified Attack");

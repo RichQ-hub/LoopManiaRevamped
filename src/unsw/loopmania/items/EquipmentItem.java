@@ -11,12 +11,8 @@ public abstract class EquipmentItem extends Item {
 	private EquipmentType equipmentType;
 	private Pair<Integer, Integer> slotCoords;
 
-	public EquipmentItem(
-		Pair<Integer, Integer> position,
-		int value,
-		EquipmentType equipmentType
-	) {
-		super(position, value);
+	public EquipmentItem(int value, EquipmentType equipmentType) {
+		super(value);
 		this.equipmentType = equipmentType;
 		this.slotCoords = EquippedInventory.SLOT_COORDS.get(equipmentType);
 	}

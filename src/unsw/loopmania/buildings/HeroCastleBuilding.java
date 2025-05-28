@@ -15,5 +15,10 @@ public class HeroCastleBuilding extends Building {
 	public void addToBuildingManager(BuildingManager manager) {
 		manager.addBuilding(this);
 	}
+
+	@Override
+	public void removeFromBuildingManager(BuildingManager manager) {
+		manager.removeBuilding(this);
+	}
 	
 }

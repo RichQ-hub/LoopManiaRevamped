@@ -33,11 +33,15 @@ import javafx.util.Duration;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.buildings.Building;
+import unsw.loopmania.cards.CampfireCard;
 import unsw.loopmania.cards.Card;
+import unsw.loopmania.cards.TrapCard;
 import unsw.loopmania.cards.VampireCastleCard;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
+import unsw.loopmania.items.Armour;
 import unsw.loopmania.items.EquipmentItem;
+import unsw.loopmania.items.Helmet;
 import unsw.loopmania.items.Item;
 import unsw.loopmania.items.Shield;
 import unsw.loopmania.items.Stake;
@@ -289,17 +293,27 @@ public class LoopManiaWorldController {
         anchorPaneRoot.getChildren().add(draggedEntity);
 
 		// TESTING: Initially give the character all items.
-		Sword sword = new Sword(Pair.with(0, 0));
-		Shield shield = new Shield(Pair.with(0, 0));
-		Stake stake = new Stake(Pair.with(0, 0));
+		Sword sword = new Sword();
+		Shield shield = new Shield();
+		Stake stake = new Stake();
+		Armour armour = new Armour();
+		Helmet helm = new Helmet();
 		onLoadItem(inventoryManager.addItemToInventory(sword));
 		onLoadItem(inventoryManager.addItemToInventory(shield));
 		onLoadItem(inventoryManager.addItemToInventory(stake));
+		onLoadItem(inventoryManager.addItemToInventory(armour));
+		onLoadItem(inventoryManager.addItemToInventory(helm));
 
-		VampireCastleCard vCard1 = new VampireCastleCard(Pair.with(0, 0));
-		VampireCastleCard vCard2 = new VampireCastleCard(Pair.with(0, 0));
+		VampireCastleCard vCard1 = new VampireCastleCard();
+		VampireCastleCard vCard2 = new VampireCastleCard();
+		TrapCard trap1 = new TrapCard();
+		TrapCard trap2 = new TrapCard();
+		CampfireCard camp = new CampfireCard();
 		onLoadCard(cardManager.addCard(vCard1));
 		onLoadCard(cardManager.addCard(vCard2));
+		onLoadCard(cardManager.addCard(trap1));
+		onLoadCard(cardManager.addCard(trap2));
+		onLoadCard(cardManager.addCard(camp));
     }
 
 	public Image loadImage(String pathname) {

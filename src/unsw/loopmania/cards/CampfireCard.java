@@ -4,18 +4,18 @@ import org.javatuples.Pair;
 
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.buildings.Building;
-import unsw.loopmania.buildings.TrapBuilding;
+import unsw.loopmania.buildings.CampfireBuilding;
 
-public class TrapCard extends Card {
+public class CampfireCard extends Card {
 
-	public TrapCard() {
-		super.setEntityImageByPath("src/images/trap_card.png");
+	public CampfireCard() {
+		super.setEntityImageByPath("src/images/campfire_card.png");
 	}
 
 	@Override
 	public boolean isValidDropLocation(LoopManiaWorld world, int buildingX, int buildingY) {
 		return (
-			world.isOnPath(buildingX, buildingY) &&
+			!world.isOnPath(buildingX, buildingY) &&
 			!world.hasExistingBuilding(buildingX, buildingY)
 		);
 	}
@@ -24,13 +24,13 @@ public class TrapCard extends Card {
 	public Building createBuilding(LoopManiaWorld world, int buildingX, int buildingY) {
 		Pair<Integer, Integer> buildingPos = new Pair<Integer, Integer>(buildingX, buildingY);
 
-		TrapBuilding trap = new TrapBuilding(buildingPos);
-		return trap;
+		CampfireBuilding camp = new CampfireBuilding(buildingPos);
+		return camp;
 	}
 
 	@Override
 	public Card copyCard() {
-		return new TrapCard();
+		return new CampfireCard();
 	}
 	
 }

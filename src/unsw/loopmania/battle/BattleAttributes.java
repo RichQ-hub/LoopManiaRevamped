@@ -27,8 +27,7 @@ public class BattleAttributes {
 	// Battle Effects.
 	private List<Effect> attackEffects;
 	private List<EffectModifier> defenseModifiers;
-	// private List<EffectModifier> attackModifiers;
-
+	private List<EffectModifier> attackModifiers;
 
 	public BattleAttributes(Entity combatant, double maxHealth, double battleRadius, double supportRadius, BattleState battleState) {
 		this.combatant = combatant;
@@ -40,6 +39,7 @@ public class BattleAttributes {
 		this.activeEffects = new ArrayList<>();
 		this.attackEffects = new ArrayList<>();
 		this.defenseModifiers = new ArrayList<>();
+		this.attackModifiers = new ArrayList<>();
 	}
 
 	public void applyModifiers(List<EffectModifier> modifiers) {
@@ -57,12 +57,6 @@ public class BattleAttributes {
 	 * @param trigger
 	 */
 	public void triggerEffects(Effect.EffectTrigger trigger) {
-		// for (Effect e : activeEffects) {
-		// 	if (e.getTrigger() == trigger) {
-		// 		e.activate();
-		// 	}
-		// }
-
 		// Generate a new list iterator so that it resets to the beginning of the list.
 		ListIterator<Effect> activeEffectsIterator = activeEffects.listIterator();
 
@@ -73,13 +67,13 @@ public class BattleAttributes {
 			}
 		}
 
-		cleanseEffects();
+		cleanseActiveEffects();
 	}
 
 	/**
 	 * Remove any inactive effects.
 	 */
-	public void cleanseEffects() {
+	public void cleanseActiveEffects() {
 		this.activeEffects = activeEffects.stream().filter(effect -> effect.getUses() > 0).collect(Collectors.toList());
 	}
 
@@ -90,6 +84,58 @@ public class BattleAttributes {
 	public boolean isWithinSupportRadius(Character character) {
 		return Math.pow((combatant.getX() - character.getX()), 2) + Math.pow((combatant.getY() - character.getY()), 2) <= supportRadius;
 	}
+
+	// ==================================================================================
+	// Attack Object Methods.
+	// ==================================================================================
+
+	/**
+	 * Applies all equipment modifiers onto the incoming attack.
+	 * @param attack
+	 */
+	public void modifyOutgoingAttack(Attack attack) {
+		for (EffectModifier m : attackModifiers) {
+			attack.applyModifier(m);
+		}
+	}
+
+	/**
+	 * Applies all equipment modifiers onto the incoming attack.
+	 * @param attack
+	 */
+	public void modifyIncomingAttack(Attack attack) {
+		for (EffectModifier m : defenseModifiers) {
+			attack.applyModifier(m);
+		}
+	}
+
+	// ==================================================================================
+	// Append Methods.
+	// ==================================================================================
+
+	/**
+	 * Adds an effect into the list of active effects.
+	 * @param effect
+	 */
+	public void removeActiveEffect(Effect effect) {
+		activeEffects.remove(effect);
+	}
+
+	public void removeAttackEffect(Effect effect) {
+		attackEffects.remove(effect);
+	}
+
+	public void removeDefenseModifier(EffectModifier modifier) {
+		defenseModifiers.remove(modifier);
+	}
+
+	public void removeAttackModifier(EffectModifier modifier) {
+		attackModifiers.remove(modifier);
+	}
+
+	// ==================================================================================
+	// Remove Methods.
+	// ==================================================================================
 
 	/**
 	 * Adds an effect into the list of active effects.
@@ -103,11 +149,24 @@ public class BattleAttributes {
 	}
 
 	public void addAttackEffect(Effect effect) {
-		attackEffects.add(effect);
+		boolean hasEffect = attackEffects.stream().anyMatch(e -> e.getClass().equals(effect.getClass()));
+		if (!hasEffect) {
+			attackEffects.add(effect);
+		}
 	}
 
 	public void addDefenseModifier(EffectModifier modifier) {
-		defenseModifiers.add(modifier);
+		boolean hasEffect = defenseModifiers.stream().anyMatch(m -> m.getClass().equals(m.getClass()));
+		if (!hasEffect) {
+			defenseModifiers.add(modifier);
+		}
+	}
+
+	public void addAttackModifier(EffectModifier modifier) {
+		boolean hasEffect = attackModifiers.stream().anyMatch(m -> m.getClass().equals(m.getClass()));
+		if (!hasEffect) {
+			attackModifiers.add(modifier);
+		}
 	}
 
 	// ==================================================================================
@@ -194,4 +253,11 @@ public class BattleAttributes {
 		this.combatant = combatant;
 	}
 
+	public List<EffectModifier> getAttackModifiers() {
+		return attackModifiers;
+	}
+
+	public void setAttackModifiers(List<EffectModifier> attackModifiers) {
+		this.attackModifiers = attackModifiers;
+	}
 }

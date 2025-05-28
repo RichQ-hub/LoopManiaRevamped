@@ -1,8 +1,7 @@
 package unsw.loopmania.items;
 
-import org.javatuples.Pair;
-
 import unsw.loopmania.battle.Attack;
+import unsw.loopmania.battle.effects.modifiers.AddDamage;
 import unsw.loopmania.inventory.EquipmentType;
 
 /**
@@ -12,8 +11,8 @@ public class Sword extends EquipmentItem {
 
 	private static int value = 10;
     
-    public Sword(Pair<Integer, Integer> position) {
-        super(position, value, EquipmentType.Weapon);
+    public Sword() {
+        super(value, EquipmentType.Weapon);
 		super.setEntityImageByPath("src/images/basic_sword.png");
     }
 
@@ -22,13 +21,16 @@ public class Sword extends EquipmentItem {
 		return;
 	}
 
+	/**
+	 * Deal an additional 3 damage to every attack.
+	 */
 	@Override
 	public void modifyOutgoingAttack(Attack attack) {
-		return;
+		attack.applyModifier(new AddDamage(3));
 	}
 
 	@Override
 	public Item copyItem() {
-		return new Sword(Pair.with(0, 0));
+		return new Sword();
 	}
 }
