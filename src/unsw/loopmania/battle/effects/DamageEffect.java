@@ -39,6 +39,17 @@ public class DamageEffect extends Effect {
 		return new DamageEffect(null, dmg);
 	}
 
+	public void reduceDamage(double dmg) {
+		this.dmg = this.dmg - dmg;
+		if (this.dmg < 0) {
+			this.dmg = 0;
+		}
+	}
+
+	public void addDamage(double dmg) {
+		this.dmg = this.dmg + dmg;
+	}
+
 	// ==================================================================================
 	// Getters and Setters.
 	// ==================================================================================

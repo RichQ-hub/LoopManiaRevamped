@@ -39,7 +39,9 @@ import unsw.loopmania.cards.TrapCard;
 import unsw.loopmania.cards.VampireCastleCard;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
+import unsw.loopmania.items.Armour;
 import unsw.loopmania.items.EquipmentItem;
+import unsw.loopmania.items.Helmet;
 import unsw.loopmania.items.Item;
 import unsw.loopmania.items.Shield;
 import unsw.loopmania.items.Stake;
@@ -294,9 +296,13 @@ public class LoopManiaWorldController {
 		Sword sword = new Sword();
 		Shield shield = new Shield();
 		Stake stake = new Stake();
+		Armour armour = new Armour();
+		Helmet helm = new Helmet();
 		onLoadItem(inventoryManager.addItemToInventory(sword));
 		onLoadItem(inventoryManager.addItemToInventory(shield));
 		onLoadItem(inventoryManager.addItemToInventory(stake));
+		onLoadItem(inventoryManager.addItemToInventory(armour));
+		onLoadItem(inventoryManager.addItemToInventory(helm));
 
 		VampireCastleCard vCard1 = new VampireCastleCard(Pair.with(0, 0));
 		VampireCastleCard vCard2 = new VampireCastleCard(Pair.with(0, 0));

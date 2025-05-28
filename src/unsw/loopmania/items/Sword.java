@@ -1,7 +1,7 @@
 package unsw.loopmania.items;
 
 import unsw.loopmania.battle.Attack;
-import unsw.loopmania.battle.effects.modifiers.SwordModifier;
+import unsw.loopmania.battle.effects.modifiers.AddDamage;
 import unsw.loopmania.inventory.EquipmentType;
 
 /**
@@ -21,9 +21,12 @@ public class Sword extends EquipmentItem {
 		return;
 	}
 
+	/**
+	 * Deal an additional 3 damage to every attack.
+	 */
 	@Override
 	public void modifyOutgoingAttack(Attack attack) {
-		attack.applyModifier(new SwordModifier());
+		attack.applyModifier(new AddDamage(3));
 	}
 
 	@Override
