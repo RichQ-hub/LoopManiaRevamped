@@ -1,5 +1,6 @@
 package unsw.loopmania;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -7,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import unsw.loopmania.maps.GameMap;
 
 /**
  * the main application
@@ -29,13 +31,6 @@ public class LoopManiaApplication extends Application {
         // alternatively, you could allow rescaling of the game (you'd have to program resizing of the JavaFX nodes)
         primaryStage.setResizable(false);
 
-        // load the main game
-        LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader("world_with_twists_and_turns.json");
-        mainController = loopManiaLoader.loadController();
-        FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
-        gameLoader.setController(mainController);
-        Parent gameRoot = gameLoader.load();
-
         // load the main menu
         MainMenuController mainMenuController = new MainMenuController();
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("MainMenuView.fxml"));
@@ -50,14 +45,56 @@ public class LoopManiaApplication extends Application {
         
         // set functions which are activated when button click to switch menu is pressed
         // e.g. from main menu to start the game, or from the game to return to main menu
-        mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
+
+		// Switches from the menu to the game.
         mainMenuController.setGameSwitcher(() -> {
+
+			GameMap selectedMap = mainMenuController.getSelectedMap();
+			if (selectedMap == null) {
+				return;
+			}
+
+			// Load the map and its controller inside loopManiaLoader.
+			LoopManiaWorldControllerLoader loopManiaLoader = null;
+			try {
+				loopManiaLoader = new LoopManiaWorldControllerLoader(selectedMap);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+
+			// Try and obtain the controller for the map.
+			try {
+				assert loopManiaLoader != null;
+				this.mainController = loopManiaLoader.loadController();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			// Obtain the LoopManiaView.
+			FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
+
+			// Attach the LoopManiaController with the LoopManiaView so they are connected.
+			gameLoader.setController(mainController);
+
+			// Try and load the object hierarchy from the fxml view.
+			Parent gameRoot = null;
+			try {
+				gameRoot = gameLoader.load();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+			// Set switch menu handler from the game to the menu.
+        	mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
+
+			// Deploy the main onto the stage.
+        	gameRoot.requestFocus();
+
+			// Switch the scene from the main menu to the game.
             switchToRoot(scene, gameRoot, primaryStage);
             mainController.startTimer();
         });
-        
-        // deploy the main onto the stage
-        gameRoot.requestFocus();
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -65,7 +102,9 @@ public class LoopManiaApplication extends Application {
     @Override
     public void stop() {
         // wrap up activities when exit program
-        mainController.terminate();
+		if (mainController != null) {
+			mainController.terminate();
+		}
     }
 
     /**

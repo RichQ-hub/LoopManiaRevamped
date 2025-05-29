@@ -226,6 +226,10 @@ public class LoopManiaWorldController {
         this.gridPaneNodeSetOnDragExited = new EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>>(DRAGGABLE_TYPE.class);
     }
 
+	/**
+	 * Initialise function runs all the setup code AFTER the fxml view has loaded and this controller
+	 * is attached to it.
+	 */
     @FXML
     public void initialize() {
         // TODO = load more images/entities during initialization
