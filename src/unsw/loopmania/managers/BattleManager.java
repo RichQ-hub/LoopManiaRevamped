@@ -61,8 +61,8 @@ public class BattleManager {
 		battleEntities.add(character);
 		battleEntities.addAll(battleEnemies);
 
-		// While character is not defeated and there is enemy state entity in the battle
-        while (character.isAlive() && !battleEnemies.isEmpty()) {
+		// While character is not defeated and there are no more enemies in battle.
+        while (character.isAlive() && battleEntities.stream().anyMatch(Battleable::isEnemy)) {
             for (Battleable e : battleEntities) {
 				// If the current combatant is not alive (which can happen in a battle), then it can't attack
 				// so we move on to the next combatant.
@@ -70,14 +70,24 @@ public class BattleManager {
 					continue;
 				}
 
+				// For each entity, attack all opponents.
+                List<Battleable> entitiesToAttack = e.getEntitiesToAttack(battleEntities);
+				if (entitiesToAttack.isEmpty()) {
+					// If there are no entities to attack, that means other allies have killed the
+					// opponent on this for loop.
+					continue;
+				}
+
 				System.out.println("============================================");
 				System.out.println(e.getClass().getSimpleName().toUpperCase() + "\n");
 
-                // For each entity, attack all opponents.
-                List<Battleable> entitiesToAttack = e.getEntitiesToAttack(battleEntities);
-
 				System.out.println("Attack Effects:");
 				for (Effect ae : e.getBattleAttributes().getAttackEffects()) {
+					ae.printInfo();
+				}
+
+				System.out.println("\nActive Effects:");
+				for (Effect ae : e.getBattleAttributes().getActiveEffects()) {
 					ae.printInfo();
 				}
 
@@ -88,6 +98,7 @@ public class BattleManager {
 
 				System.out.println("\n--------------------------------------------");
 
+				// Attack all opponents.
                 for (Battleable opponent : entitiesToAttack) {
 					// Can only attack opponent if they are alive.
 					if (opponent.isAlive()) {
@@ -95,32 +106,26 @@ public class BattleManager {
 						e.attack(opponent);
 
 						// Log info.
-						System.out.println("  ************************");
+						System.out.println();
 						opponent.printInfo();
 					}
-
-					// If opponent dies, add to the list of defeated enemies.
-					if (!opponent.isAlive()) {
-						if (battleEnemies.remove(opponent)) {
-							// If we were able to remove the opponent, that means it was an enemy
-							// so we add it to the list of dead enemies.
-							deadEnemies.add(opponent);
-							killEnemy(opponent);
-						}
-					}
+					System.out.println("\n  ************************");
 				}
-
-				System.out.println();
             }
 
-            // After every entity has their turn, note down the defeated entities
+            // Remove all dead entities from the battle.
             List<Battleable> deadEntities = battleEntities.stream()
                 .filter(e -> !e.isAlive())
                 .collect(Collectors.toList());
-
-            // Remove them from the entities that can be in the battle
             battleEntities.removeAll(deadEntities);
         }
+
+		// If there are still enemies in the battleEnemies list (which can happen if there are tranced enemies),
+		// then we add them to the list of dead enemies too.
+		for (Battleable e : battleEnemies) {
+			killEnemy(e);
+			deadEnemies.add(e);
+		}
 
 		return deadEnemies;
     }

@@ -44,6 +44,7 @@ import unsw.loopmania.items.EquipmentItem;
 import unsw.loopmania.items.Helmet;
 import unsw.loopmania.items.Item;
 import unsw.loopmania.items.Shield;
+import unsw.loopmania.items.Staff;
 import unsw.loopmania.items.Stake;
 import unsw.loopmania.items.Sword;
 import unsw.loopmania.managers.BattleManager;
@@ -233,8 +234,6 @@ public class LoopManiaWorldController {
 	 */
     @FXML
     public void initialize() {
-        // TODO = load more images/entities during initialization
-
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
 		Image pathTilesImg = loadImage("src/images/32x32GrassAndDirtPath.png");
 		Image inventorySlotImg = loadImage("src/images/empty_slot.png");
@@ -303,11 +302,13 @@ public class LoopManiaWorldController {
 		Stake stake = new Stake();
 		Armour armour = new Armour();
 		Helmet helm = new Helmet();
+		Staff staff = new Staff();
 		onLoadItem(inventoryManager.addItemToInventory(sword));
 		onLoadItem(inventoryManager.addItemToInventory(shield));
 		onLoadItem(inventoryManager.addItemToInventory(stake));
 		onLoadItem(inventoryManager.addItemToInventory(armour));
 		onLoadItem(inventoryManager.addItemToInventory(helm));
+		onLoadItem(inventoryManager.addItemToInventory(staff));
 
 		VampireCastleCard vCard1 = new VampireCastleCard();
 		VampireCastleCard vCard2 = new VampireCastleCard();
@@ -358,6 +359,12 @@ public class LoopManiaWorldController {
 				for (Battleable e: defeatedEnemies) {
 					reactToEnemyDefeat(e);
 				}
+			}
+
+			// Check if the character is dead.
+			if (!world.getCharacter().isAlive()) {
+				pause();
+				System.out.println("The Character DIED! GAME OVER!");
 			}
 
             printThreadingNotes("HANDLED TIMER");

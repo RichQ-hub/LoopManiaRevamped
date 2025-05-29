@@ -115,7 +115,7 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 
 	@Override
 	public boolean isEnemy() {
-		return true;
+		return battleAttributes.getBattleState().isEnemy();
 	}
 
 	@Override

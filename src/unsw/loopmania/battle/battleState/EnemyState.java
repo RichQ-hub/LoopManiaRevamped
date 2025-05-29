@@ -10,9 +10,14 @@ public class EnemyState implements BattleState {
 	public List<Battleable> getOpponents(List<Battleable> battleEntities) {
 		List<Battleable> opponents = battleEntities
 			.stream()
-			.filter(e -> !e.isEnemy())
+			.filter(e -> !e.isEnemy() && e.isAlive())
 			.toList();
 		return opponents;
+	}
+
+	@Override
+	public boolean isEnemy() {
+		return true;
 	}
 	
 }
