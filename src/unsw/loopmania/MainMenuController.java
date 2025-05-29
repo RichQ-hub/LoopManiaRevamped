@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import unsw.loopmania.maps.BigRingMap;
 import unsw.loopmania.maps.GameMap;
 import unsw.loopmania.maps.OriginalMap;
 import unsw.loopmania.maps.RingMap;
@@ -41,9 +42,11 @@ public class MainMenuController {
 		// Maps.
 		GameMap originalMap = new OriginalMap();
 		GameMap ringMap = new RingMap();
+		GameMap bigRingMap = new BigRingMap();
 
 		this.maps.put(originalMap.getMapName(), originalMap);
 		this.maps.put(ringMap.getMapName(), ringMap);
+		this.maps.put(bigRingMap.getMapName(), bigRingMap);
 
 		// Initially the map is the original map.
 		this.selectedMap = originalMap;
