@@ -195,9 +195,10 @@ public class LoopManiaWorldController {
     private EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>> gridPaneNodeSetOnDragExited;
 
     /**
-     * object handling switching to the main menu
+     * Object handling switching to the main menu
      */
     private MenuSwitcher mainMenuSwitcher;
+	private MenuSwitcher victoryMenuSwitcher;
 
     /**
      * @param world world object loaded from file
@@ -338,6 +339,7 @@ public class LoopManiaWorldController {
 				if (world.isGoalAchieved()) {
 					pause();
 					System.out.println("GOAL HAS BEEN ACHIEVED");
+					switchToVictoryMenu();
 				}
 				
 				// Spawn new enemies when the character is at the start.
@@ -821,22 +823,6 @@ public class LoopManiaWorldController {
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher) {
-        // TODO = possibly set other menu switchers
-        this.mainMenuSwitcher = mainMenuSwitcher;
-    }
-
-    /**
-     * this method is triggered when click button to go to main menu in FXML
-     * @throws IOException
-     */
-    @FXML
-    private void switchToMainMenu() throws IOException {
-        // TODO = possibly set other menu switchers
-        pause();
-        mainMenuSwitcher.switchMenu();
-    }
-
     /**
      * Set a node in a GridPane to have its position track the position of an
      * entity in the world.
@@ -942,5 +928,31 @@ public class LoopManiaWorldController {
         System.out.println("current method = " + currentMethodLabel);
         System.out.println("In application thread? = " + Platform.isFxApplicationThread());
         System.out.println("Current system time = " + java.time.LocalDateTime.now().toString().replace('T', ' '));
+    }
+
+	// ==================================================================================
+	// Menu Switchers.
+	// ==================================================================================
+
+	public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher) {
+        this.mainMenuSwitcher = mainMenuSwitcher;
+    }
+
+    /**
+     * this method is triggered when click button to go to main menu in FXML
+     * @throws IOException
+     */
+    @FXML
+    private void switchToMainMenu() throws IOException {
+        pause();
+        mainMenuSwitcher.switchMenu();
+    }
+
+	public void setVictoryMenuSwitcher(MenuSwitcher victoryMenuSwitcher) {
+        this.victoryMenuSwitcher = victoryMenuSwitcher;
+    }
+
+    private void switchToVictoryMenu() {
+        victoryMenuSwitcher.switchMenu();
     }
 }

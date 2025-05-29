@@ -67,6 +67,7 @@ public class MainMenuController {
 	 */
 	@FXML
 	public void initialize() {
+		gameInfoLabel.setText("Face off against endless foes in this strategic turn-based RPG. Gear up and construct buildings to stay alive.");
 		setupGameMapOptions();
 	}
 
