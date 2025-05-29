@@ -13,6 +13,7 @@ import unsw.loopmania.buildings.HeroCastleBuilding;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.entity.PathTile;
+import unsw.loopmania.maps.GameMap;
 
 import java.util.List;
 
@@ -29,8 +30,8 @@ import java.util.List;
 public abstract class LoopManiaWorldLoader {
     private JSONObject json;
 
-    public LoopManiaWorldLoader(String filename) throws FileNotFoundException {
-        json = new JSONObject(new JSONTokener(new FileReader("worlds/" + filename)));
+    public LoopManiaWorldLoader(GameMap gameMap) throws FileNotFoundException {
+        json = new JSONObject(new JSONTokener(new FileReader("worlds/" + gameMap.getGameMapFilename())));
     }
 
     /**

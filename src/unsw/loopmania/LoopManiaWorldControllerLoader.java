@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.entity.PathTile;
+import unsw.loopmania.maps.GameMap;
 import javafx.geometry.Rectangle2D;
 
 import java.io.File;
@@ -31,9 +32,9 @@ public class LoopManiaWorldControllerLoader extends LoopManiaWorldLoader {
     //Images
     private Image pathTilesImage;
 
-    public LoopManiaWorldControllerLoader(String filename)
+    public LoopManiaWorldControllerLoader(GameMap gameMap)
             throws FileNotFoundException {
-        super(filename);
+        super(gameMap);
         entities = new ArrayList<>();
         pathTilesImage = new Image((new File("src/images/32x32GrassAndDirtPath.png")).toURI().toString());
     }
