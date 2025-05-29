@@ -24,26 +24,26 @@ public class LoopManiaApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        // set title on top of window bar
+        // Set title on top of window bar
         primaryStage.setTitle("Loop Mania");
 
-        // prevent human player resizing game window (since otherwise would see white space)
+        // Prevent human player resizing game window (since otherwise would see white space)
         // alternatively, you could allow rescaling of the game (you'd have to program resizing of the JavaFX nodes)
         primaryStage.setResizable(false);
 
-        // load the main menu
+        // Load the main menu
         MainMenuController mainMenuController = new MainMenuController();
         FXMLLoader menuLoader = new FXMLLoader(getClass().getResource("MainMenuView.fxml"));
         menuLoader.setController(mainMenuController);
         Parent mainMenuRoot = menuLoader.load();
 
-        // create new scene with the main menu (so we start with the main menu)
+        // Create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
 
 		// Adding css stylesheet to the scene.
 		// scene.getStylesheets().add(getClass().getResource("css/GameView.css").toExternalForm());
         
-        // set functions which are activated when button click to switch menu is pressed
+        // Set functions which are activated when button click to switch menu is pressed.
         // e.g. from main menu to start the game, or from the game to return to main menu
 
 		// Switches from the menu to the game.

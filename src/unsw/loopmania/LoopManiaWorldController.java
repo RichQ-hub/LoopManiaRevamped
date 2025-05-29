@@ -333,9 +333,14 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
-			// Spawn new enemies when the character is at the start.
 			if (world.isCharacterAtCastle()) {
-				// TEST
+				// Check if the goal has been achieved.
+				if (world.isGoalAchieved()) {
+					pause();
+					System.out.println("GOAL HAS BEEN ACHIEVED");
+				}
+				
+				// Spawn new enemies when the character is at the start.
 				List<Entity> newMapEntities = buildingManager.spawnEntities(world.getCycleCount(), world.getOrderedPath());
 				for (Entity e : newMapEntities) {
 					onLoadMapEntity(e);
@@ -349,7 +354,7 @@ public class LoopManiaWorldController {
             List<Battleable> defeatedEnemies = battleManager.battle();
 			if (defeatedEnemies != null) {
 				for (Battleable e: defeatedEnemies) {
-					// reactToEnemyDefeat(e);
+					reactToEnemyDefeat(e);
 				}
 			}
 

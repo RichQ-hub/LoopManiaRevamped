@@ -1,9 +1,12 @@
 package unsw.loopmania.maps;
 
+import unsw.loopmania.goals.ExperienceGoal;
+import unsw.loopmania.goals.Goal;
+
 public class BigRingMap implements GameMap {
 	private String gameMapName;
 	private String gameMapFileName;
-	// private Goal goal;
+	private Goal goal;
 
 	public BigRingMap() {
 		this.gameMapName = "Big Ring Map";
@@ -21,9 +24,14 @@ public class BigRingMap implements GameMap {
 	}
 
 	@Override
-	public String getGoal() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getGoal'");
+	public Goal getGoal() {
+		return goal;
+	}
+
+	@Override
+	public void buildGoal() {
+		Goal expGoal = new ExperienceGoal(200);
+		this.goal = expGoal;
 	}
 	
 }

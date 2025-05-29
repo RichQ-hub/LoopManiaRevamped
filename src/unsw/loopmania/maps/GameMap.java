@@ -1,7 +1,10 @@
 package unsw.loopmania.maps;
 
+import unsw.loopmania.goals.Goal;
+
 public interface GameMap {
 	public String getMapName();
 	public String getGameMapFilename();
-	public String getGoal(); // TODO: Once goals are created.
+	public Goal getGoal();
+	public void buildGoal();
 }
