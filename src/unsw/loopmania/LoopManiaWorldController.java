@@ -200,6 +200,7 @@ public class LoopManiaWorldController {
      */
     private MenuSwitcher mainMenuSwitcher;
 	private MenuSwitcher victoryMenuSwitcher;
+	private MenuSwitcher gameOverSwitcher;
 
     /**
      * @param world world object loaded from file
@@ -339,7 +340,6 @@ public class LoopManiaWorldController {
 				// Check if the goal has been achieved.
 				if (world.isGoalAchieved()) {
 					pause();
-					System.out.println("GOAL HAS BEEN ACHIEVED");
 					switchToVictoryMenu();
 				}
 				
@@ -364,7 +364,7 @@ public class LoopManiaWorldController {
 			// Check if the character is dead.
 			if (!world.getCharacter().isAlive()) {
 				pause();
-				System.out.println("The Character DIED! GAME OVER!");
+				switchToGameOver();
 			}
 
             printThreadingNotes("HANDLED TIMER");
@@ -962,4 +962,13 @@ public class LoopManiaWorldController {
     private void switchToVictoryMenu() {
         victoryMenuSwitcher.switchMenu();
     }
+
+	public void setGameOverSwitcher(MenuSwitcher gameOverSwitcher) {
+        this.gameOverSwitcher = gameOverSwitcher;
+    }
+
+    private void switchToGameOver() {
+        gameOverSwitcher.switchMenu();
+    }
+
 }
