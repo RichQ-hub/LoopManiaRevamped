@@ -3,6 +3,9 @@ package unsw.loopmania.goals;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.combatants.Character;
 
+/**
+ * Leaf Node.
+ */
 public class GoldGoal implements Goal {
 	private int goldGoal;
 

@@ -2,6 +2,9 @@ package unsw.loopmania.goals;
 
 import unsw.loopmania.LoopManiaWorld;
 
+/**
+ * Composite (Intermediate) Node.
+ */
 public class OrOperator implements Goal {
 	private Goal leftGoal;
     private Goal rightGoal;

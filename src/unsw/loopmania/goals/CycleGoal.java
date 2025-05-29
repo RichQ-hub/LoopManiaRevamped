@@ -2,6 +2,9 @@ package unsw.loopmania.goals;
 
 import unsw.loopmania.LoopManiaWorld;
 
+/**
+ * Leaf Node.
+ */
 public class CycleGoal implements Goal {
 	private int cycleGoal;
 
