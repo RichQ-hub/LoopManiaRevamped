@@ -29,9 +29,11 @@ import java.util.List;
  */
 public abstract class LoopManiaWorldLoader {
     private JSONObject json;
+	private GameMap gameMap;
 
     public LoopManiaWorldLoader(GameMap gameMap) throws FileNotFoundException {
-        json = new JSONObject(new JSONTokener(new FileReader("worlds/" + gameMap.getGameMapFilename())));
+        this.json = new JSONObject(new JSONTokener(new FileReader("worlds/" + gameMap.getGameMapFilename())));
+		this.gameMap = gameMap;
     }
 
     /**
@@ -44,7 +46,7 @@ public abstract class LoopManiaWorldLoader {
         // path variable is collection of coordinates with directions of path taken...
         List<Pair<Integer, Integer>> orderedPath = loadPathTiles(json.getJSONObject("path"), width, height);
 
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath);
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, gameMap.getGoal());
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 

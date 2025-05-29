@@ -194,7 +194,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 	@Override
 	public boolean isEnemy() {
-		return false;
+		return battleAttributes.getBattleState().isEnemy();
 	}
 
 	@Override

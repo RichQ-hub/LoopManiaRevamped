@@ -2,6 +2,7 @@ package unsw.loopmania.battle.effects.modifiers;
 
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.StakeEffect;
+import unsw.loopmania.battle.effects.TranceEffect;
 import unsw.loopmania.battle.effects.VampireBite;
 
 public abstract class EffectModifier {
@@ -17,6 +18,10 @@ public abstract class EffectModifier {
 	}
 
 	public void visitStakeEffect(StakeEffect effect) {
+		return;
+	}
+
+	public void visitTranceEffect(TranceEffect effect) {
 		return;
 	}
 }

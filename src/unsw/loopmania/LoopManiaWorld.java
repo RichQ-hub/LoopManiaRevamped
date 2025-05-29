@@ -13,6 +13,7 @@ import unsw.loopmania.buildings.HeroCastleBuilding;
 import unsw.loopmania.cards.Card;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.entity.Entity;
+import unsw.loopmania.goals.Goal;
 import unsw.loopmania.inventory.InventoryManager;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.managers.BuildingManager;
@@ -66,13 +67,18 @@ public class LoopManiaWorld {
     private List<Pair<Integer, Integer>> orderedPath;
 
 	/**
+	 * Goal for the map.
+	 */
+	private Goal goal;
+
+	/**
      * Create the world (constructor)
      * 
      * @param width width of world in number of cells
      * @param height height of world in number of cells
      * @param orderedPath ordered list of x, y coordinate pairs representing position of path cells in world
      */
-    public LoopManiaWorld(int mapWidth, int mapHeight, List<Pair<Integer, Integer>> orderedPath) {
+    public LoopManiaWorld(int mapWidth, int mapHeight, List<Pair<Integer, Integer>> orderedPath, Goal goal) {
         this.mapWidth = mapWidth;
         this.mapHeight = mapHeight;
         this.nonSpecifiedEntities = new ArrayList<>();
@@ -80,6 +86,7 @@ public class LoopManiaWorld {
 		this.heroCastle = null;
         this.orderedPath = orderedPath;
 		this.cycleCount = new SimpleIntegerProperty(1);
+		this.goal = goal;
 
 		// Entity Managers.
 		this.inventoryManager = new InventoryManager();
@@ -90,6 +97,10 @@ public class LoopManiaWorld {
 		// Add initial spawners.
 		buildingManager.addSpawner(new SlugSpawner(this));
     }
+
+	public boolean isGoalAchieved() {
+		return goal.achievedGoal(this);
+	}
 
     /**
      * Add a generic entity (without it's own dedicated method for adding to the world)
@@ -355,4 +366,12 @@ public class LoopManiaWorld {
     public void setCycleCount(int cycleCount) {
         this.cycleCount.set(cycleCount);
     }
+
+	public Goal getGoal() {
+		return goal;
+	}
+
+	public void setGoal(Goal goal) {
+		this.goal = goal;
+	}
 }

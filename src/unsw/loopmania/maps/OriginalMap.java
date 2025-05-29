@@ -1,13 +1,19 @@
 package unsw.loopmania.maps;
 
+import unsw.loopmania.goals.AndOperator;
+import unsw.loopmania.goals.CycleGoal;
+import unsw.loopmania.goals.Goal;
+import unsw.loopmania.goals.GoldGoal;
+
 public class OriginalMap implements GameMap {
 	private String gameMapName;
 	private String gameMapFileName;
-	// private Goal goal;
+	private Goal goal;
 
 	public OriginalMap() {
 		this.gameMapName = "Original Map";
 		this.gameMapFileName = "world_with_twists_and_turns.json";
+		buildGoal();
 	}
 
 	@Override
@@ -16,14 +22,21 @@ public class OriginalMap implements GameMap {
 	}
 
 	@Override
-	public String getGoal() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getGoal'");
+	public Goal getGoal() {
+		return goal;
 	}
 
 	@Override
 	public String getMapName() {
 		return gameMapName;
+	}
+
+	@Override
+	public void buildGoal() {
+		Goal goldGoal = new GoldGoal(200);
+		Goal cycleGoal = new CycleGoal(3);
+
+		this.goal = new AndOperator(goldGoal, cycleGoal);
 	}
 	
 }

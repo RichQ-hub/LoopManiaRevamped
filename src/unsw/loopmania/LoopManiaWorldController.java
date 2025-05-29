@@ -44,6 +44,7 @@ import unsw.loopmania.items.EquipmentItem;
 import unsw.loopmania.items.Helmet;
 import unsw.loopmania.items.Item;
 import unsw.loopmania.items.Shield;
+import unsw.loopmania.items.Staff;
 import unsw.loopmania.items.Stake;
 import unsw.loopmania.items.Sword;
 import unsw.loopmania.managers.BattleManager;
@@ -195,9 +196,10 @@ public class LoopManiaWorldController {
     private EnumMap<DRAGGABLE_TYPE, EventHandler<DragEvent>> gridPaneNodeSetOnDragExited;
 
     /**
-     * object handling switching to the main menu
+     * Object handling switching to the main menu
      */
     private MenuSwitcher mainMenuSwitcher;
+	private MenuSwitcher victoryMenuSwitcher;
 
     /**
      * @param world world object loaded from file
@@ -232,8 +234,6 @@ public class LoopManiaWorldController {
 	 */
     @FXML
     public void initialize() {
-        // TODO = load more images/entities during initialization
-
         Rectangle2D imagePart = new Rectangle2D(0, 0, 32, 32);
 		Image pathTilesImg = loadImage("src/images/32x32GrassAndDirtPath.png");
 		Image inventorySlotImg = loadImage("src/images/empty_slot.png");
@@ -302,11 +302,13 @@ public class LoopManiaWorldController {
 		Stake stake = new Stake();
 		Armour armour = new Armour();
 		Helmet helm = new Helmet();
+		Staff staff = new Staff();
 		onLoadItem(inventoryManager.addItemToInventory(sword));
 		onLoadItem(inventoryManager.addItemToInventory(shield));
 		onLoadItem(inventoryManager.addItemToInventory(stake));
 		onLoadItem(inventoryManager.addItemToInventory(armour));
 		onLoadItem(inventoryManager.addItemToInventory(helm));
+		onLoadItem(inventoryManager.addItemToInventory(staff));
 
 		VampireCastleCard vCard1 = new VampireCastleCard();
 		VampireCastleCard vCard2 = new VampireCastleCard();
@@ -333,9 +335,15 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
-			// Spawn new enemies when the character is at the start.
 			if (world.isCharacterAtCastle()) {
-				// TEST
+				// Check if the goal has been achieved.
+				if (world.isGoalAchieved()) {
+					pause();
+					System.out.println("GOAL HAS BEEN ACHIEVED");
+					switchToVictoryMenu();
+				}
+				
+				// Spawn new enemies when the character is at the start.
 				List<Entity> newMapEntities = buildingManager.spawnEntities(world.getCycleCount(), world.getOrderedPath());
 				for (Entity e : newMapEntities) {
 					onLoadMapEntity(e);
@@ -349,8 +357,14 @@ public class LoopManiaWorldController {
             List<Battleable> defeatedEnemies = battleManager.battle();
 			if (defeatedEnemies != null) {
 				for (Battleable e: defeatedEnemies) {
-					// reactToEnemyDefeat(e);
+					reactToEnemyDefeat(e);
 				}
+			}
+
+			// Check if the character is dead.
+			if (!world.getCharacter().isAlive()) {
+				pause();
+				System.out.println("The Character DIED! GAME OVER!");
 			}
 
             printThreadingNotes("HANDLED TIMER");
@@ -816,22 +830,6 @@ public class LoopManiaWorldController {
         }
     }
 
-    public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher) {
-        // TODO = possibly set other menu switchers
-        this.mainMenuSwitcher = mainMenuSwitcher;
-    }
-
-    /**
-     * this method is triggered when click button to go to main menu in FXML
-     * @throws IOException
-     */
-    @FXML
-    private void switchToMainMenu() throws IOException {
-        // TODO = possibly set other menu switchers
-        pause();
-        mainMenuSwitcher.switchMenu();
-    }
-
     /**
      * Set a node in a GridPane to have its position track the position of an
      * entity in the world.
@@ -937,5 +935,31 @@ public class LoopManiaWorldController {
         System.out.println("current method = " + currentMethodLabel);
         System.out.println("In application thread? = " + Platform.isFxApplicationThread());
         System.out.println("Current system time = " + java.time.LocalDateTime.now().toString().replace('T', ' '));
+    }
+
+	// ==================================================================================
+	// Menu Switchers.
+	// ==================================================================================
+
+	public void setMainMenuSwitcher(MenuSwitcher mainMenuSwitcher) {
+        this.mainMenuSwitcher = mainMenuSwitcher;
+    }
+
+    /**
+     * this method is triggered when click button to go to main menu in FXML
+     * @throws IOException
+     */
+    @FXML
+    private void switchToMainMenu() throws IOException {
+        pause();
+        mainMenuSwitcher.switchMenu();
+    }
+
+	public void setVictoryMenuSwitcher(MenuSwitcher victoryMenuSwitcher) {
+        this.victoryMenuSwitcher = victoryMenuSwitcher;
+    }
+
+    private void switchToVictoryMenu() {
+        victoryMenuSwitcher.switchMenu();
     }
 }
