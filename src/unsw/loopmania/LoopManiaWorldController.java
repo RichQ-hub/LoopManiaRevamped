@@ -37,6 +37,7 @@ import unsw.loopmania.cards.CampfireCard;
 import unsw.loopmania.cards.Card;
 import unsw.loopmania.cards.TrapCard;
 import unsw.loopmania.cards.VampireCastleCard;
+import unsw.loopmania.cards.ZombiePitCard;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
 import unsw.loopmania.items.Armour;
@@ -314,13 +315,13 @@ public class LoopManiaWorldController {
 		VampireCastleCard vCard1 = new VampireCastleCard();
 		VampireCastleCard vCard2 = new VampireCastleCard();
 		TrapCard trap1 = new TrapCard();
-		TrapCard trap2 = new TrapCard();
 		CampfireCard camp = new CampfireCard();
+		ZombiePitCard zombiePit = new ZombiePitCard();
 		onLoadCard(cardManager.addCard(vCard1));
 		onLoadCard(cardManager.addCard(vCard2));
 		onLoadCard(cardManager.addCard(trap1));
-		onLoadCard(cardManager.addCard(trap2));
 		onLoadCard(cardManager.addCard(camp));
+		onLoadCard(cardManager.addCard(zombiePit));
     }
 
 	public Image loadImage(String pathname) {
