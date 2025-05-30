@@ -11,14 +11,11 @@ import javafx.stage.Stage;
 import unsw.loopmania.maps.GameMap;
 
 /**
- * the main application
- * run main method from this class
+ * The main application. Run main method from this class.
  */
 public class LoopManiaApplication extends Application {
-    // TODO = possibly add other menus?
-
     /**
-     * the controller for the game. Stored as a field so can terminate it when click exit button
+     * The controller for the game. Stored as a field so can terminate it when click exit button.
      */
     private LoopManiaWorldController mainController;
 

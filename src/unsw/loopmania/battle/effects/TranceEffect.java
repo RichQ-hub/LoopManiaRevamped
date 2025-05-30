@@ -13,8 +13,8 @@ import unsw.loopmania.battle.effects.modifiers.EffectModifier;
  */
 public class TranceEffect extends Effect {
 
-	public TranceEffect(Battleable target) {
-		super(target, 3, EffectTrigger.ON_HIT);
+	public TranceEffect() {
+		super(3, EffectTrigger.ON_HIT);
 	}
 
 	@Override
@@ -31,7 +31,7 @@ public class TranceEffect extends Effect {
 
 	@Override
 	public Effect copyEffect() {
-		return new TranceEffect(null);
+		return new TranceEffect();
 	}
 
 	@Override

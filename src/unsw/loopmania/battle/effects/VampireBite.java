@@ -14,8 +14,8 @@ import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 public class VampireBite extends Effect {
 	private double dmg;
 
-	public VampireBite(Battleable target, int uses, double dmg) {
-		super(target, uses, EffectTrigger.ON_HIT);
+	public VampireBite(int uses, double dmg) {
+		super(uses, EffectTrigger.ON_HIT);
 		this.dmg = dmg;
 	}
 
@@ -32,7 +32,7 @@ public class VampireBite extends Effect {
 
 	@Override
 	public Effect copyEffect() {
-		return new VampireBite(super.getTarget(), getUses(), dmg);
+		return new VampireBite(getUses(), dmg);
 	}
 
 	@Override

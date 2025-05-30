@@ -49,7 +49,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 100, 0, 0, new AlliedState());
-		attr.addAttackEffect(new DamageEffect(null, 15));
+		attr.addAttackEffect(new DamageEffect(15));
 
 		this.battleAttributes = attr;
 
@@ -89,7 +89,6 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		List<Effect> attackEffects = battleAttributes.getAttackEffects();
 		for (Effect e : attackEffects) {
 			Effect copy = e.copyEffect();
-			copy.setTarget(combatant);
 			attack.addEffect(copy);
 		}
 

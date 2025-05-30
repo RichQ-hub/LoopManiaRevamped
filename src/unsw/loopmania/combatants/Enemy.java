@@ -53,7 +53,6 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 		List<Effect> attackEffects = battleAttributes.getAttackEffects();
 		for (Effect e : attackEffects) {
 			Effect copy = e.copyEffect();
-			copy.setTarget(combatant);
 			attack.addEffect(copy);
 		}
 

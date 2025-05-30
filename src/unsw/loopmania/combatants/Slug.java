@@ -26,7 +26,7 @@ public class Slug extends Enemy {
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 20, 4, 20, new EnemyState());
-		attr.addAttackEffect(new DamageEffect(null, 2));
+		attr.addAttackEffect(new DamageEffect(2));
 
 		super.setBattleAttributes(attr);
 

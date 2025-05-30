@@ -16,8 +16,7 @@ public abstract class Effect {
 		ON_ATTACK,
 	}
 
-	public Effect(Battleable target, int uses, EffectTrigger trigger) {
-		this.target = target;
+	public Effect(int uses, EffectTrigger trigger) {
 		this.uses = uses;
 		this.trigger = trigger;
 	}
