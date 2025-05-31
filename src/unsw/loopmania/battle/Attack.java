@@ -25,7 +25,10 @@ public class Attack {
 	}
 
 	public void addEffect(Effect effect) {
-		effects.add(effect);
+		boolean hasEffect = effects.stream().anyMatch(e -> e.getClass().equals(effect.getClass()));
+		if (!hasEffect) {
+			effects.add(effect);
+		}
 	}
 
 	public void addEffectModifier(EffectModifier modifier) {

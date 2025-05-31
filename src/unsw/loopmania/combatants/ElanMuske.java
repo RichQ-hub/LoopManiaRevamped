@@ -5,7 +5,6 @@ import java.util.Random;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
-import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.loot.LootTable;
@@ -21,7 +20,7 @@ public class ElanMuske extends Enemy {
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 100, 4, 20, new EnemyState());
-		attr.addAttackEffect(new DamageEffect(20));
+		attr.addBaseAttackEffect(new DamageEffect(20));
 
 		super.setBattleAttributes(attr);
 
@@ -43,7 +42,7 @@ public class ElanMuske extends Enemy {
 	}
 
 	@Override
-	public void specialAttack(Battleable combatant, Attack attack) {
+	public void specialAttack(Attack attack) {
 		return;
 	}
 	

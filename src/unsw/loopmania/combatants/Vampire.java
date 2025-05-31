@@ -5,7 +5,6 @@ import java.util.Random;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
-import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.VampireBite;
@@ -27,7 +26,7 @@ public class Vampire extends Enemy {
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 40, 4, 20, new EnemyState());
-		attr.addAttackEffect(new DamageEffect(7));
+		attr.addBaseAttackEffect(new DamageEffect(7));
 		attr.addDefenseModifier(new StakeEffectModifier(5)); // Weak to stake attacks.
 
 		super.setBattleAttributes(attr);
@@ -53,7 +52,7 @@ public class Vampire extends Enemy {
 	}
 
 	@Override
-	public void specialAttack(Battleable combatant, Attack attack) {
+	public void specialAttack(Attack attack) {
 		Random rand = new Random();
 
 		// Number of uses for the effect between 2 - 4.

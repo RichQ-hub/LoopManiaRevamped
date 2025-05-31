@@ -49,7 +49,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 100, 0, 0, new AlliedState());
-		attr.addAttackEffect(new DamageEffect(15));
+		attr.addBaseAttackEffect(new DamageEffect(15));
 
 		this.battleAttributes = attr;
 
@@ -83,14 +83,21 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	// ==================================================================================
 
 	@Override
-	public Attack attack(Battleable combatant) {
+	public void attackOpponents(List<Battleable> battleEntities) {
+		List<Battleable> opponents = getEntitiesToAttack(battleEntities);
+		for (Battleable opp : opponents) {
+			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
+			Attack attack = buildAttack();
+			opp.takeAttack(attack);
+			opp.printInfo();
+		}
+	}
+
+	@Override
+	public Attack buildAttack() {
 		Attack attack = new Attack();
 		
-		List<Effect> attackEffects = battleAttributes.getAttackEffects();
-		for (Effect e : attackEffects) {
-			Effect copy = e.copyEffect();
-			attack.addEffect(copy);
-		}
+		battleAttributes.insertBaseAttackEffects(attack);
 
 		// DEBUG: Print attack.
 		attack.printInfo("Initial Attack Effects");
@@ -105,7 +112,6 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		// DEBUG: Print attack.
 		attack.printInfo("Sent Attack");
 
-		combatant.takeAttack(attack);
 		return attack;
 	}
 

@@ -25,7 +25,7 @@ public class BattleAttributes {
 	private List<Effect> activeEffects;
 
 	// Battle Effects.
-	private List<Effect> attackEffects;
+	private List<Effect> baseAttackEffects;
 	private List<EffectModifier> defenseModifiers;
 	private List<EffectModifier> attackModifiers;
 
@@ -37,7 +37,7 @@ public class BattleAttributes {
 		this.supportRadius = supportRadius;
 		this.battleState = battleState;
 		this.activeEffects = new ArrayList<>();
-		this.attackEffects = new ArrayList<>();
+		this.baseAttackEffects = new ArrayList<>();
 		this.defenseModifiers = new ArrayList<>();
 		this.attackModifiers = new ArrayList<>();
 	}
@@ -89,6 +89,13 @@ public class BattleAttributes {
 	// Attack Object Methods.
 	// ==================================================================================
 
+	public void insertBaseAttackEffects(Attack attack) {
+		for (Effect baseEffect : baseAttackEffects) {
+			Effect copy = baseEffect.copyEffect();
+			attack.addEffect(copy);
+		}
+	}
+
 	/**
 	 * Applies all equipment modifiers onto the incoming attack.
 	 * @param attack
@@ -110,7 +117,7 @@ public class BattleAttributes {
 	}
 
 	// ==================================================================================
-	// Append Methods.
+	// Remove Methods.
 	// ==================================================================================
 
 	/**
@@ -121,8 +128,8 @@ public class BattleAttributes {
 		activeEffects.remove(effect);
 	}
 
-	public void removeAttackEffect(Effect effect) {
-		attackEffects.remove(effect);
+	public void removeBaseAttackEffect(Effect effect) {
+		baseAttackEffects.remove(effect);
 	}
 
 	public void removeDefenseModifier(EffectModifier modifier) {
@@ -134,7 +141,7 @@ public class BattleAttributes {
 	}
 
 	// ==================================================================================
-	// Remove Methods.
+	// Append Methods.
 	// ==================================================================================
 
 	/**
@@ -148,25 +155,30 @@ public class BattleAttributes {
 		}
 	}
 
-	public void addAttackEffect(Effect effect) {
-		boolean hasEffect = attackEffects.stream().anyMatch(e -> e.getClass().equals(effect.getClass()));
+	public void addBaseAttackEffect(Effect effect) {
+		boolean hasEffect = baseAttackEffects.stream().anyMatch(e -> e.getClass().equals(effect.getClass()));
 		if (!hasEffect) {
-			attackEffects.add(effect);
+			baseAttackEffects.add(effect);
 		}
 	}
 
 	public void addDefenseModifier(EffectModifier modifier) {
-		boolean hasEffect = defenseModifiers.stream().anyMatch(m -> m.getClass().equals(m.getClass()));
+		boolean hasEffect = defenseModifiers.stream().anyMatch(m -> m.getClass().equals(modifier.getClass()));
 		if (!hasEffect) {
 			defenseModifiers.add(modifier);
 		}
 	}
 
 	public void addAttackModifier(EffectModifier modifier) {
-		boolean hasEffect = attackModifiers.stream().anyMatch(m -> m.getClass().equals(m.getClass()));
+		boolean hasEffect = attackModifiers.stream().anyMatch(m -> m.getClass().equals(modifier.getClass()));
 		if (!hasEffect) {
 			attackModifiers.add(modifier);
 		}
+	}
+
+	// TODO: Could replace the above with this function.
+	public <T> boolean effectExists(T effect, List<T> effectList) {
+		return effectList.stream().anyMatch(e -> e.getClass().equals(effect.getClass()));
 	}
 
 	// ==================================================================================
@@ -229,12 +241,12 @@ public class BattleAttributes {
 		this.activeEffects = activeEffects;
 	}
 
-	public List<Effect> getAttackEffects() {
-		return attackEffects;
+	public List<Effect> getBaseAttackEffects() {
+		return baseAttackEffects;
 	}
 
-	public void setAttackEffects(List<Effect> attackEffects) {
-		this.attackEffects = attackEffects;
+	public void setBaseAttackEffects(List<Effect> attackEffects) {
+		this.baseAttackEffects = attackEffects;
 	}
 
 	public List<EffectModifier> getDefenseModifiers() {

@@ -3,7 +3,6 @@ package unsw.loopmania.combatants;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
-import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.loot.LootItem;
@@ -21,7 +20,7 @@ public class Zombie extends Enemy {
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 30, 4, 10, new EnemyState());
-		attr.addAttackEffect(new DamageEffect(5));
+		attr.addBaseAttackEffect(new DamageEffect(5));
 
 		super.setBattleAttributes(attr);
 
@@ -38,7 +37,7 @@ public class Zombie extends Enemy {
 	}
 
 	@Override
-	public void specialAttack(Battleable combatant, Attack attack) {
+	public void specialAttack(Attack attack) {
 		// TODO
 		return;
 	}
