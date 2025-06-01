@@ -13,4 +13,12 @@ public class RemoveDamage extends EffectModifier {
 	public void visitDamageEffect(DamageEffect effect) {
 		effect.reduceDamage(removeDamage);
 	}
+
+	public double getRemoveDamage() {
+		return removeDamage;
+	}
+
+	public void setRemoveDamage(double removeDamage) {
+		this.removeDamage = removeDamage;
+	}
 }

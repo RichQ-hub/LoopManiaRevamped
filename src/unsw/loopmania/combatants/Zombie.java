@@ -1,10 +1,13 @@
 package unsw.loopmania.combatants;
 
+import java.util.Random;
+
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.DamageEffect;
+import unsw.loopmania.battle.effects.ZombieBite;
 import unsw.loopmania.battle.loot.LootItem;
 import unsw.loopmania.battle.loot.LootTable;
 import unsw.loopmania.items.Armour;
@@ -38,8 +41,10 @@ public class Zombie extends Enemy {
 
 	@Override
 	public void specialAttack(Attack attack) {
-		// TODO
-		return;
+		Random rand = new Random();
+		
+		if (rand.nextDouble() < 0.4) {
+			attack.addEffect(new ZombieBite());
+		}
 	}
-	
 }

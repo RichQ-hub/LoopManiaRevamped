@@ -13,4 +13,12 @@ public class AddDamage extends EffectModifier {
 	public void visitDamageEffect(DamageEffect effect) {
 		effect.addDamage(addedDamage);
 	}
+
+	public double getAddedDamage() {
+		return addedDamage;
+	}
+
+	public void setAddedDamage(double addedDamage) {
+		this.addedDamage = addedDamage;
+	}
 }

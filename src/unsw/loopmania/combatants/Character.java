@@ -14,6 +14,7 @@ import unsw.loopmania.battle.battleState.BattleState;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.Effect;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
+import unsw.loopmania.battle.effects.modifiers.ZombieBiteImmunity;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.entity.MovingEntity;
 import unsw.loopmania.inventory.EquipmentSlot;
@@ -50,11 +51,9 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 100, 0, 0, new AlliedState());
 		attr.addBaseAttackEffect(new DamageEffect(15));
+		attr.addDefenseModifier(new ZombieBiteImmunity());
 
 		this.battleAttributes = attr;
-
-		// Bind health property.
-
     }
 
 	// ==================================================================================
