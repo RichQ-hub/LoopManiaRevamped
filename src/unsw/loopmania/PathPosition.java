@@ -26,7 +26,7 @@ public class PathPosition {
      * usingValue0 is true if using value0 in path, false if using value1
      * orderedPath is the list of path coordinates in pairs
      */
-    public PathPosition(int currentPositionInPath, List<Pair<Integer, Integer>> orderedPath){
+    public PathPosition(int currentPositionInPath, List<Pair<Integer, Integer>> orderedPath) {
         this.currentPositionInPath = currentPositionInPath;
         this.orderedPath = orderedPath;
         x = new SimpleIntegerProperty();
@@ -38,16 +38,16 @@ public class PathPosition {
     /**
      * move forward through the path i.e. clockwise
      */
-    public void moveDownPath(){
-        currentPositionInPath = (currentPositionInPath + 1)%orderedPath.size();
+    public void moveDownPath() {
+        currentPositionInPath = (currentPositionInPath + 1) % orderedPath.size();
         resetCoordinatesBasedOnPositionInPath();
     }
 
     /**
      * move backwards through the path, i.e. anticlockwise
      */
-    public void moveUpPath(){
-        currentPositionInPath = (currentPositionInPath - 1 + orderedPath.size())%orderedPath.size();
+    public void moveUpPath() {
+        currentPositionInPath = (currentPositionInPath - 1 + orderedPath.size()) % orderedPath.size();
         resetCoordinatesBasedOnPositionInPath();
     }
 

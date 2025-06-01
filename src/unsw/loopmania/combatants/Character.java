@@ -84,11 +84,14 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 	@Override
 	public void attackOpponents(List<Battleable> battleEntities) {
+		// Get opponents that are alive.
 		List<Battleable> opponents = getEntitiesToAttack(battleEntities);
 		for (Battleable opp : opponents) {
 			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
 			Attack attack = buildAttack();
 			opp.takeAttack(attack);
+
+			// Log info.
 			opp.printInfo();
 		}
 	}
@@ -100,7 +103,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		battleAttributes.insertBaseAttackEffects(attack);
 
 		// DEBUG: Print attack.
-		attack.printInfo("Initial Attack Effects");
+		attack.printInfo("Base Attack");
 
 		// Apply outgoing attack modifiers provided by equipped items.
 		EquippedInventory eInv = inventory.getEquippedInventory();
@@ -110,7 +113,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		battleAttributes.modifyOutgoingAttack(attack); 
 
 		// DEBUG: Print attack.
-		attack.printInfo("Sent Attack");
+		attack.printInfo("Outgoing Attack");
 
 		return attack;
 	}
@@ -125,7 +128,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		battleAttributes.modifyIncomingAttack(attack);
 
 		// DEBUG: Print attack.
-		attack.printInfo("Final Modified Attack");
+		attack.printInfo("Incoming Attack");
 
 		// Add all offensive effects onto the person.
 		for (Effect e : attack.getEffects()) {

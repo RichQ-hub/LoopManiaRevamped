@@ -81,7 +81,9 @@ public class BattleManager {
 				System.out.println("============================================");
 				System.out.println(e.getClass().getSimpleName().toUpperCase() + "\n");
 
-				System.out.println("Attack Effects:");
+				System.out.println("HEALTH: " + e.getBattleAttributes().getHealth());
+
+				System.out.println("\nAttack Effects:");
 				for (Effect ae : e.getBattleAttributes().getBaseAttackEffects()) {
 					ae.printInfo();
 				}
@@ -98,19 +100,6 @@ public class BattleManager {
 
 				System.out.println("\n--------------------------------------------");
 
-				// Attack all opponents.
-                // for (Battleable opponent : entitiesToAttack) {
-				// 	// Can only attack opponent if they are alive.
-				// 	if (opponent.isAlive()) {
-				// 		System.out.println("\nAttacking -- {" + opponent.getClass().getSimpleName() + "}: {" + opponent.getBattleAttributes().getHealth() + "}");
-				// 		e.attack(opponent);
-
-				// 		// Log info.
-				// 		System.out.println();
-				// 		opponent.printInfo();
-				// 	}
-				// 	System.out.println("\n  ************************");
-				// }
 				e.attackOpponents(battleEntities);
             }
 

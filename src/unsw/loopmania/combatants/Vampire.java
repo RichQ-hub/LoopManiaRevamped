@@ -42,9 +42,9 @@ public class Vampire extends Enemy {
 	@Override
 	public void move() {
 		int directionChoice = (new Random()).nextInt(2);
-        if (directionChoice == 0){
+        if (directionChoice == 0) {
             moveUpPath();
-        } else if (directionChoice == 1){
+        } else if (directionChoice == 1) {
             moveDownPath();
         }
 
