@@ -11,25 +11,26 @@ public class BarracksBuilding extends Building implements LocationObserver<Chara
 
 	public BarracksBuilding(Pair<Integer, Integer> position) {
 		super(position);
-		//TODO Auto-generated constructor stub
+		super.setEntityImageByPath("src/images/barracks.png");
 	}
 
 	@Override
 	public void update(Character entity) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'update'");
+		if ((entity.getX() == getX()) && (entity.getY() == getY())) {
+			entity.addAlliedSoldier();
+		}
 	}
 
 	@Override
 	public void addToBuildingManager(BuildingManager manager) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'addToBuildingManager'");
+		manager.addBuilding(this);
+		manager.addCharacterObserverBuilding(this);
 	}
 
 	@Override
 	public void removeFromBuildingManager(BuildingManager manager) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'removeFromBuildingManager'");
+		manager.removeBuilding(this);
+		manager.removeCharacterObserverBuilding(this);
 	}
 	
 }

@@ -25,6 +25,9 @@ public class Attack {
 		// which are later activated. E.g. ZombieProne could activate ZombieBite (which is inactive with uses = 0).
 		// This is useful because what if there was a previous modifier applied in this method, then running
 		// cleanseEffects() would remove that inactive ZombieBite BEFORE we could even activate it.
+
+		// OR you could also only call this method in the takeAttack() method in all battleable entities,
+		// just before we add them to the activeEffects list so that we only call this method once.
 		cleanseEffects();
 	}
 

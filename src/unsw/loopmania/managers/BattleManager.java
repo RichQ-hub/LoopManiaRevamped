@@ -59,6 +59,7 @@ public class BattleManager {
 
 		List<Battleable> battleEntities = new ArrayList<>();
 		battleEntities.add(character);
+		battleEntities.addAll(character.getAlliedSoldiers());
 		battleEntities.addAll(battleEnemies);
 
 		// While character is not defeated and there are no more enemies in battle.
@@ -116,6 +117,9 @@ public class BattleManager {
 			killEnemy(e);
 			deadEnemies.add(e);
 		}
+
+		// Remove dead allied soldiers from the character.
+		character.removeDeadAlliedSoldiers();
 
 		return deadEnemies;
     }
