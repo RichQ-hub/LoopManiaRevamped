@@ -35,9 +35,15 @@ public class TowerBuilding extends Building implements Battleable {
 	// ==================================================================================
 
 	@Override
-	public Attack attack(Battleable combatant) {
+	public void attackOpponents(List<Battleable> battleEntities) {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'attack'");
+		throw new UnsupportedOperationException("Unimplemented method 'attackOpponents'");
+	}
+
+	@Override
+	public Attack buildAttack() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'buildAttack'");
 	}
 
 	@Override
@@ -104,6 +110,5 @@ public class TowerBuilding extends Building implements Battleable {
 	public BattleAttributes getBattleAttributes() {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'getBattleAttributes'");
-	}
-	
+	}	
 }

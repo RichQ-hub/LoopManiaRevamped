@@ -11,14 +11,11 @@ import javafx.stage.Stage;
 import unsw.loopmania.maps.GameMap;
 
 /**
- * the main application
- * run main method from this class
+ * The main application. Run main method from this class.
  */
 public class LoopManiaApplication extends Application {
-    // TODO = possibly add other menus?
-
     /**
-     * the controller for the game. Stored as a field so can terminate it when click exit button
+     * The controller for the game. Stored as a field so can terminate it when click exit button.
      */
     private LoopManiaWorldController mainController;
 
@@ -42,6 +39,12 @@ public class LoopManiaApplication extends Application {
         FXMLLoader victoryMenuLoader = new FXMLLoader(getClass().getResource("VictoryMenuView.fxml"));
         victoryMenuLoader.setController(victoryMenuController);
         Parent victoryMenuRoot = victoryMenuLoader.load();
+
+		// Load the game over screen.
+		GameOverController gameOverController = new GameOverController();
+        FXMLLoader gameOverLoader = new FXMLLoader(getClass().getResource("GameOverView.fxml"));
+        gameOverLoader.setController(gameOverController);
+        Parent gameOverRoot = gameOverLoader.load();
 
         // Create new scene with the main menu (so we start with the main menu)
         Scene scene = new Scene(mainMenuRoot);
@@ -98,6 +101,9 @@ public class LoopManiaApplication extends Application {
 
 			// Set handler for switching from game to victory screen.
 			mainController.setVictoryMenuSwitcher(() -> {switchToRoot(scene, victoryMenuRoot, primaryStage);});
+
+			// Set handler for switching from game to game over screen.
+			mainController.setGameOverSwitcher(() -> {switchToRoot(scene, gameOverRoot, primaryStage);});
 
 			// Deploy the main onto the stage.
         	gameRoot.requestFocus();

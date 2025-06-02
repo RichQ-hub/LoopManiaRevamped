@@ -18,6 +18,7 @@ import unsw.loopmania.inventory.InventoryManager;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.managers.CardManager;
+import unsw.loopmania.spawners.ElanMuskeSpawner;
 import unsw.loopmania.spawners.SlugSpawner;
 
 /**
@@ -96,6 +97,7 @@ public class LoopManiaWorld {
 
 		// Add initial spawners.
 		buildingManager.addSpawner(new SlugSpawner(this));
+		buildingManager.addSpawner(new ElanMuskeSpawner(this));
     }
 
 	public boolean isGoalAchieved() {

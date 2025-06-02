@@ -33,10 +33,11 @@ import javafx.util.Duration;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.buildings.Building;
+import unsw.loopmania.cards.BarracksCard;
 import unsw.loopmania.cards.CampfireCard;
 import unsw.loopmania.cards.Card;
 import unsw.loopmania.cards.TrapCard;
-import unsw.loopmania.cards.VampireCastleCard;
+import unsw.loopmania.cards.ZombiePitCard;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
 import unsw.loopmania.items.Armour;
@@ -139,6 +140,9 @@ public class LoopManiaWorldController {
 	@FXML
     private Label cycleLabel;
 
+	@FXML
+    private Label alliedSoldierLabel;
+
     // all image views including tiles, character, enemies, cards... even though cards in separate gridpane...
     private List<ImageView> entityImages;
 
@@ -200,6 +204,7 @@ public class LoopManiaWorldController {
      */
     private MenuSwitcher mainMenuSwitcher;
 	private MenuSwitcher victoryMenuSwitcher;
+	private MenuSwitcher gameOverSwitcher;
 
     /**
      * @param world world object loaded from file
@@ -287,6 +292,8 @@ public class LoopManiaWorldController {
 		goldLabel.textProperty().bind(character.getGoldProperty().asString());
 		expLabel.textProperty().bind(character.getExpProperty().asString());
 		cycleLabel.textProperty().bind(world.getCycleProperty().asString());
+        alliedSoldierLabel.textProperty().bind(character.getSoldierCountProperty().asString());
+
 
         // Create the draggable icon. Initially the dragged entity is invisible, since we aren't dragging anything.
 		// But once the user drags some entity, then the dragged entity gets set to the entity (i.e. sword item)
@@ -310,16 +317,14 @@ public class LoopManiaWorldController {
 		onLoadItem(inventoryManager.addItemToInventory(helm));
 		onLoadItem(inventoryManager.addItemToInventory(staff));
 
-		VampireCastleCard vCard1 = new VampireCastleCard();
-		VampireCastleCard vCard2 = new VampireCastleCard();
+		BarracksCard barracksCard = new BarracksCard();
 		TrapCard trap1 = new TrapCard();
-		TrapCard trap2 = new TrapCard();
 		CampfireCard camp = new CampfireCard();
-		onLoadCard(cardManager.addCard(vCard1));
-		onLoadCard(cardManager.addCard(vCard2));
+		ZombiePitCard zombiePit = new ZombiePitCard();
+		onLoadCard(cardManager.addCard(barracksCard));
 		onLoadCard(cardManager.addCard(trap1));
-		onLoadCard(cardManager.addCard(trap2));
 		onLoadCard(cardManager.addCard(camp));
+		onLoadCard(cardManager.addCard(zombiePit));
     }
 
 	public Image loadImage(String pathname) {
@@ -339,7 +344,6 @@ public class LoopManiaWorldController {
 				// Check if the goal has been achieved.
 				if (world.isGoalAchieved()) {
 					pause();
-					System.out.println("GOAL HAS BEEN ACHIEVED");
 					switchToVictoryMenu();
 				}
 				
@@ -364,7 +368,7 @@ public class LoopManiaWorldController {
 			// Check if the character is dead.
 			if (!world.getCharacter().isAlive()) {
 				pause();
-				System.out.println("The Character DIED! GAME OVER!");
+				switchToGameOver();
 			}
 
             printThreadingNotes("HANDLED TIMER");
@@ -962,4 +966,13 @@ public class LoopManiaWorldController {
     private void switchToVictoryMenu() {
         victoryMenuSwitcher.switchMenu();
     }
+
+	public void setGameOverSwitcher(MenuSwitcher gameOverSwitcher) {
+        this.gameOverSwitcher = gameOverSwitcher;
+    }
+
+    private void switchToGameOver() {
+        gameOverSwitcher.switchMenu();
+    }
+
 }

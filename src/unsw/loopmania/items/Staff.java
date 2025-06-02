@@ -25,7 +25,7 @@ public class Staff extends EquipmentItem {
 	@Override
 	public void modifyOutgoingAttack(Attack attack) {
 		if (rand.nextDouble() < 0.3) {
-			attack.addEffect(new TranceEffect(null));
+			attack.addEffect(new TranceEffect());
 		}
 	}
 

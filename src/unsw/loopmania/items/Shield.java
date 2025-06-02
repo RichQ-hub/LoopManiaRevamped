@@ -21,7 +21,7 @@ public class Shield extends EquipmentItem {
 		Random rand = new Random();
 
 		if (rand.nextDouble() < 0.6) {
-			System.out.println("  Blocking Vampire Bites");
+			System.out.println("  * Blocking Vampire Bites");
 			// Sets any incomving vampire bites to have uses = 0, essentially
 			// blocking it.
 			attack.applyModifier(new VampireBiteModifier(0));

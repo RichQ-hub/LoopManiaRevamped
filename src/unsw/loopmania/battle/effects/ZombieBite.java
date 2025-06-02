@@ -6,43 +6,51 @@ import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.AlliedState;
 import unsw.loopmania.battle.battleState.EnemyState;
+import unsw.loopmania.battle.effects.modifiers.AddDamage;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
-/**
- * Trance effect lasts for 3 attacks on the entity it is inflicted upon.
- */
-public class TranceEffect extends Effect {
+public class ZombieBite extends Effect {
 
-	public TranceEffect() {
+	private AddDamage zombieBonusAttack;
+
+	public ZombieBite() {
 		super(3, EffectTrigger.ON_HIT);
+		this.zombieBonusAttack = new AddDamage(3);
 	}
 
+	/**
+	 * Turn the opponent into an enemy (e.g. Allied Soldier, etc) as well as give them a
+	 * bonus 3 dmg on attack.
+	 */
 	@Override
 	public void useEffect(ListIterator<Effect> activeEffectsIterator) {
 		Battleable target = super.getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
-		if (getUses() == 1) {
-			// We are on our last call, so we revert the enemy back to its enemy state.
+		if (getUses() == 3) {
+			// We are on the first call, so on initial attack, which we use to convert
+			// the target into an enemy and apply the bonus attack.
 			attr.setBattleState(new EnemyState());
-		} else {
+			attr.addAttackModifier(zombieBonusAttack);
+		} else if (getUses() == 1) {
 			attr.setBattleState(new AlliedState());
+			attr.removeAttackModifier(zombieBonusAttack);
 		}
 	}
 
 	@Override
 	public Effect copyEffect() {
-		return new TranceEffect();
+		return new ZombieBite();
 	}
 
 	@Override
 	public void acceptModifier(EffectModifier modifier) {
-		modifier.visitTranceEffect(this);
+		modifier.visitZombieBiteEffect(this);
 	}
 
 	@Override
 	public void printInfo() {
 		System.out.println(
-			String.format("	- %s: [Uses: %d]", getClass().getSimpleName(), getUses())
+			String.format("	- %s: [Bonus Dmg: %f, Uses: %d]", getClass().getSimpleName(), zombieBonusAttack.getAddedDamage(), getUses())
 		);
 	}
 	

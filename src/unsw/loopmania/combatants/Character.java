@@ -3,8 +3,13 @@ package unsw.loopmania.combatants;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.javatuples.Pair;
+
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
@@ -14,6 +19,7 @@ import unsw.loopmania.battle.battleState.BattleState;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.Effect;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
+import unsw.loopmania.battle.effects.modifiers.ZombieBiteImmunity;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.entity.MovingEntity;
 import unsw.loopmania.inventory.EquipmentSlot;
@@ -38,23 +44,32 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	private BattleAttributes battleAttributes;
 	private InventoryManager inventory;
 
+	private IntegerProperty alliedSoldierCount;
+	private ObservableList<AlliedSoldier> alliedSoldiers;
+
 	private List<LocationObserver<Character>> locationObservers;
     
     public Character(PathPosition position) {
 		super(position);
+		super.setEntityImageByPath("src/images/human_new.png");
         this.gold = new SimpleIntegerProperty(0);
         this.exp = new SimpleIntegerProperty(0);
-		super.setEntityImageByPath("src/images/human_new.png");
 		this.locationObservers = new ArrayList<>();
+		this.alliedSoldierCount = new SimpleIntegerProperty();
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 100, 0, 0, new AlliedState());
-		attr.addAttackEffect(new DamageEffect(null, 15));
+		attr.addBaseAttackEffect(new DamageEffect(15));
+		attr.addDefenseModifier(new ZombieBiteImmunity());
 
 		this.battleAttributes = attr;
 
-		// Bind health property.
-
+		// Bind allied soldier count to list.
+		this.alliedSoldiers = FXCollections.observableArrayList();
+		this.alliedSoldierCount = new SimpleIntegerProperty();
+		alliedSoldiers.addListener((ListChangeListener<AlliedSoldier>) c -> {
+			this.alliedSoldierCount.set(alliedSoldiers.size());
+		});
     }
 
 	// ==================================================================================
@@ -83,18 +98,27 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	// ==================================================================================
 
 	@Override
-	public Attack attack(Battleable combatant) {
+	public void attackOpponents(List<Battleable> battleEntities) {
+		// Get opponents that are alive.
+		List<Battleable> opponents = getEntitiesToAttack(battleEntities);
+		for (Battleable opp : opponents) {
+			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
+			Attack attack = buildAttack();
+			opp.takeAttack(attack);
+
+			// Log info.
+			opp.printInfo();
+		}
+	}
+
+	@Override
+	public Attack buildAttack() {
 		Attack attack = new Attack();
 		
-		List<Effect> attackEffects = battleAttributes.getAttackEffects();
-		for (Effect e : attackEffects) {
-			Effect copy = e.copyEffect();
-			copy.setTarget(combatant);
-			attack.addEffect(copy);
-		}
+		battleAttributes.insertBaseAttackEffects(attack);
 
 		// DEBUG: Print attack.
-		attack.printInfo("Initial Attack Effects");
+		attack.printInfo("Base Attack");
 
 		// Apply outgoing attack modifiers provided by equipped items.
 		EquippedInventory eInv = inventory.getEquippedInventory();
@@ -104,9 +128,8 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		battleAttributes.modifyOutgoingAttack(attack); 
 
 		// DEBUG: Print attack.
-		attack.printInfo("Sent Attack");
+		attack.printInfo("Outgoing Attack");
 
-		combatant.takeAttack(attack);
 		return attack;
 	}
 
@@ -120,7 +143,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		battleAttributes.modifyIncomingAttack(attack);
 
 		// DEBUG: Print attack.
-		attack.printInfo("Final Modified Attack");
+		attack.printInfo("Incoming Attack");
 
 		// Add all offensive effects onto the person.
 		for (Effect e : attack.getEffects()) {
@@ -169,6 +192,9 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 			System.out.println(m.getClass().getSimpleName());
 		}
 		System.out.println("  }");
+
+		// Print Allied Soldier count.
+		System.out.println("  Allied Soldiers: " + alliedSoldiers.size());
 	}
 
 	@Override
@@ -220,6 +246,29 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	}
 
 	// ==================================================================================
+	// AlliedSoldier Methods.
+	// ==================================================================================
+
+	public void addAlliedSoldier() {
+		AlliedSoldier newSoldier = new AlliedSoldier(Pair.with(0, 0));
+		this.alliedSoldiers.add(newSoldier);
+	}
+
+	public void removeDeadAlliedSoldiers() {
+		List<AlliedSoldier> deadSoldiers = new ArrayList<>();
+		for (AlliedSoldier s : alliedSoldiers) {
+			if (!s.isAlive()) {
+				deadSoldiers.add(s);
+				s.destroy();
+			}
+		}
+
+		for (AlliedSoldier dead : deadSoldiers) {
+			alliedSoldiers.remove(dead);
+		}
+	}
+
+	// ==================================================================================
 	// Property Getters.
 	// ==================================================================================
 
@@ -230,6 +279,10 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
     public IntegerProperty getExpProperty() {
         return exp;
     }
+
+	public IntegerProperty getSoldierCountProperty() {
+		return alliedSoldierCount;
+	}
 
     // ==================================================================================
 	// Getters and Setters.
@@ -251,6 +304,14 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
         this.exp.set(exp);
     }
 
+	public int getAlliedSoldierCount() {
+        return alliedSoldierCount.get();
+    }
+
+    public void setAlliedSoldierCount(int count) {
+        this.alliedSoldierCount.set(count);
+    }
+
 	public InventoryManager getInventory() {
 		return inventory;
 	}
@@ -258,5 +319,12 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	public void setInventory(InventoryManager inventory) {
 		this.inventory = inventory;
 	}
-    
+
+    public ObservableList<AlliedSoldier> getAlliedSoldiers() {
+		return alliedSoldiers;
+	}
+
+	public void setAlliedSoldiers(ObservableList<AlliedSoldier> alliedSoldiers) {
+		this.alliedSoldiers = alliedSoldiers;
+	}
 }

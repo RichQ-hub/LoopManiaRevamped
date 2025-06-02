@@ -21,11 +21,21 @@ public class Attack {
 			e.acceptModifier(modifier);
 		}
 
+		// Could move this to the modifyOutgoingAttack() in BattleAttributes to allow us to send inactive effects
+		// which are later activated. E.g. ZombieProne could activate ZombieBite (which is inactive with uses = 0).
+		// This is useful because what if there was a previous modifier applied in this method, then running
+		// cleanseEffects() would remove that inactive ZombieBite BEFORE we could even activate it.
+
+		// OR you could also only call this method in the takeAttack() method in all battleable entities,
+		// just before we add them to the activeEffects list so that we only call this method once.
 		cleanseEffects();
 	}
 
 	public void addEffect(Effect effect) {
-		effects.add(effect);
+		boolean hasEffect = effects.stream().anyMatch(e -> e.getClass().equals(effect.getClass()));
+		if (!hasEffect) {
+			effects.add(effect);
+		}
 	}
 
 	public void addEffectModifier(EffectModifier modifier) {

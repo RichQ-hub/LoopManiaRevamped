@@ -10,8 +10,8 @@ public class StakeEffect extends Effect {
 
 	private double dmg;
 
-	public StakeEffect(Battleable target) {
-		super(target, 1, EffectTrigger.ON_HIT);
+	public StakeEffect() {
+		super(1, EffectTrigger.ON_HIT);
 		this.dmg = 0;
 	}
 
@@ -24,7 +24,7 @@ public class StakeEffect extends Effect {
 
 	@Override
 	public Effect copyEffect() {
-		return new StakeEffect(getTarget());
+		return new StakeEffect();
 	}
 
 	@Override

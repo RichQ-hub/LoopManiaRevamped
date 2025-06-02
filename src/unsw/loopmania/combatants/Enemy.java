@@ -30,45 +30,43 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 		this.locationObservers = new ArrayList<>();
     }
 
-	public abstract void specialAttack(Battleable combatant, Attack attack);
+	public abstract void specialAttack(Attack attack);
 
 	// ==================================================================================
 	// Battleable Methods.
 	// ==================================================================================
 
 	@Override
-	public void destroy() {
-		super.destroy();
+	public void attackOpponents(List<Battleable> battleEntities) {
+		// Get opponents that are alive.
+		List<Battleable> opponents = getEntitiesToAttack(battleEntities);
+		for (Battleable opp : opponents) {
+			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
+			Attack attack = buildAttack();
+			opp.takeAttack(attack);
+
+			// Log info.
+			opp.printInfo();
+		}
 	}
 
 	@Override
-	public void addToBattleManager(BattleManager manager) {
-		manager.addEnemy(this);
-	}
-
-	@Override
-	public Attack attack(Battleable combatant) {
+	public Attack buildAttack() {
 		Attack attack = new Attack();
 		
-		List<Effect> attackEffects = battleAttributes.getAttackEffects();
-		for (Effect e : attackEffects) {
-			Effect copy = e.copyEffect();
-			copy.setTarget(combatant);
-			attack.addEffect(copy);
-		}
+		battleAttributes.insertBaseAttackEffects(attack);
 
 		// DEBUG: Print attack.
-		attack.printInfo("Initial Attack Effects");
+		attack.printInfo("Base Attack");
 
-		specialAttack(combatant, attack);
+		specialAttack(attack);
 
 		// Apply attack modifiers (buffs) this enemy might have.
 		battleAttributes.modifyOutgoingAttack(attack);
 
 		// DEBUG: Print attack.
-		attack.printInfo("Sent Attack");
+		attack.printInfo("Outgoing Attack");
 
-		combatant.takeAttack(attack);
 		return attack;
 	}
 
@@ -78,7 +76,7 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 		battleAttributes.modifyIncomingAttack(attack);
 
 		// DEBUG: Print attack.
-		attack.printInfo("Final Modified Attack");
+		attack.printInfo("Incoming Attack");
 
 		// Add all offensive effects onto the person.
 		for (Effect e : attack.getEffects()) {
@@ -89,6 +87,16 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 
 		// Trigger on-hit effects.
 		battleAttributes.triggerEffects(Effect.EffectTrigger.ON_HIT);
+	}
+
+	@Override
+	public void destroy() {
+		super.destroy();
+	}
+
+	@Override
+	public void addToBattleManager(BattleManager manager) {
+		manager.addEnemy(this);
 	}
 
 	@Override

@@ -10,8 +10,8 @@ public class DamageEffect extends Effect {
 
 	private double dmg;
 
-	public DamageEffect(Battleable target, double dmg) {
-		super(target, 1, EffectTrigger.ON_HIT);
+	public DamageEffect(double dmg) {
+		super(1, EffectTrigger.ON_HIT);
 		this.dmg = dmg;
 	}
 
@@ -36,7 +36,7 @@ public class DamageEffect extends Effect {
 
 	@Override
 	public Effect copyEffect() {
-		return new DamageEffect(null, dmg);
+		return new DamageEffect(dmg);
 	}
 
 	public void reduceDamage(double dmg) {

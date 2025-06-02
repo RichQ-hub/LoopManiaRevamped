@@ -18,7 +18,7 @@ public class Stake extends EquipmentItem {
 
 	@Override
 	public void modifyOutgoingAttack(Attack attack) {
-		attack.addEffect(new StakeEffect(null));
+		attack.addEffect(new StakeEffect());
 	}
 
 	@Override

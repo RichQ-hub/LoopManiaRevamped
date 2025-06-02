@@ -59,6 +59,7 @@ public class BattleManager {
 
 		List<Battleable> battleEntities = new ArrayList<>();
 		battleEntities.add(character);
+		battleEntities.addAll(character.getAlliedSoldiers());
 		battleEntities.addAll(battleEnemies);
 
 		// While character is not defeated and there are no more enemies in battle.
@@ -81,8 +82,10 @@ public class BattleManager {
 				System.out.println("============================================");
 				System.out.println(e.getClass().getSimpleName().toUpperCase() + "\n");
 
-				System.out.println("Attack Effects:");
-				for (Effect ae : e.getBattleAttributes().getAttackEffects()) {
+				System.out.println("HEALTH: " + e.getBattleAttributes().getHealth());
+
+				System.out.println("\nAttack Effects:");
+				for (Effect ae : e.getBattleAttributes().getBaseAttackEffects()) {
 					ae.printInfo();
 				}
 
@@ -98,19 +101,7 @@ public class BattleManager {
 
 				System.out.println("\n--------------------------------------------");
 
-				// Attack all opponents.
-                for (Battleable opponent : entitiesToAttack) {
-					// Can only attack opponent if they are alive.
-					if (opponent.isAlive()) {
-						System.out.println("\nAttacking -- {" + opponent.getClass().getSimpleName() + "}: {" + opponent.getBattleAttributes().getHealth() + "}");
-						e.attack(opponent);
-
-						// Log info.
-						System.out.println();
-						opponent.printInfo();
-					}
-					System.out.println("\n  ************************");
-				}
+				e.attackOpponents(battleEntities);
             }
 
             // Remove all dead entities from the battle.
@@ -126,6 +117,9 @@ public class BattleManager {
 			killEnemy(e);
 			deadEnemies.add(e);
 		}
+
+		// Remove dead allied soldiers from the character.
+		character.removeDeadAlliedSoldiers();
 
 		return deadEnemies;
     }
