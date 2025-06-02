@@ -76,6 +76,20 @@ public class BuildingManager {
 		}
 	}
 
+	public void removeExpiredBuildings() {
+		List<Building> expiredBuildings = buildings.stream().filter(b -> b.isExpired()).collect(Collectors.toList());
+		for (Building b : expiredBuildings) {
+			removeBuildingFromManager(b);
+			b.destroy();
+		}
+	}
+
+	public void decrementBuildingLifespans() {
+		for (Building b : buildings) {
+			b.decrementLifespan();
+		}
+	}
+
 	// ==================================================================================
 	// Append methods.
 	// ==================================================================================

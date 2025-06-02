@@ -9,8 +9,10 @@ import unsw.loopmania.managers.BuildingManager;
 
 public class BarracksBuilding extends Building implements LocationObserver<Character> {
 
+	private static final int LIFESPAN = 3;
+
 	public BarracksBuilding(Pair<Integer, Integer> position) {
-		super(position);
+		super(position, LIFESPAN);
 		super.setEntityImageByPath("src/images/barracks.png");
 	}
 

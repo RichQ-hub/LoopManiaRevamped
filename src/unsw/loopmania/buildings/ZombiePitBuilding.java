@@ -14,11 +14,14 @@ import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.spawners.Spawner;
 
 public class ZombiePitBuilding extends Building implements Spawner {
+	
+	private static final int LIFESPAN = 1;
+
 	private LoopManiaWorld world;
 	private Pair<Integer, Integer> spawnLocation;
 
 	public ZombiePitBuilding(Pair<Integer, Integer> position, Pair<Integer, Integer> spawnLocation, LoopManiaWorld world) {
-		super(position);
+		super(position, LIFESPAN);
 		this.spawnLocation = spawnLocation;
 		this.world = world;
 		super.setEntityImageByPath("src/images/zombie_pit.png");

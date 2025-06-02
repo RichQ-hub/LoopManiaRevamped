@@ -14,8 +14,10 @@ import unsw.loopmania.managers.BuildingManager;
 
 public class TowerBuilding extends Building implements Battleable {
 
+	private static final int LIFESPAN = 3;
+
 	public TowerBuilding(Pair<Integer, Integer> position) {
-		super(position);
+		super(position, LIFESPAN);
 	}
 
 	@Override
