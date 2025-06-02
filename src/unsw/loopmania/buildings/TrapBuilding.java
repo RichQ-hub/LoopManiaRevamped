@@ -9,8 +9,10 @@ import unsw.loopmania.observers.LocationObserver;
 
 public class TrapBuilding extends Building implements LocationObserver<Enemy> {
 
+	private static final int LIFESPAN = -1;
+
 	public TrapBuilding(Pair<Integer, Integer> position) {
-		super(position);
+		super(position, LIFESPAN);
 		super.setEntityImageByPath("src/images/trap.png");
 	}
 

@@ -1,25 +1,29 @@
 package unsw.loopmania.buildings;
 
-import unsw.loopmania.observers.LocationObserver;
-
 import org.javatuples.Pair;
 
+import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.managers.BuildingManager;
+import unsw.loopmania.observers.LocationObserver;
 
-public class BarracksBuilding extends Building implements LocationObserver<Character> {
+public class VillageBuilding extends Building implements LocationObserver<Character> {
 
 	private static final int LIFESPAN = 3;
 
-	public BarracksBuilding(Pair<Integer, Integer> position) {
+	public VillageBuilding(Pair<Integer, Integer> position) {
 		super(position, LIFESPAN);
-		super.setEntityImageByPath("src/images/barracks.png");
+		super.setEntityImageByPath("src/images/village.png");
 	}
 
+	/**
+	 * Heal the character by 8.
+	 */
 	@Override
 	public void update(Character entity) {
 		if ((entity.getX() == getX()) && (entity.getY() == getY())) {
-			entity.addAlliedSoldier();
+			BattleAttributes attr = entity.getBattleAttributes();
+			attr.setHealth(attr.getHealth() + 8);
 		}
 	}
 

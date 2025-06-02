@@ -12,11 +12,13 @@ import unsw.loopmania.entity.Entity;
 
 public class CampfireBuilding extends Building implements LocationObserver<Character> {
 
+	private static final int LIFESPAN = 2;
+
 	private final double radius = 16;
 	private EffectModifier buff;
 
 	public CampfireBuilding(Pair<Integer, Integer> position) {
-		super(position);
+		super(position, LIFESPAN);
 		super.setEntityImageByPath("src/images/campfire.png");
 		this.buff = new DamageMultiplier(2);
 	}

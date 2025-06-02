@@ -18,11 +18,13 @@ import unsw.loopmania.spawners.Spawner;
  */
 public class VampireCastleBuilding extends Building implements Spawner {
 
+	private static final int LIFESPAN = 2;
+
 	private LoopManiaWorld world;
 	private Pair<Integer, Integer> spawnLocation;
 
 	public VampireCastleBuilding(Pair<Integer, Integer> position, Pair<Integer, Integer> spawnLocation, LoopManiaWorld world) {
-        super(position);
+        super(position, LIFESPAN);
 		this.spawnLocation = spawnLocation;
 		this.world = world;
 		super.setEntityImageByPath("src/images/vampire_castle_building_purple_background.png");

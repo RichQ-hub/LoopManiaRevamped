@@ -2,6 +2,7 @@ package unsw.loopmania.combatants;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.javatuples.Pair;
 
@@ -255,15 +256,10 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	}
 
 	public void removeDeadAlliedSoldiers() {
-		List<AlliedSoldier> deadSoldiers = new ArrayList<>();
-		for (AlliedSoldier s : alliedSoldiers) {
-			if (!s.isAlive()) {
-				deadSoldiers.add(s);
-				s.destroy();
-			}
-		}
+		List<AlliedSoldier> deadSoldiers = alliedSoldiers.stream().filter(s -> !s.isAlive()).collect(Collectors.toList());
 
 		for (AlliedSoldier dead : deadSoldiers) {
+			dead.destroy();
 			alliedSoldiers.remove(dead);
 		}
 	}

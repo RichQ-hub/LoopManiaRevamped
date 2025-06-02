@@ -33,8 +33,8 @@ public class OriginalMap implements GameMap {
 
 	@Override
 	public void buildGoal() {
-		Goal goldGoal = new GoldGoal(200);
-		Goal cycleGoal = new CycleGoal(3);
+		Goal goldGoal = new GoldGoal(700);
+		Goal cycleGoal = new CycleGoal(10);
 
 		this.goal = new AndOperator(goldGoal, cycleGoal);
 	}

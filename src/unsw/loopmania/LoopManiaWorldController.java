@@ -37,6 +37,7 @@ import unsw.loopmania.cards.BarracksCard;
 import unsw.loopmania.cards.CampfireCard;
 import unsw.loopmania.cards.Card;
 import unsw.loopmania.cards.TrapCard;
+import unsw.loopmania.cards.VillageCard;
 import unsw.loopmania.cards.ZombiePitCard;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
@@ -317,11 +318,13 @@ public class LoopManiaWorldController {
 		onLoadItem(inventoryManager.addItemToInventory(helm));
 		onLoadItem(inventoryManager.addItemToInventory(staff));
 
+		VillageCard village = new VillageCard();
 		BarracksCard barracksCard = new BarracksCard();
 		TrapCard trap1 = new TrapCard();
 		CampfireCard camp = new CampfireCard();
 		ZombiePitCard zombiePit = new ZombiePitCard();
 		onLoadCard(cardManager.addCard(barracksCard));
+		onLoadCard(cardManager.addCard(village));
 		onLoadCard(cardManager.addCard(trap1));
 		onLoadCard(cardManager.addCard(camp));
 		onLoadCard(cardManager.addCard(zombiePit));
@@ -340,6 +343,7 @@ public class LoopManiaWorldController {
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
         timeline = new Timeline(new KeyFrame(Duration.seconds(0.3), event -> {
+			// Start of a new cycle if the character is at the castle.
 			if (world.isCharacterAtCastle()) {
 				// Check if the goal has been achieved.
 				if (world.isGoalAchieved()) {
@@ -352,6 +356,12 @@ public class LoopManiaWorldController {
 				for (Entity e : newMapEntities) {
 					onLoadMapEntity(e);
 				}
+
+                // Decrement building lifespans.
+                buildingManager.decrementBuildingLifespans();
+
+				// Remove any expired buildings.
+				buildingManager.removeExpiredBuildings();
 			}
 			
 			// Move all moving entities.
