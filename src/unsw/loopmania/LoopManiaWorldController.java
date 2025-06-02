@@ -37,6 +37,7 @@ import unsw.loopmania.cards.BarracksCard;
 import unsw.loopmania.cards.CampfireCard;
 import unsw.loopmania.cards.Card;
 import unsw.loopmania.cards.TrapCard;
+import unsw.loopmania.cards.VillageCard;
 import unsw.loopmania.cards.ZombiePitCard;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
@@ -317,11 +318,13 @@ public class LoopManiaWorldController {
 		onLoadItem(inventoryManager.addItemToInventory(helm));
 		onLoadItem(inventoryManager.addItemToInventory(staff));
 
+		VillageCard village = new VillageCard();
 		BarracksCard barracksCard = new BarracksCard();
 		TrapCard trap1 = new TrapCard();
 		CampfireCard camp = new CampfireCard();
 		ZombiePitCard zombiePit = new ZombiePitCard();
 		onLoadCard(cardManager.addCard(barracksCard));
+		onLoadCard(cardManager.addCard(village));
 		onLoadCard(cardManager.addCard(trap1));
 		onLoadCard(cardManager.addCard(camp));
 		onLoadCard(cardManager.addCard(zombiePit));
