@@ -166,7 +166,7 @@ public class BuildingManager {
 	}
 
 	public void removeCharacterObserverBuilding(LocationObserver<Character> observer) {
-		characterObserverBuildings.add(observer);
+		characterObserverBuildings.remove(observer);
 
 		Character character = world.getCharacter();
 		character.unsubscribe(observer);

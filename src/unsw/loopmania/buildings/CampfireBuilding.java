@@ -36,6 +36,11 @@ public class CampfireBuilding extends Building implements LocationObserver<Chara
 	}
 
 	@Override
+	public boolean shouldObserverExist() {
+		return shouldExist().get();
+	}
+
+	@Override
 	public void update(Character entity) {
 		BattleAttributes attr = entity.getBattleAttributes();
 		if (withinRange(entity)) {

@@ -338,7 +338,6 @@ public class LoopManiaWorldController {
      * create and run the timer
      */
     public void startTimer() {
-        // TODO = handle more aspects of the behaviour required by the specification
         System.out.println("starting timer");
         isPaused = false;
         // trigger adding code to process main game logic to queue. JavaFX will target framerate of 0.3 seconds
@@ -450,6 +449,12 @@ public class LoopManiaWorldController {
 		addDragEventHandlers(view, DRAGGABLE_TYPE.ITEM, unequippedInventory, equippedItems);
 		addEntity(item, view);
 		unequippedInventory.getChildren().add(view);
+
+		// view.setOnMouseClicked((e) -> {
+        //     if (e.getButton() == MouseButton.SECONDARY) {
+		// 		item.useItem();
+		// 	}
+        // });
 	}
 
 	/**
@@ -541,11 +546,13 @@ public class LoopManiaWorldController {
                     Node node = event.getPickResult().getIntersectedNode();
 
 					// If the user is currently dragging something (indicated by the dragboard having an image),
-					// AND if the node isn't on the target grid already, then we can put it there.
+					// AND if the node being hovered on is NOT the target gridpane, but the actual cells within it.
                     if (node != targetGridPane && db.hasImage()) {
-                        //Places at 0,0 - will need to take coordinates once that is implemented
+                        // Places at 0,0 - will need to take coordinates once that is implemented
                         Integer cIndex = GridPane.getColumnIndex(node);
                         Integer rIndex = GridPane.getRowIndex(node);
+
+						// These are coordinates of the drop location.
                         int x = cIndex == null ? 0 : cIndex;
                         int y = rIndex == null ? 0 : rIndex;
 
@@ -787,7 +794,7 @@ public class LoopManiaWorldController {
                         // TODO = since being more selective about whether highlighting changes, you could program the
 						// game so if the new highlight location is invalid the highlighting doesn't change, or leave this as-is
                         public void handle(DragEvent event) {
-                            if (currentlyDraggedType == draggableType){
+                            if (currentlyDraggedType == draggableType) {
                                 n.setOpacity(1);
                             }
                 

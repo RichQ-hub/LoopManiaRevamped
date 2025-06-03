@@ -44,4 +44,9 @@ public class TrapBuilding extends Building implements LocationObserver<Enemy> {
 			super.setActive(false); // Mark this trap to be removed from the building manager.
         }
 	}
+
+	@Override
+	public boolean shouldObserverExist() {
+		return shouldExist().get();
+	}
 }
