@@ -58,6 +58,9 @@ public class LoopManiaApplication extends Application {
 		// Switch from victory screen to main menu.
 		victoryMenuController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
 
+		// Switch from game over screen to main menu.
+		gameOverController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
+
 		// Switches from the menu to the game.
         mainMenuController.setGameSwitcher(() -> {
 
