@@ -49,8 +49,8 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	private ObservableList<AlliedSoldier> alliedSoldiers;
 
 	private List<LocationObserver<Character>> locationObservers;
-    
-    public Character(PathPosition position) {
+
+	public Character(PathPosition position) {
 		super(position);
 		super.setEntityImageByPath("src/images/human_new.png");
         this.gold = new SimpleIntegerProperty(0);
@@ -92,6 +92,10 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		for (LocationObserver<Character> o : locationObservers) {
 			o.update(this);
 		}
+	}
+
+	public void clearDestroyedObservers() {
+		this.locationObservers = locationObservers.stream().filter(o -> o.shouldObserverExist()).collect(Collectors.toList()); 
 	}
 
 	// ==================================================================================
@@ -322,5 +326,13 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 	public void setAlliedSoldiers(ObservableList<AlliedSoldier> alliedSoldiers) {
 		this.alliedSoldiers = alliedSoldiers;
+	}
+
+	public List<LocationObserver<Character>> getLocationObservers() {
+		return locationObservers;
+	}
+
+	public void setLocationObservers(List<LocationObserver<Character>> locationObservers) {
+		this.locationObservers = locationObservers;
 	}
 }

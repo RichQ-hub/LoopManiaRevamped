@@ -33,9 +33,15 @@ public class Zombie extends Enemy {
 		super.setLootTable(lootTable);
 	}
 
+	/**
+	 * Zombies have a low chance of moving, hence they are slow.
+	 */
 	@Override
 	public void move() {
-		moveUpPath();
+		Random rand = new Random();
+		if (rand.nextDouble() < 0.5) {
+			moveUpPath();
+		}
 		notifyObservers();
 	}
 

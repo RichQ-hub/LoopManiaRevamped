@@ -24,6 +24,11 @@ public class BarracksBuilding extends Building implements LocationObserver<Chara
 	}
 
 	@Override
+	public boolean shouldObserverExist() {
+		return shouldExist().get();
+	}
+
+	@Override
 	public void addToBuildingManager(BuildingManager manager) {
 		manager.addBuilding(this);
 		manager.addCharacterObserverBuilding(this);

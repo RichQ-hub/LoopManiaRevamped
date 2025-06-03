@@ -3,6 +3,7 @@ package unsw.loopmania;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.javatuples.Pair;
 
@@ -19,6 +20,7 @@ import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.managers.CardManager;
 import unsw.loopmania.spawners.ElanMuskeSpawner;
+import unsw.loopmania.spawners.GoldSpawner;
 import unsw.loopmania.spawners.SlugSpawner;
 
 /**
@@ -72,6 +74,9 @@ public class LoopManiaWorld {
 	 */
 	private Goal goal;
 
+	// Items spawns in the map path for the character to pick up.
+	private List<Entity> pathItems;
+
 	/**
      * Create the world (constructor)
      * 
@@ -88,6 +93,7 @@ public class LoopManiaWorld {
         this.orderedPath = orderedPath;
 		this.cycleCount = new SimpleIntegerProperty(1);
 		this.goal = goal;
+		this.pathItems = new ArrayList<>();
 
 		// Entity Managers.
 		this.inventoryManager = new InventoryManager();
@@ -96,6 +102,7 @@ public class LoopManiaWorld {
 		this.cardManager = new CardManager(this);
 
 		// Add initial spawners.
+		buildingManager.addSpawner(new GoldSpawner(this));
 		buildingManager.addSpawner(new SlugSpawner(this));
 		buildingManager.addSpawner(new ElanMuskeSpawner(this));
     }
@@ -115,7 +122,7 @@ public class LoopManiaWorld {
     }
 
     /**
-     * Run moves which occur with every tick without needing to spawn anything immediately
+     * Run moves which occur with every tick without needing to spawn anything immediately.
      */
     public void runTickMoves() {
         character.move();
@@ -123,6 +130,9 @@ public class LoopManiaWorld {
 		battleManager.moveEnemies();
 
 		buildingManager.removeInactiveBuildings();
+
+		clearInactivePathItems();
+		character.clearDestroyedObservers();
 		
 		if (isCharacterAtCastle()) {
 			setCycleCount(getCycleCount() + 1);
@@ -279,6 +289,18 @@ public class LoopManiaWorld {
     // }
 
 	// ==================================================================================
+	// Path Items Methods.
+	// ==================================================================================
+
+	public void addPathItem(Entity pathItem) {
+		pathItems.add(pathItem);
+	}
+
+	public void clearInactivePathItems() {
+		this.pathItems = pathItems.stream().filter(item -> item.shouldExist().get()).collect(Collectors.toList());
+	}
+
+	// ==================================================================================
 	// Getters and Setters.
 	// ==================================================================================
 
@@ -375,5 +397,13 @@ public class LoopManiaWorld {
 
 	public void setGoal(Goal goal) {
 		this.goal = goal;
+	}
+
+	public List<Entity> getPathItems() {
+		return pathItems;
+	}
+
+	public void setPathItems(List<Entity> pathItems) {
+		this.pathItems = pathItems;
 	}
 }
