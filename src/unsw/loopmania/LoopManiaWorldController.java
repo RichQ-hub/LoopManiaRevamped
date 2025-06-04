@@ -25,6 +25,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -366,6 +367,12 @@ public class LoopManiaWorldController {
 			// Move all moving entities.
             world.runTickMoves();
 
+			// Pickup any path items by the character on every tick.
+			List<Item> items = world.pickupPathItems();
+			for (Item i : items) {
+				onLoadItem(inventoryManager.addItemToInventory(i));
+			}
+
 			// Run battles on every tick.
             List<Battleable> defeatedEnemies = battleManager.battle();
 			if (defeatedEnemies != null) {
@@ -450,11 +457,14 @@ public class LoopManiaWorldController {
 		addEntity(item, view);
 		unequippedInventory.getChildren().add(view);
 
-		// view.setOnMouseClicked((e) -> {
-        //     if (e.getButton() == MouseButton.SECONDARY) {
-		// 		item.useItem();
-		// 	}
-        // });
+		// TEST
+		view.setOnMouseClicked((e) -> {
+			Character character = world.getCharacter();
+			InventoryManager manager = world.getInventoryManager();
+            if (e.getButton() == MouseButton.SECONDARY) {
+				item.useItem(character, manager);
+			}
+        });
 	}
 
 	/**

@@ -2,7 +2,9 @@ package unsw.loopmania.items;
 
 import org.javatuples.Pair;
 
+import unsw.loopmania.combatants.Character;
 import unsw.loopmania.entity.StaticEntity;
+import unsw.loopmania.inventory.InventoryManager;
 
 public abstract class Item extends StaticEntity {
 
@@ -12,6 +14,8 @@ public abstract class Item extends StaticEntity {
         super(Pair.with(0, 0));
 		this.value = value;
     }
+
+	public abstract void useItem(Character character, InventoryManager inventoryManager);
 
 	public int getValue() {
 		return value;

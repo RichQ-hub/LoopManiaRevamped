@@ -91,6 +91,13 @@ public class Inventory {
         return null;
     }
 
+	/**
+	 * Clear destroyed items.
+	 */
+	public void removeItem(Item item) {
+		items.remove(item);
+	}
+
 	// ==================================================================================
 	// Getters and Setters.
 	// ==================================================================================

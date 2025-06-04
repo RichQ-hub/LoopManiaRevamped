@@ -83,6 +83,10 @@ public class InventoryManager {
 		return inventory.addItem(item);
 	}
 
+	public void removeItemFromInventory(Item item) {
+		inventory.removeItem(item);
+	}
+
 	public boolean canEquipInventoryItemByCoordinates(int itemX, int itemY, int slotX, int slotY) {
 		Item item = inventory.getInventoryItemByCoordinates(itemX, itemY);
 
