@@ -34,7 +34,7 @@ public class GoldSpawner implements Spawner {
 
 			GoldPile newPile = new GoldPile(newPos, amount);
 			goldPiles.add(newPile);
-			world.addPathItem(newPile);
+			world.addPathEntity(newPile);
 
 			// Subscribe the new gold to the character.
 			Character character = world.getCharacter();

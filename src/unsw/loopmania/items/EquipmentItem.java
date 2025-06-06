@@ -3,18 +3,25 @@ package unsw.loopmania.items;
 import org.javatuples.Pair;
 
 import unsw.loopmania.battle.Attack;
+import unsw.loopmania.combatants.Character;
 import unsw.loopmania.inventory.EquipmentType;
 import unsw.loopmania.inventory.EquippedInventory;
+import unsw.loopmania.inventory.InventoryManager;
 
 public abstract class EquipmentItem extends Item {
 
 	private EquipmentType equipmentType;
 	private Pair<Integer, Integer> slotCoords;
 
-	public EquipmentItem(int value, EquipmentType equipmentType) {
-		super(value);
+	public EquipmentItem(int value, String description, EquipmentType equipmentType) {
+		super(value, description);
 		this.equipmentType = equipmentType;
 		this.slotCoords = EquippedInventory.SLOT_COORDS.get(equipmentType);
+	}
+
+	@Override
+	public void useItem(Character character, InventoryManager inventoryManager) {
+		return;
 	}
 
     public abstract void modifyIncomingAttack(Attack attack);

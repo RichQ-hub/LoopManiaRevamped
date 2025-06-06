@@ -63,11 +63,6 @@ public class BuildingManager {
 		}
 	}
 
-	public void runTickChecks() {
-		// Cleanse unwanted buildings.
-		removeInactiveBuildings();
-	}
-
 	public void removeInactiveBuildings() {
 		List<Building> inactiveBuildings = buildings.stream().filter(b -> !b.isActive()).collect(Collectors.toList());
 		for (Building b : inactiveBuildings) {

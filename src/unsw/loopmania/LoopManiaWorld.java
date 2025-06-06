@@ -16,11 +16,13 @@ import unsw.loopmania.combatants.Character;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.goals.Goal;
 import unsw.loopmania.inventory.InventoryManager;
+import unsw.loopmania.items.Item;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.managers.CardManager;
 import unsw.loopmania.spawners.ElanMuskeSpawner;
 import unsw.loopmania.spawners.GoldSpawner;
+import unsw.loopmania.spawners.HealthPotionSpawner;
 import unsw.loopmania.spawners.SlugSpawner;
 
 /**
@@ -75,7 +77,10 @@ public class LoopManiaWorld {
 	private Goal goal;
 
 	// Items spawns in the map path for the character to pick up.
-	private List<Entity> pathItems;
+	private List<Entity> pathEntities;
+
+	// TODO: Have an actual pathItems variable that stores List<Item>.
+	private List<Item> pathItems;
 
 	/**
      * Create the world (constructor)
@@ -93,6 +98,7 @@ public class LoopManiaWorld {
         this.orderedPath = orderedPath;
 		this.cycleCount = new SimpleIntegerProperty(1);
 		this.goal = goal;
+		this.pathEntities = new ArrayList<>();
 		this.pathItems = new ArrayList<>();
 
 		// Entity Managers.
@@ -103,6 +109,7 @@ public class LoopManiaWorld {
 
 		// Add initial spawners.
 		buildingManager.addSpawner(new GoldSpawner(this));
+		buildingManager.addSpawner(new HealthPotionSpawner(this));
 		buildingManager.addSpawner(new SlugSpawner(this));
 		buildingManager.addSpawner(new ElanMuskeSpawner(this));
     }
@@ -131,13 +138,34 @@ public class LoopManiaWorld {
 
 		buildingManager.removeInactiveBuildings();
 
-		clearInactivePathItems();
+		clearInactivePathEntities();
 		character.clearDestroyedObservers();
 		
 		if (isCharacterAtCastle()) {
 			setCycleCount(getCycleCount() + 1);
 		}
     }
+
+	/**
+	 * On every tick, we check if the character is on a dropped item, in which case we pick it up.
+	 * @return
+	 */
+	public List<Item> pickupPathItems() {
+		List<Item> items = new ArrayList<>();
+		for (Item i : pathItems) {
+			if ((character.getX() == i.getX()) && (character.getY() == i.getY())) {
+				// Create a copy beacuse we want to destroy the ImageView of the item on the map,
+				// which we can then have the copy item ImageView load in the inventory.
+				Item copy = i.copyItem();
+				items.add(copy);
+				i.destroy();
+			}
+		}
+
+		clearInactivePathItems();
+
+		return items;
+	}
 
 	/**
 	 * Checks if the character is at the hero's castle (indicating the start of a new cycle).
@@ -209,7 +237,8 @@ public class LoopManiaWorld {
 
 	/**
 	 * NOTE: Could possibly move this to the PathPosition class.
-     * Get a randomly generated position that can be used to spawn an enemy
+     * Get a randomly generated position that can be used to spawn an enemy.
+	 * TODO: Could rename function name to getRandomPathPositionSpawn().
      * @return a random coordinate pair
      */
     public Pair<Integer, Integer> getPositionToSpawnEnemy() {
@@ -289,11 +318,23 @@ public class LoopManiaWorld {
     // }
 
 	// ==================================================================================
+	// Path Entities Methods.
+	// ==================================================================================
+
+	public void addPathEntity(Entity entity) {
+		pathEntities.add(entity);
+	}
+
+	public void clearInactivePathEntities() {
+		this.pathEntities = pathEntities.stream().filter(e -> e.shouldExist().get()).collect(Collectors.toList());
+	}
+
+	// ==================================================================================
 	// Path Items Methods.
 	// ==================================================================================
 
-	public void addPathItem(Entity pathItem) {
-		pathItems.add(pathItem);
+	public void addPathItem(Item item) {
+		pathItems.add(item);
 	}
 
 	public void clearInactivePathItems() {
@@ -399,11 +440,11 @@ public class LoopManiaWorld {
 		this.goal = goal;
 	}
 
-	public List<Entity> getPathItems() {
-		return pathItems;
+	public List<Entity> getPathEntities() {
+		return pathEntities;
 	}
 
-	public void setPathItems(List<Entity> pathItems) {
-		this.pathItems = pathItems;
+	public void setPathEntities(List<Entity> pathEntities) {
+		this.pathEntities = pathEntities;
 	}
 }

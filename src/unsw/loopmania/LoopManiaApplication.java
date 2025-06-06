@@ -1,6 +1,5 @@
 package unsw.loopmania;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javafx.application.Application;
@@ -58,64 +57,77 @@ public class LoopManiaApplication extends Application {
 		// Switch from victory screen to main menu.
 		victoryMenuController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
 
+		// Switch from game over screen to main menu.
+		gameOverController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
+
 		// Switches from the menu to the game.
         mainMenuController.setGameSwitcher(() -> {
-
-			GameMap selectedMap = mainMenuController.getSelectedMap();
-			if (selectedMap == null) {
-				return;
-			}
-
-			// Load the map and its controller inside loopManiaLoader.
-			LoopManiaWorldControllerLoader loopManiaLoader = null;
 			try {
-				loopManiaLoader = new LoopManiaWorldControllerLoader(selectedMap);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			}
+				GameMap selectedMap = mainMenuController.getSelectedMap();
+				if (selectedMap == null) {
+					return;
+				}
 
-			// Try and obtain the controller for the map.
-			try {
+				// Load the map and its controller inside loopManiaLoader.
+				LoopManiaWorldControllerLoader loopManiaLoader = new LoopManiaWorldControllerLoader(selectedMap);
+				
+				// Try and obtain the controller for the map.
 				assert loopManiaLoader != null;
 				this.mainController = loopManiaLoader.loadController();
+				
+				// Obtain the LoopManiaView.
+				FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
+
+				// Attach the LoopManiaController with the LoopManiaView so they are connected.
+				gameLoader.setController(mainController);
+
+				// Try and load the object hierarchy from the fxml view.
+				Parent gameRoot = gameLoader.load();
+				
+				// Set switch menu handler from the game to the menu.
+				mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
+
+				// Set handler for switching from game to victory screen.
+				mainController.setVictoryMenuSwitcher(() -> {switchToRoot(scene, victoryMenuRoot, primaryStage);});
+
+				// Set handler for switching from game to game over screen.
+				mainController.setGameOverSwitcher(() -> {switchToRoot(scene, gameOverRoot, primaryStage);});
+
+				// Create the ShopController too.
+				ShopController shopController = new ShopController(mainController);
+				FXMLLoader shopLoader = new FXMLLoader(getClass().getResource("ShopView.fxml"));
+				shopLoader.setController(shopController);
+				Parent shopRoot = shopLoader.load();
+
+				// Set handler for switching from game to shop.
+				mainController.setShopSwitcher(() -> {
+					shopController.loadInventoryItems();
+					switchToRoot(scene, shopRoot, primaryStage);
+				});
+
+				// Set handler for switching from shop back to game.
+				shopController.setGameSwitcher(() -> {
+					switchToRoot(scene, gameRoot, primaryStage);
+				});
+
+				// Deploy the main onto the stage.
+				gameRoot.requestFocus();
+
+				// Switch the scene from the main menu to the game.
+				switchToRoot(scene, gameRoot, primaryStage);
+				mainController.startTimer();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
-			// Obtain the LoopManiaView.
-			FXMLLoader gameLoader = new FXMLLoader(getClass().getResource("LoopManiaView.fxml"));
-
-			// Attach the LoopManiaController with the LoopManiaView so they are connected.
-			gameLoader.setController(mainController);
-
-			// Try and load the object hierarchy from the fxml view.
-			Parent gameRoot = null;
-			try {
-				gameRoot = gameLoader.load();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			// Set switch menu handler from the game to the menu.
-        	mainController.setMainMenuSwitcher(() -> {switchToRoot(scene, mainMenuRoot, primaryStage);});
-
-			// Set handler for switching from game to victory screen.
-			mainController.setVictoryMenuSwitcher(() -> {switchToRoot(scene, victoryMenuRoot, primaryStage);});
-
-			// Set handler for switching from game to game over screen.
-			mainController.setGameOverSwitcher(() -> {switchToRoot(scene, gameOverRoot, primaryStage);});
-
-			// Deploy the main onto the stage.
-        	gameRoot.requestFocus();
-
-			// Switch the scene from the main menu to the game.
-            switchToRoot(scene, gameRoot, primaryStage);
-            mainController.startTimer();
         });
 
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+	public void maker() {
+		System.out.println("nice");
+	}
 
     @Override
     public void stop() {

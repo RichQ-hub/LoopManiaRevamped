@@ -11,6 +11,7 @@ public class BigRingMap implements GameMap {
 	public BigRingMap() {
 		this.gameMapName = "Big Ring Map";
 		this.gameMapFileName = "big_ring_map.json";
+		buildGoal();
 	}
 
 	@Override

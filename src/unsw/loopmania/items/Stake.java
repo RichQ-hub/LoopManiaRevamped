@@ -6,8 +6,11 @@ import unsw.loopmania.inventory.EquipmentType;
 
 public class Stake extends EquipmentItem {
 
+	private static final int VALUE = 20;
+	private static final String DESCRIPTION = "A melee weapon with lower stats than the sword, but causes very high damage to vampires.";
+
 	public Stake() {
-		super(20, EquipmentType.Weapon);
+		super(VALUE, DESCRIPTION, EquipmentType.Weapon);
 		super.setEntityImageByPath("src/images/stake.png");
 	}
 

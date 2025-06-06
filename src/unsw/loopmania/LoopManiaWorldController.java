@@ -25,6 +25,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
@@ -206,6 +207,7 @@ public class LoopManiaWorldController {
     private MenuSwitcher mainMenuSwitcher;
 	private MenuSwitcher victoryMenuSwitcher;
 	private MenuSwitcher gameOverSwitcher;
+	private MenuSwitcher shopSwitcher;
 
     /**
      * @param world world object loaded from file
@@ -236,7 +238,7 @@ public class LoopManiaWorldController {
 
 	/**
 	 * Initialise function runs all the setup code AFTER the fxml view has loaded and this controller
-	 * is attached to it.
+	 * is attached to it. It is called when we run gameLoader.load() function in LoopManiaApplication.java.
 	 */
     @FXML
     public void initialize() {
@@ -349,6 +351,9 @@ public class LoopManiaWorldController {
 					pause();
 					switchToVictoryMenu();
 				}
+
+				// Open shop menu.
+				switchToShop();
 				
 				// Spawn new enemies when the character is at the start.
 				List<Entity> newMapEntities = buildingManager.spawnEntities(world.getCycleCount(), world.getOrderedPath());
@@ -365,6 +370,12 @@ public class LoopManiaWorldController {
 			
 			// Move all moving entities.
             world.runTickMoves();
+
+			// Pickup any path items by the character on every tick.
+			List<Item> items = world.pickupPathItems();
+			for (Item i : items) {
+				onLoadItem(inventoryManager.addItemToInventory(i));
+			}
 
 			// Run battles on every tick.
             List<Battleable> defeatedEnemies = battleManager.battle();
@@ -395,6 +406,12 @@ public class LoopManiaWorldController {
         System.out.println("pausing");
         timeline.stop();
     }
+
+	public void resume() {
+		isPaused = false;
+		System.out.println("resuming");
+		timeline.play();
+	}
 
     public void terminate() {
         pause();
@@ -450,11 +467,14 @@ public class LoopManiaWorldController {
 		addEntity(item, view);
 		unequippedInventory.getChildren().add(view);
 
-		// view.setOnMouseClicked((e) -> {
-        //     if (e.getButton() == MouseButton.SECONDARY) {
-		// 		item.useItem();
-		// 	}
-        // });
+		// TEST
+		view.setOnMouseClicked((e) -> {
+			Character character = world.getCharacter();
+			InventoryManager manager = world.getInventoryManager();
+            if (e.getButton() == MouseButton.SECONDARY) {
+				item.useItem(character, manager);
+			}
+        });
 	}
 
 	/**
@@ -872,7 +892,6 @@ public class LoopManiaWorldController {
      * @param node
      */
     private void trackPosition(Entity entity, Node node) {
-        // TODO = tweak this slightly to remove items from the equipped inventory?
         GridPane.setColumnIndex(node, entity.getX());
         GridPane.setRowIndex(node, entity.getY());
 
@@ -991,5 +1010,22 @@ public class LoopManiaWorldController {
     private void switchToGameOver() {
         gameOverSwitcher.switchMenu();
     }
+
+	public void setShopSwitcher(MenuSwitcher shopSwitcher) {
+        this.shopSwitcher = shopSwitcher;
+    }
+
+    private void switchToShop() {
+		pause();
+        shopSwitcher.switchMenu();
+    }
+
+	// ==================================================================================
+	// Getters and Setters.
+	// ==================================================================================
+
+	public LoopManiaWorld getWorld() {
+		return world;
+	}
 
 }

@@ -6,8 +6,11 @@ import unsw.loopmania.inventory.EquipmentType;
 
 public class Armour extends EquipmentItem {
 
+	private static final int VALUE = 30;
+	private static final String DESCRIPTION = "Body armour, provides defence and halves enemy attack.";
+
 	public Armour() {
-		super(30, EquipmentType.Chestpiece);
+		super(VALUE, DESCRIPTION, EquipmentType.Chestpiece);
 		super.setEntityImageByPath("src/images/armour.png");
 	}
 

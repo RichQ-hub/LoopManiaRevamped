@@ -8,8 +8,11 @@ import unsw.loopmania.inventory.EquipmentType;
 
 public class Shield extends EquipmentItem {
 
+	private static final int VALUE = 20;
+	private static final String DESCRIPTION = "Defends against enemy attacks, critical vampire attacks have a 60% lower chance of occurring.";
+
 	public Shield() {
-		super(20, EquipmentType.Shield);
+		super(VALUE, DESCRIPTION, EquipmentType.Shield);
 		super.setEntityImageByPath("src/images/shield.png");
 	}
 
