@@ -9,10 +9,11 @@ import unsw.loopmania.inventory.EquipmentType;
  */
 public class Sword extends EquipmentItem {
 
-	private static int value = 10;
+	private static final int VALUE = 10;
+	private static final String DESCRIPTION = "A standard melee weapon. Increases damage dealt by Character.";
     
     public Sword() {
-        super(value, EquipmentType.Weapon);
+        super(VALUE, DESCRIPTION, EquipmentType.Weapon);
 		super.setEntityImageByPath("src/images/basic_sword.png");
     }
 

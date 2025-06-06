@@ -6,8 +6,11 @@ import unsw.loopmania.inventory.InventoryManager;
 
 public class HealthPotion extends Item {
 
+	private static final int VALUE = 30;
+	private static final String DESCRIPTION = "Refills Character health by 10.";
+
 	public HealthPotion() {
-		super(30);
+		super(VALUE, DESCRIPTION);
 		super.setEntityImageByPath("src/images/brilliant_blue_new.png");
 	}
 

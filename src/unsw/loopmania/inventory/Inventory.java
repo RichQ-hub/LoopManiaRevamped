@@ -46,7 +46,7 @@ public class Inventory {
 	}
 
 	public void removeItemByCoordinates(int itemX, int itemY) {
-		System.out.println("Are your removed?");
+		System.out.println("Are you removed?");
 		int itemIdx = -1;
 		for (int i = 0; i < items.size(); i++) {
 			Item item = items.get(i);
@@ -116,5 +116,13 @@ public class Inventory {
 
 	public void setInventoryHeight(int inventoryHeight) {
 		this.inventoryHeight = inventoryHeight;
+	}
+
+	public List<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(List<Item> items) {
+		this.items = items;
 	}
 }
