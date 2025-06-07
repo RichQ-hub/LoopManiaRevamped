@@ -1,7 +1,5 @@
 package unsw.loopmania.battle.effects;
 
-import java.util.ListIterator;
-
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
@@ -21,10 +19,9 @@ public class VampireBite extends Effect {
 
 	/**
 	 * Triggers the given effect onto the target.
-	 * @param activeEffectsIterator: The list in which this effect will belong to when activated.
 	 */
 	@Override
-	public void useEffect(ListIterator<Effect> activeEffectsIterator) {
+	public void useEffect() {
 		Battleable target = super.getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
 		attr.setHealth(attr.getHealth() - dmg);

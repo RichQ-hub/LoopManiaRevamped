@@ -1,7 +1,5 @@
 package unsw.loopmania.battle.effects;
 
-import java.util.ListIterator;
-
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
@@ -13,7 +11,7 @@ public class OneRingEffect extends Effect {
 	}
 
 	@Override
-	public void useEffect(ListIterator<Effect> activeEffectsIterator) {
+	public void useEffect() {
 		Battleable target = getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
 		if (attr.getHealth() < 0) {

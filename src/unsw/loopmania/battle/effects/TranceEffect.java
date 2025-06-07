@@ -1,7 +1,5 @@
 package unsw.loopmania.battle.effects;
 
-import java.util.ListIterator;
-
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.AlliedState;
@@ -18,7 +16,7 @@ public class TranceEffect extends Effect {
 	}
 
 	@Override
-	public void useEffect(ListIterator<Effect> activeEffectsIterator) {
+	public void useEffect() {
 		Battleable target = super.getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
 		if (getUses() == 1) {
