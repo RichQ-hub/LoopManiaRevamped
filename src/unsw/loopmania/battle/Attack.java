@@ -43,7 +43,7 @@ public class Attack {
 	}
 
 	public void cleanseEffects() {
-		this.effects = effects.stream().filter(effect -> effect.getUses() > 0).collect(Collectors.toList());
+		this.effects = effects.stream().filter(effect -> effect.isActive()).collect(Collectors.toList());
 	}
 
 	public void printInfo(String title) {

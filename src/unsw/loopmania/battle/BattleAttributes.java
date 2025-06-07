@@ -74,7 +74,7 @@ public class BattleAttributes {
 	 * Remove any inactive effects.
 	 */
 	public void cleanseActiveEffects() {
-		this.activeEffects = activeEffects.stream().filter(effect -> effect.getUses() > 0).collect(Collectors.toList());
+		this.activeEffects = activeEffects.stream().filter(effect -> effect.isActive()).collect(Collectors.toList());
 	}
 
 	public boolean isWithinBattleRadius(Character character) {
