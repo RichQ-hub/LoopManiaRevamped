@@ -192,6 +192,11 @@ public class ShopController {
 			// Attach click handler.
 			shopButton.setOnAction((e) -> {
 				Item boughtItem = shop.buyItem(item);
+				if (boughtItem == null) {
+					// We couldn't buy the item either because the inventory was full or
+					// the character didn't have enough gold.
+					return;
+				}
 
 				// Load it as a sellable item in the sell menu.
 				loadShopItem(boughtItem, ShopTab.SELL);

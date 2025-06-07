@@ -7,13 +7,14 @@ import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
 public abstract class Effect {
 	private Battleable target;
-	private int uses;
+	private int uses; // -1 Represents a permanent effect.
 	private EffectTrigger trigger; 
 
 	public enum EffectTrigger {
 		ON_MOVE,
 		ON_HIT,
 		ON_ATTACK,
+		ON_DEATH,
 	}
 
 	public Effect(int uses, EffectTrigger trigger) {
@@ -32,7 +33,13 @@ public abstract class Effect {
 	}
 
 	public void decrementUses() {
-		this.uses--;
+		if (uses > 0) {
+			this.uses--;
+		}
+	}
+
+	public boolean isActive() {
+		return uses > 0 || uses == -1;
 	}
 
 	// ==================================================================================
