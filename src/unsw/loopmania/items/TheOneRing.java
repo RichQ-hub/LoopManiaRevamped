@@ -1,5 +1,7 @@
 package unsw.loopmania.items;
 
+import unsw.loopmania.battle.BattleAttributes;
+import unsw.loopmania.battle.effects.OneRingEffect;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.inventory.InventoryManager;
 
@@ -15,7 +17,12 @@ public class TheOneRing extends Item {
 
 	@Override
 	public void useItem(Character character, InventoryManager inventoryManager) {
-		
+		BattleAttributes attr = character.getBattleAttributes();
+		OneRingEffect ringEffect = new OneRingEffect();
+		ringEffect.setTarget(character);
+		attr.addActiveEffect(ringEffect);
+		destroy();
+		inventoryManager.removeItemFromInventory(this);
 	}
 
 	@Override

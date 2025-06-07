@@ -2,36 +2,41 @@ package unsw.loopmania.battle.effects;
 
 import java.util.ListIterator;
 
+import unsw.loopmania.battle.BattleAttributes;
+import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
 public class OneRingEffect extends Effect {
 
 	public OneRingEffect() {
-		super(-1, EffectTrigger.ON_HIT);
+		super(-1, EffectTrigger.ON_DEATH);
 	}
 
 	@Override
 	public void useEffect(ListIterator<Effect> activeEffectsIterator) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'useEffect'");
+		Battleable target = getTarget();
+		BattleAttributes attr = target.getBattleAttributes();
+		if (attr.getHealth() < 0) {
+			attr.setHealth(attr.getMaxHealth());
+			setUses(0);
+		}
 	}
 
 	@Override
 	public Effect copyEffect() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'copyEffect'");
+		return new OneRingEffect();
 	}
 
 	@Override
 	public void acceptModifier(EffectModifier modifier) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'acceptModifier'");
+		modifier.visitOneRingEffect(this);
 	}
 
 	@Override
 	public void printInfo() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'printInfo'");
+		System.out.println(
+			String.format("	- %s: [Uses: %d]", getClass().getSimpleName(), getUses())
+		);
 	}
 	
 }

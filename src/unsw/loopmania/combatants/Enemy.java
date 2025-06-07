@@ -87,6 +87,11 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 
 		// Trigger on-hit effects.
 		battleAttributes.triggerEffects(Effect.EffectTrigger.ON_HIT);
+
+		// Trigger death effects if health drops below 0.
+		if (!isAlive()) {
+			battleAttributes.triggerEffects(Effect.EffectTrigger.ON_DEATH);
+		}
 	}
 
 	@Override

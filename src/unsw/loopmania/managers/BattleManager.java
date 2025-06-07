@@ -104,7 +104,7 @@ public class BattleManager {
 				e.attackOpponents(battleEntities);
             }
 
-            // Remove all dead entities from the battle.
+            // Remove all dead entities from the battle AFTER each entity had their turn attacking.
             List<Battleable> deadEntities = battleEntities.stream()
                 .filter(e -> !e.isAlive())
                 .collect(Collectors.toList());

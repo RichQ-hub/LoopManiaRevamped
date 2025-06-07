@@ -50,6 +50,7 @@ import unsw.loopmania.items.Shield;
 import unsw.loopmania.items.Staff;
 import unsw.loopmania.items.Stake;
 import unsw.loopmania.items.Sword;
+import unsw.loopmania.items.TheOneRing;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.managers.CardManager;
@@ -313,12 +314,14 @@ public class LoopManiaWorldController {
 		Armour armour = new Armour();
 		Helmet helm = new Helmet();
 		Staff staff = new Staff();
+		TheOneRing ring = new TheOneRing();
 		onLoadItem(inventoryManager.addItemToInventory(sword));
 		onLoadItem(inventoryManager.addItemToInventory(shield));
 		onLoadItem(inventoryManager.addItemToInventory(stake));
 		onLoadItem(inventoryManager.addItemToInventory(armour));
 		onLoadItem(inventoryManager.addItemToInventory(helm));
 		onLoadItem(inventoryManager.addItemToInventory(staff));
+		onLoadItem(inventoryManager.addItemToInventory(ring));
 
 		VillageCard village = new VillageCard();
 		BarracksCard barracksCard = new BarracksCard();

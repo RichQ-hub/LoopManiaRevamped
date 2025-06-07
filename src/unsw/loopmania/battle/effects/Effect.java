@@ -14,6 +14,7 @@ public abstract class Effect {
 		ON_MOVE,
 		ON_HIT,
 		ON_ATTACK,
+		ON_DEATH,
 	}
 
 	public Effect(int uses, EffectTrigger trigger) {
