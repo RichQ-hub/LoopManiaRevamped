@@ -1,18 +1,45 @@
 package unsw.loopmania.shop;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.inventory.InventoryManager;
+import unsw.loopmania.items.Armour;
+import unsw.loopmania.items.HealthPotion;
+import unsw.loopmania.items.Helmet;
 import unsw.loopmania.items.Item;
+import unsw.loopmania.items.Shield;
+import unsw.loopmania.items.Staff;
+import unsw.loopmania.items.Stake;
+import unsw.loopmania.items.Sword;
 
 public class Shop {
 	private Character character;
-
 	private InventoryManager inventoryManager;
+
+	private List<Item> buyStock;
 
 	public Shop(LoopManiaWorld world) {
 		this.character = world.getCharacter();
 		this.inventoryManager = world.getInventoryManager();
+		this.buyStock = new ArrayList<>();
+
+		// Set buyable items.
+		buyStock.add(new Sword());
+		buyStock.add(new Armour());
+		buyStock.add(new Helmet());
+		buyStock.add(new Shield());
+		buyStock.add(new Stake());
+		buyStock.add(new Staff());
+		buyStock.add(new HealthPotion());
+	}
+
+	public Item buyItem(Item item) {
+		Item newCopy = item.copyItem();
+		Item addedItem = inventoryManager.addItemToInventory(newCopy);
+		return addedItem;
 	}
 
 	public void sellItem(Item item) {
@@ -39,5 +66,13 @@ public class Shop {
 
 	public void setInventoryManager(InventoryManager inventoryManager) {
 		this.inventoryManager = inventoryManager;
+	}
+
+	public List<Item> getBuyStock() {
+		return buyStock;
+	}
+
+	public void setBuyStock(List<Item> buyStock) {
+		this.buyStock = buyStock;
 	}
 }
