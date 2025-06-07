@@ -37,8 +37,21 @@ public class Shop {
 	}
 
 	public Item buyItem(Item item) {
+		if (character.getGold() < item.getValue()) {
+			System.out.println("Insufficient Funds.");
+			return null;
+		}
+
 		Item newCopy = item.copyItem();
 		Item addedItem = inventoryManager.addItemToInventory(newCopy);
+		if (addedItem == null) {
+			// Inventory is full.
+			return null;
+		}
+
+		// Reduce character gold.
+		character.setGold(character.getGold() - item.getValue());
+
 		return addedItem;
 	}
 
