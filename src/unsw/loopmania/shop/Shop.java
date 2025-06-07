@@ -14,6 +14,7 @@ import unsw.loopmania.items.Shield;
 import unsw.loopmania.items.Staff;
 import unsw.loopmania.items.Stake;
 import unsw.loopmania.items.Sword;
+import unsw.loopmania.items.TheOneRing;
 
 public class Shop {
 	private Character character;
@@ -34,6 +35,7 @@ public class Shop {
 		buyStock.add(new Stake());
 		buyStock.add(new Staff());
 		buyStock.add(new HealthPotion());
+		buyStock.add(new TheOneRing());
 	}
 
 	public Item buyItem(Item item) {
