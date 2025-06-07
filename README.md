@@ -2,63 +2,62 @@
 
 A turn-based 2D RPG game incorporating OOP design principles and design.
 
-## Contents
-- [Loop Mania](#loop-mania)
-	- [Contents](#contents)
-	- [0. Change Log](#0-change-log)
-	- [1. Aims](#1-aims)
-	- [2. Client Requirements 🧳](#2-client-requirements-)
-			- [2.1 Enemies 🐙](#21-enemies-)
-			- [2.2 Buildings 🏛️](#22-buildings-️)
-			- [2.3 Basic Items ⚔️](#23-basic-items-️)
-			- [2.4 Rare Items 🔱](#24-rare-items-)
-			- [2.5 Evolution of Requirements 🤖](#25-evolution-of-requirements-)
-		- [2.6 Diversity in Behaviour/Features 🌎](#26-diversity-in-behaviourfeatures-)
-		- [2.7 Goals 🥅](#27-goals-)
-		- [2.8 Input ➡️](#28-input-️)
-		- [2.9 Frontend 🎮](#29-frontend-)
-	- [3. Milestone 1: Requirements Analysis and Preliminary Design](#3-milestone-1-requirements-analysis-and-preliminary-design)
-		- [3.1 Task](#31-task)
-		- [3.2 Requirements Analysis](#32-requirements-analysis)
-		- [3.3 Agile Project Management](#33-agile-project-management)
-		- [3.4 Design and UML Diagram](#34-design-and-uml-diagram)
-		- [3.5 Assumptions](#35-assumptions)
-		- [3.6 Low-Fidelity User Interface Design](#36-low-fidelity-user-interface-design)
-		- [3.7 Marking Criteria](#37-marking-criteria)
-		- [3.8 Submission](#38-submission)
-	- [4. Milestone 2: Domain Modelling and Implementation](#4-milestone-2-domain-modelling-and-implementation)
-		- [4.1 Design and UML Diagram](#41-design-and-uml-diagram)
-		- [4.2 Testing and Coverage](#42-testing-and-coverage)
-		- [4.3 Assumptions](#43-assumptions)
-		- [4.4 Frontend](#44-frontend)
-		- [4.5 Recommended Approach](#45-recommended-approach)
-		- [4.6 Agile Project Management](#46-agile-project-management)
-		- [4.7 Marking Criteria](#47-marking-criteria)
-		- [4.8 Submission](#48-submission)
-	- [5. Milestone 3: Evolution of Requirements and Extensions](#5-milestone-3-evolution-of-requirements-and-extensions)
-		- [5.1 Agile Project Management](#51-agile-project-management)
-		- [5.2 Design and UML Diagram](#52-design-and-uml-diagram)
-		- [5.3 Extensions](#53-extensions)
-			- [5.3.1 Diversity in Behaviour/Features of Extensions](#531-diversity-in-behaviourfeatures-of-extensions)
-			- [5.3.2 Extension Ideas](#532-extension-ideas)
-			- [5.3.3 Assumptions](#533-assumptions)
-		- [5.4 User Experience](#54-user-experience)
-		- [5.5 Marking Criteria](#55-marking-criteria)
-		- [5.6 Submission](#56-submission)
-	- [6. Style and Documentation](#6-style-and-documentation)
-	- [7. Due Dates and Weightings](#7-due-dates-and-weightings)
-		- [7.1. Late Penalties](#71-late-penalties)
-		- [7.2. Demonstration](#72-demonstration)
-	- [8. Other Expectations](#8-other-expectations)
-		- [8.1 Project Check-in](#81-project-check-in)
-		- [8.2 Code contribution](#82-code-contribution)
-		- [8.3 Non-code contribution](#83-non-code-contribution)
-	- [9. Plagiarism](#9-plagiarism)
-	- [10. Appendices](#10-appendices)
-		- [A. Project Setup/Troubleshooting Tips 🛠️](#a-project-setuptroubleshooting-tips-️)
-		- [B. Starter Code Explanation 🧸](#b-starter-code-explanation-)
-		- [C. Project Management \& Git Practices](#c-project-management--git-practices)
-		- [D. Marking Criteria](#d-marking-criteria)
+## Table of Contents
+
+- [0. Change Log](#0-change-log)
+- [1. Aims](#1-aims)
+- [2. Client Requirements 🧳](#2-client-requirements-)
+  - [2.1 Enemies 🐙](#21-enemies-)
+  - [2.2 Buildings 🏛️](#22-buildings-️)
+  - [2.3 Basic Items ⚔️](#23-basic-items-️)
+  - [2.4 Rare Items 🔱](#24-rare-items-)
+  - [2.5 Evolution of Requirements 🤖](#25-evolution-of-requirements-)
+  - [2.6 Diversity in Behaviour/Features 🌎](#26-diversity-in-behaviourfeatures-)
+  - [2.7 Goals 🥅](#27-goals-)
+  - [2.8 Input ➡️](#28-input-️)
+  - [2.9 Frontend 🎮](#29-frontend-)
+- [3. Milestone 1: Requirements Analysis and Preliminary Design](#4-milestone-1-requirements-analysis-and-preliminary-design)
+  - [3.1 Task](#41-task)
+  - [3.2 Requirements Analysis](#32-requirements-analysis)
+  - [3.3 Agile Project Management](#33-agile-project-management)
+  - [3.4 Design and UML Diagram](#34-design-and-uml-diagram)
+  - [3.5 Assumptions](#35-assumptions)
+  - [3.6 Low-Fidelity User Interface Design](#36-low-fidelity-user-interface-design)
+  - [3.7 Marking Criteria](#37-marking-criteria)
+  - [3.8 Submission](#38-submission)
+- [4. Milestone 2: Domain Modelling and Implementation](#4-milestone-2-domain-modelling-and-implementation)
+  - [4.1 Design and UML Diagram](#41-design-and-uml-diagram)
+  - [4.2 Testing and Coverage](#42-testing-and-coverage)
+  - [4.3 Assumptions](#43-assumptions)
+  - [4.4 Frontend](#44-frontend)
+  - [4.5 Recommended Approach](#45-recommended-approach)
+  - [4.6 Agile Project Management](#46-agile-project-management)
+  - [4.7 Marking Criteria](#47-marking-criteria)
+  - [4.8 Submission](#48-submission)
+- [5. Milestone 3: Evolution of Requirements and Extensions](#5-milestone-3-evolution-of-requirements-and-extensions)
+  - [5.1 Agile Project Management](#51-agile-project-management)
+  - [5.2 Design and UML Diagram](#52-design-and-uml-diagram)
+  - [5.3 Extensions](#53-extensions)
+    - [5.3.1 Diversity in Behaviour/Features of Extensions](#531-diversity-in-behaviourfeatures-of-extensions)
+    - [5.3.2 Extension Ideas](#532-extension-ideas)
+    - [5.3.3 Assumptions](#533-assumptions)
+  - [5.4 User Experience](#54-user-experience)
+  - [5.5 Marking Criteria](#55-marking-criteria)
+  - [5.6 Submission](#56-submission)
+- [6. Style and Documentation](#6-style-and-documentation)
+- [7. Due Dates and Weightings](#7-due-dates-and-weightings)
+  - [7.1. Late Penalties](#71-late-penalties)
+  - [7.2. Demonstration](#72-demonstration)
+- [8. Other Expectations](#8-other-expectations)
+  - [8.1 Project Check-in](#81-project-check-in)
+  - [8.2 Code contribution](#82-code-contribution)
+  - [8.3 Non-code contribution](#83-non-code-contribution)
+- [9. Plagiarism](#9-plagiarism)
+- [10. Appendices](#10-appendices)
+  - [A. Project Setup/Troubleshooting Tips 🛠️](#a-project-setuptroubleshooting-tips-️)
+  - [B. Starter Code Explanation 🧸](#b-starter-code-explanation-)
+  - [C. Project Management \& Git Practices](#c-project-management--git-practices)
+  - [D. Marking Criteria](#d-marking-criteria)
 
 ## 0. Change Log
 
@@ -88,7 +87,7 @@ The client wants you to develop a game application called "Loop Mania" as descri
 
 The following describes the features the client wants in Loop Mania.
 
-<img src="examples/simple_example_annotated.png" width="600">
+![image](examples/simple_example_annotated.png)
 
 The game world contains a path composed of image tiles ([see more details in this document](TILES_README.md)) which forms a loop. The Character automatically moves clockwise from position to position through this path, starting from the Hero's Castle <img src="src/images/heros_castle.png" width="16"> (see [example in separate file:moving through path](examples/moving_through_path_simple_example.png)).
 
@@ -123,6 +122,7 @@ Cards are received when the Character defeats enemies (1 or more will be receive
 Equipment can be received when the Character defeats enemies or a card is lost due to receiving too many cards (see [example in separate file:replacing oldest card](examples/simple_example_replacing_oldest_card.png)) (for both events, one or more pieces of equipment can be received). The Human Player can drag and drop the equipment from the unequipped inventory into the equipped inventory, so that the benefits of the equipment improve the Character, improving the chances of winning the game. When too much equipment is received, the oldest piece of equipment is lost, and the Character receives additional gold and experience (see [example in separate file:replacing oldest item](examples/simple_example_replacing_oldest_item.png)).
 
 The Human Player should be able to pause the game by pressing <kbd>Spacebar</kbd>, and then resume it by pressing <kbd>Spacebar</kbd> again.
+
 
 After the first full cycle of the path (returning to the Hero's castle for the first time), the Human Player should be offered a menu where armour, shields, helmets, and weapons can be purchased by using gold (see more details on these items in the [items table below](#23-basic-items-%EF%B8%8F)). When the Human Player exits this menu, the game resumes from the same game world state. After another 2 full cycles of the path, the Human Player will be able to access the Hero's castle again to purchase items, then again after another 3 full cycles, etc (a full cycle is where the Character moves throughout the path once, as in this [example in separate file:moving through path](examples/moving_through_path_simple_example.png))... After buying items at the Hero's Castle (if the Human Player wishes) the Human Player should be able to continue the game. You will need to design this menu.
 
@@ -203,11 +203,12 @@ Rare item types will not be available in a game if it is not added to the world 
 #### 2.5 Evolution of Requirements 🤖
 
 The following requirements have been added to the applicable sections in this specification document:
-* Bosses
-* DoggieCoin
-* Additional rare items
-* An additional "confusing mode"
-* A goal type of killing all bosses
+
+- Bosses
+- DoggieCoin
+- Additional rare items
+- An additional "confusing mode"
+- A goal type of killing all bosses
 
 See [<mark>commit link with milestone 3 requirement additions</mark>](https://gitlab.cse.unsw.edu.au/COMP2511/21T2/project-specification/-/commit/7db655080cce5fbc497977c1b1a4c253b602eecf) for full details.
 
@@ -231,17 +232,17 @@ Notice in [this separate game example](https://loophero.fandom.com/wiki/Enemies)
 
 In addition to its layout, each world also has a goal that defines what must be achieved by the Character for the world to be considered complete. Basic goals are:
 
-* Killing all bosses
-* Obtaining a specified level of experience
-* Amassing a specified amount of gold
-* The Character completing a specified number of cycles of the path
+- Killing all bosses
+- Obtaining a specified level of experience
+- Amassing a specified amount of gold
+- The Character completing a specified number of cycles of the path
 
 More complex goals can be built by logically composing goals. For example,
 
-* Killing all bosses AND amassing 10000 gold
-* Amassing 90000 gold OR completing 100 cycles
-* Obtaining 123456 experience points AND (completing 100 cycles OR amassing 11000 gold)
-* Obtaining 123456 experience points AND (killing all bosses OR amassing 11000 gold)
+- Killing all bosses AND amassing 10000 gold
+- Amassing 90000 gold OR completing 100 cycles
+- Obtaining 123456 experience points AND (completing 100 cycles OR amassing 11000 gold)
+- Obtaining 123456 experience points AND (killing all bosses OR amassing 11000 gold)
 
 ### 2.8 Input ➡️
 
@@ -299,24 +300,33 @@ You can extend this format to include additional information if you wish.
 
 The UI/Frontend component of this project will be implemented in JavaFX. The starter code contains several features:
 
-* Handling drag-and-drop of cards onto the game map/items into the equipped inventory
-* Loading the path
-* Loading of the Character/enemies/cards/items/path/buildings
-* Spawning a building upon dropping a dragged card onto the game world
-* Removal of defeated enemies/used cards
-* A main menu which can switch to the main game using a button click, and vice versa
-* Character moves clockwise through the path around the world
-* The enemies move randomly around the path
-* Basic but incomplete implementations of interactions such as the player killing enemies, and obtaining swords/cards as a reward
-* Game is paused upon pressing <kbd>Spacebar</kbd>, and can be resumed upon pressing <kbd>Spacebar</kbd>
+- Handling drag-and-drop of cards onto the game map/items into the equipped inventory
+- Loading the path
+- Loading of the Character/enemies/cards/items/path/buildings
+- Spawning a building upon dropping a dragged card onto the game world
+- Removal of defeated enemies/used cards
+- A main menu which can switch to the main game using a button click, and vice versa
+- Character moves clockwise through the path around the world
+- The enemies move randomly around the path
+- Basic but incomplete implementations of interactions such as the player killing enemies, and obtaining swords/cards as a reward
+- Game is paused upon pressing `Spacebar`, and can be resumed upon pressing `Spacebar`.
 
 Notice however, that whilst there are several features implemented in the starter code, there is significant work to be done regarding implementing different types of items, enemies, and OOP structure/class relationships within the backend. The starter code primarily focuses on implementing some challenging setup/UX components which are required to make a solid attempt at the basic requirements, such as setting up the path, implementing drag-and-drop, and menus, so that you can focus on Object Oriented Design.
 
 The client has given you free reign over the visual design of the program. Included in the starter code are some example assets, but you are free to use different ones. You can find them elsewhere or even create your own. Many examples came from http://opengameart.org, some were generated by COMP2511 staff.
 
-## 3. Milestone 1: Requirements Analysis and Preliminary Design
+## 3. Code Walkthrough
 
-### 3.1 Task
+### 3.1 Maps
+
+Several base maps are included (seen in the main menu). These include unique paths, goals, and world size.
+
+> [!IMPORTANT]
+> 
+
+## 4. Milestone 1: Requirements Analysis and Preliminary Design
+
+### 4.1 Task
 
 In this Milestone, you are expected to:
 
@@ -332,10 +342,12 @@ You will need to produce:
 
 1. High-level epic stories from the problem statement. Each epic should have its own card/issue and a corresponding label used to mark user stories that fall under it.
 2. Story cards, each containing:
-   * A user story which describes the feature;
-   * An estimate for the implementation of the user story in user story points (e.g. 4 points);
-   * A label indicating the priority;
-   * Acceptance criteria for each user story as a checklist in the issue. The acceptance criteria can be Descriptive (Yes/No) or Scenario-Based (Given-When-Then).
+	- A STORY
+
+	- A user story which describes the feature.
+	- An estimate for the implementation of the user story in user story points (e.g. 4 points);
+	- A label indicating the priority;
+	- Acceptance criteria for each user story as a checklist in the issue. The acceptance criteria can be Descriptive (Yes/No) or Scenario-Based (Given-When-Then).
 
 As you progress through the rest of the project, you will keep your board and issues up to date: checking off acceptance criteria that have been satisfied and moving stories from **To Do** into **Doing** and finally into **Closed**.
 
