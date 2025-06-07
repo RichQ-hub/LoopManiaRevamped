@@ -101,7 +101,7 @@ public class LoopManiaApplication extends Application {
 
 				// Set handler for switching from game to shop.
 				mainController.setShopSwitcher(() -> {
-					shopController.loadInventoryItems();
+					shopController.loadSellMenu();
 					switchToRoot(scene, shopRoot, primaryStage);
 				});
 

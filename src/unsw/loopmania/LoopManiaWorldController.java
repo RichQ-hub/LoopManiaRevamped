@@ -458,7 +458,7 @@ public class LoopManiaWorldController {
 	 * in the backend model inventory.
 	 * @param item
 	 */
-	private void onLoadItem(Item item) {
+	public void onLoadItem(Item item) {
 		if (item == null) {
 			return;
 		}
@@ -856,7 +856,7 @@ public class LoopManiaWorldController {
      */
     @FXML
     public void handleKeyPress(KeyEvent event) {
-        // TODO = handle additional key presses, e.g. for consuming a health potion
+        // TODO = handle additional key presses, e.g. for consuming a health potion.
         switch (event.getCode()) {
         case SPACE:
             if (isPaused) {

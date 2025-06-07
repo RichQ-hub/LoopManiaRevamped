@@ -1,6 +1,7 @@
 package unsw.loopmania;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.beans.value.ChangeListener;
@@ -13,6 +14,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Control;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.ColumnConstraints;
@@ -52,15 +54,28 @@ public class ShopController {
 	@FXML
 	private VBox shopSellMenu;
 
+	@FXML
+	private VBox shopBuyMenu;
+
+	@FXML
+	private ScrollPane shopMenu;
+
+	public enum ShopTab {
+		BUY,
+		SELL
+	}
+
 	private LoopManiaWorld world;
 	private LoopManiaWorldController gameController;
 	private MenuSwitcher gameSwitcher;
 	private Shop shop;
+	private List<ImageView> sellItemViews;
 
 	public ShopController(LoopManiaWorldController gameController) {
 		this.gameController = gameController;
 		this.world = gameController.getWorld();
 		this.shop = new Shop(world);
+		this.sellItemViews = new ArrayList<>();
 	}
 
 	@FXML
@@ -95,9 +110,21 @@ public class ShopController {
 		expLabel.textProperty().bind(character.getExpProperty().asString());
 		cycleLabel.textProperty().bind(world.getCycleProperty().asString());
         alliedSoldierLabel.textProperty().bind(character.getSoldierCountProperty().asString());
+
+		shopBuyMenu = new VBox();
+		shopSellMenu = new VBox();
+		// Load buy menu only once.
+		loadBuyMenu();
+		shopMenu.setContent(shopBuyMenu);
 	}
 
-	public void loadInventoryItems() {
+	public void loadBuyMenu() {
+		for (Item item : shop.getBuyStock()) {
+			loadShopItem(item, ShopTab.BUY);
+		}
+	}
+
+	public void loadSellMenu() {
 		List<Item> items = world.getInventoryManager().getInventory().getItems();
 		for (Item item : items) {
 			onLoadItem(item);
@@ -105,11 +132,11 @@ public class ShopController {
 
 		// Load each item as a sellable item in the shop.
 		for (Item item : items) {
-			loadShopItem(item);
+			loadShopItem(item, ShopTab.SELL);
 		}
 	}
 
-	public void loadShopItem(Item item) {
+	public void loadShopItem(Item item, ShopTab shopTab) {
 		GridPane itemContainer = new GridPane();
 
 		// Fill width of parent container.
@@ -156,31 +183,71 @@ public class ShopController {
 		GridPane.setValignment(priceLabel, VPos.CENTER);
 		GridPane.setHalignment(priceLabel, HPos.CENTER);
 
-		Button sellButton = new Button("Sell");
+		Button shopButton = new Button();
+		shopButton.setMaxWidth(Double.MAX_VALUE);
+		shopButton.setMaxHeight(Double.MAX_VALUE);
 
-		sellButton.setMaxWidth(Double.MAX_VALUE);
-		sellButton.setMaxHeight(Double.MAX_VALUE);
+		if (shopTab == ShopTab.BUY) {
+			shopButton.setText("Buy");
+			// Attach click handler.
+			shopButton.setOnAction((e) -> {
+				Item boughtItem = shop.buyItem(item);
 
-		sellButton.setOnAction((e) -> {
-			shop.sellItem(item);
-		});
+				// Load it as a sellable item in the sell menu.
+				loadShopItem(boughtItem, ShopTab.SELL);
+
+				// Load the ui element for the item in the unequipped inventory for both the shop UI
+				// and the game UI.
+				onLoadItem(boughtItem);
+				gameController.onLoadItem(boughtItem);
+
+			});
+		} else {
+			shopButton.setText("Sell");
+			// Attach click handler.
+			shopButton.setOnAction((e) -> {
+				shop.sellItem(item);
+			});
+		}
 
 		itemContainer.add(view, 0, 0);
 		itemContainer.add(itemDescription, 1, 0);
 		itemContainer.add(priceLabel, 2, 0);
-		itemContainer.add(sellButton, 3, 0);
+		itemContainer.add(shopButton, 3, 0);
 
 		trackExistence(item, itemContainer);
 
-		shopSellMenu.getChildren().add(itemContainer);
+		if (shopTab == ShopTab.BUY) {
+			shopBuyMenu.getChildren().add(itemContainer);
+		} else {
+			shopSellMenu.getChildren().add(itemContainer);
+		}
 	}
 
-	public void clearInventoryItems() {
+	public void clearSellMenuInShop() {
+		shopSellMenu.getChildren().clear();
 
+		// Clear the unequipped inventory views.
+		for (ImageView itemView : sellItemViews) {
+			unequippedInventory.getChildren().remove(itemView);
+		}
+		// Clear the ImageView sellable items list.
+		sellItemViews.clear();
 	}
 
 	@FXML
+    private void handleBuyTab() throws IOException {
+		shopMenu.setContent(shopBuyMenu);
+    }
+
+	@FXML
+    private void handleSellTab() throws IOException {
+		shopMenu.setContent(shopSellMenu);
+    }
+
+	@FXML
     private void exitShop() throws IOException {
+		clearSellMenuInShop();
 		switchToGame();
 		gameController.resume();
     }
@@ -191,7 +258,8 @@ public class ShopController {
 	// ==================================================================================
 
 	/**
-	 * Pair a inventory item with a corresponding ImageView.
+	 * Pair a inventory item with a corresponding ImageView which is loaded in the
+	 * unequipped inventory.
 	 * @param item
 	 */
 	private void onLoadItem(Item item) {
@@ -201,6 +269,7 @@ public class ShopController {
 		ImageView view = new ImageView(item.getEntityImage());
 		GridPane.setColumnIndex(view, item.getX());
 		GridPane.setRowIndex(view, item.getY());
+		sellItemViews.add(view);
 		trackExistence(item, view);
 		unequippedInventory.getChildren().add(view);
 	}
