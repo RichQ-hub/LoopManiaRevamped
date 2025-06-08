@@ -4,6 +4,7 @@ import unsw.loopmania.battle.effects.AndurilEffect;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.OneRingEffect;
 import unsw.loopmania.battle.effects.StakeEffect;
+import unsw.loopmania.battle.effects.StunnedEffect;
 import unsw.loopmania.battle.effects.TranceEffect;
 import unsw.loopmania.battle.effects.VampireBite;
 import unsw.loopmania.battle.effects.ZombieBite;
@@ -37,6 +38,10 @@ public abstract class EffectModifier {
 	}
 
 	public void visitAndurilEffect(AndurilEffect effect) {
+		return;
+	}
+
+	public void visitStunnedEffect(StunnedEffect effect) {
 		return;
 	}
 }
