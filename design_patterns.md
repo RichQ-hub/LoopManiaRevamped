@@ -21,7 +21,9 @@ Effect modifiers avoid the need for the use of `instanceof` in code. Concrete im
 During the battle phase, an attack object is sent from the attacker to the opponent, which contains all the necessary effects that is to be applied to the opponent.
 
 **Open/Closed Principle**
+
 We can introduce new effects to the opponent without breaking existing code structure.
 
 **Single Responsibility Principle**
+
 Decouples effect objects from the attack objects.

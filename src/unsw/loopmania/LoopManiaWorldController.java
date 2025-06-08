@@ -42,6 +42,7 @@ import unsw.loopmania.cards.VillageCard;
 import unsw.loopmania.cards.ZombiePitCard;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.inventory.InventoryManager;
+import unsw.loopmania.items.Anduril;
 import unsw.loopmania.items.Armour;
 import unsw.loopmania.items.EquipmentItem;
 import unsw.loopmania.items.Helmet;
@@ -315,6 +316,7 @@ public class LoopManiaWorldController {
 		Helmet helm = new Helmet();
 		Staff staff = new Staff();
 		TheOneRing ring = new TheOneRing();
+		Anduril anduril = new Anduril();
 		onLoadItem(inventoryManager.addItemToInventory(sword));
 		onLoadItem(inventoryManager.addItemToInventory(shield));
 		onLoadItem(inventoryManager.addItemToInventory(stake));
@@ -322,6 +324,7 @@ public class LoopManiaWorldController {
 		onLoadItem(inventoryManager.addItemToInventory(helm));
 		onLoadItem(inventoryManager.addItemToInventory(staff));
 		onLoadItem(inventoryManager.addItemToInventory(ring));
+		onLoadItem(inventoryManager.addItemToInventory(anduril));
 
 		VillageCard village = new VillageCard();
 		BarracksCard barracksCard = new BarracksCard();

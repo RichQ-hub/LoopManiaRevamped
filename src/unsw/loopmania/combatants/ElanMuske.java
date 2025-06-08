@@ -9,6 +9,7 @@ import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.DamageEffect;
+import unsw.loopmania.battle.effects.modifiers.AndurilProne;
 import unsw.loopmania.battle.effects.modifiers.TranceImmunity;
 import unsw.loopmania.battle.loot.LootTable;
 
@@ -25,6 +26,7 @@ public class ElanMuske extends Enemy {
 		BattleAttributes attr = new BattleAttributes(this, 60, 4, 20, new EnemyState());
 		attr.addBaseAttackEffect(new DamageEffect(20));
 		attr.addDefenseModifier(new TranceImmunity());
+		attr.addDefenseModifier(new AndurilProne());
 
 		super.setBattleAttributes(attr);
 

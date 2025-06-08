@@ -1,7 +1,5 @@
 package unsw.loopmania.battle.effects;
 
-import java.util.ListIterator;
-
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
@@ -22,13 +20,13 @@ public abstract class Effect {
 		this.trigger = trigger;
 	}
 
-	public abstract void useEffect(ListIterator<Effect> activeEffectsIterator);
+	public abstract void useEffect();
 	public abstract Effect copyEffect();
 	public abstract void acceptModifier(EffectModifier modifier);
 	public abstract void printInfo();
 
-	public void activate(ListIterator<Effect> activeEffectsIterator) {
-		useEffect(activeEffectsIterator);
+	public void activate() {
+		useEffect();
 		decrementUses();
 	}
 

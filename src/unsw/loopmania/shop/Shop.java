@@ -6,6 +6,7 @@ import java.util.List;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.inventory.InventoryManager;
+import unsw.loopmania.items.Anduril;
 import unsw.loopmania.items.Armour;
 import unsw.loopmania.items.HealthPotion;
 import unsw.loopmania.items.Helmet;
@@ -14,6 +15,7 @@ import unsw.loopmania.items.Shield;
 import unsw.loopmania.items.Staff;
 import unsw.loopmania.items.Stake;
 import unsw.loopmania.items.Sword;
+import unsw.loopmania.items.TheOneRing;
 
 public class Shop {
 	private Character character;
@@ -34,6 +36,8 @@ public class Shop {
 		buyStock.add(new Stake());
 		buyStock.add(new Staff());
 		buyStock.add(new HealthPotion());
+		buyStock.add(new TheOneRing());
+		buyStock.add(new Anduril());
 	}
 
 	public Item buyItem(Item item) {

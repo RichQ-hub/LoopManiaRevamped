@@ -4,37 +4,46 @@ import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
-public class OneRingEffect extends Effect {
+public class AndurilEffect extends Effect {
 
-	public OneRingEffect() {
-		super(-1, EffectTrigger.ON_DEATH);
+	// This effect will be disabled by default by having dmg = 0.
+	private double dmg;
+
+	public AndurilEffect() {
+		super(1, EffectTrigger.ON_HIT);
+		this.dmg = 0;
 	}
 
 	@Override
 	public void useEffect() {
 		Battleable target = getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
-		if (attr.getHealth() < 0) {
-			attr.setHealth(attr.getMaxHealth());
-			setUses(0);
-		}
+		attr.setHealth(attr.getHealth() - dmg);
 	}
 
 	@Override
 	public Effect copyEffect() {
-		return new OneRingEffect();
+		return new AndurilEffect();
 	}
 
 	@Override
 	public void acceptModifier(EffectModifier modifier) {
-		modifier.visitOneRingEffect(this);
+		modifier.visitAndurilEffect(this);
 	}
 
 	@Override
 	public void printInfo() {
 		System.out.println(
-			String.format("	- %s: [Uses: %d]", getClass().getSimpleName(), getUses())
+			String.format("	- %s: [Dmg: %f, Uses: %d]", getClass().getSimpleName(), dmg, getUses())
 		);
+	}
+
+	public double getDmg() {
+		return dmg;
+	}
+
+	public void setDmg(double dmg) {
+		this.dmg = dmg;
 	}
 	
 }
