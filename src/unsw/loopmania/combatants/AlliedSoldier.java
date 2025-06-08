@@ -11,6 +11,7 @@ import unsw.loopmania.battle.battleState.AlliedState;
 import unsw.loopmania.battle.battleState.BattleState;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.Effect;
+import unsw.loopmania.battle.effects.Effect.EffectTrigger;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.entity.StaticEntity;
 import unsw.loopmania.managers.BattleManager;
@@ -36,6 +37,9 @@ public class AlliedSoldier extends StaticEntity implements Battleable {
 			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
 			Attack attack = buildAttack();
 			opp.takeAttack(attack);
+
+			// Trigger on-attack effects.
+			battleAttributes.triggerEffects(EffectTrigger.ON_ATTACK);
 
 			// Log info.
 			opp.printInfo();

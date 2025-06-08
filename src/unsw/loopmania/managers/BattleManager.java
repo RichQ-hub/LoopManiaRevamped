@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.battle.Battleable;
-import unsw.loopmania.battle.effects.Effect;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.combatants.Enemy;
 
@@ -34,7 +33,7 @@ public class BattleManager {
 				battleEnemies.addAll(supportEnemies);
 				battleEnemies.add(enemy);
 
-				return runBattleNew(battleEnemies);
+				return runBattle(battleEnemies);
 			}
 		}
 		return null;
@@ -53,7 +52,7 @@ public class BattleManager {
 	/**
      * Battle order: Entities attack their opponent in the order they are added to the world
      */
-    public List<Battleable> runBattleNew(List<Battleable> battleEnemies) {
+    public List<Battleable> runBattle(List<Battleable> battleEnemies) {
 
 		List<Battleable> deadEnemies = new ArrayList<>();
 
@@ -82,17 +81,7 @@ public class BattleManager {
 				System.out.println("============================================");
 				System.out.println(e.getClass().getSimpleName().toUpperCase() + "\n");
 
-				System.out.println("HEALTH: " + e.getBattleAttributes().getHealth());
-
-				System.out.println("\nAttack Effects:");
-				for (Effect ae : e.getBattleAttributes().getBaseAttackEffects()) {
-					ae.printInfo();
-				}
-
-				System.out.println("\nActive Effects:");
-				for (Effect ae : e.getBattleAttributes().getActiveEffects()) {
-					ae.printInfo();
-				}
+				e.getBattleAttributes().printBattleAttributesInfo();
 
 				System.out.println("\nOpponents:");
 				for (Battleable o : entitiesToAttack) {

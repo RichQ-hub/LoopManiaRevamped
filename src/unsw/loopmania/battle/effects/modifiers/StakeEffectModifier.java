@@ -14,4 +14,11 @@ public class StakeEffectModifier extends EffectModifier {
 	public void visitStakeEffect(StakeEffect effect) {
 		effect.setDmg(newDmg);
 	}
+
+	@Override
+	public void printInfo() {
+		System.out.println(
+			String.format("	- %s: [New Dmg: %f]", getClass().getSimpleName(), newDmg)
+		);
+	}
 }

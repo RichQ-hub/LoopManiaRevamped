@@ -9,6 +9,7 @@ import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.BattleState;
 import unsw.loopmania.battle.effects.Effect;
+import unsw.loopmania.battle.effects.Effect.EffectTrigger;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.battle.loot.LootTable;
 import unsw.loopmania.entity.MovingEntity;
@@ -44,6 +45,9 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
 			Attack attack = buildAttack();
 			opp.takeAttack(attack);
+
+			// Trigger on-attack effects.
+			battleAttributes.triggerEffects(EffectTrigger.ON_ATTACK);
 
 			// Log info.
 			opp.printInfo();

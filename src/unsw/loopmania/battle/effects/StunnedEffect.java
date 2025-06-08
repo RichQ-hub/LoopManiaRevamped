@@ -2,39 +2,38 @@ package unsw.loopmania.battle.effects;
 
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
-import unsw.loopmania.battle.battleState.AlliedState;
-import unsw.loopmania.battle.battleState.EnemyState;
+import unsw.loopmania.battle.battleState.BattleState;
+import unsw.loopmania.battle.battleState.StunnedState;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
-/**
- * Trance effect lasts for 3 attacks on the entity it is inflicted upon.
- */
-public class TranceEffect extends Effect {
+public class StunnedEffect extends Effect {
 
-	public TranceEffect() {
+	private BattleState prevBattleState;
+
+	public StunnedEffect() {
 		super(3, EffectTrigger.ON_ATTACK);
 	}
 
 	@Override
 	public void useEffect() {
-		Battleable target = super.getTarget();
+		Battleable target = getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
-		if (getUses() == 1) {
-			// We are on our last call, so we revert the enemy back to its enemy state.
-			attr.setBattleState(new EnemyState());
-		} else {
-			attr.setBattleState(new AlliedState());
+		if (getUses() == 3) {
+			this.prevBattleState = attr.getBattleState();
+			attr.setBattleState(new StunnedState(prevBattleState.isEnemy()));
+		} else if (getUses() == 1) {
+			attr.setBattleState(prevBattleState);
 		}
 	}
 
 	@Override
 	public Effect copyEffect() {
-		return new TranceEffect();
+		return new StunnedEffect();
 	}
 
 	@Override
 	public void acceptModifier(EffectModifier modifier) {
-		modifier.visitTranceEffect(this);
+		modifier.visitStunnedEffect(this);
 	}
 
 	@Override

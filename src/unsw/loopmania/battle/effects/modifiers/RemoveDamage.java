@@ -14,6 +14,13 @@ public class RemoveDamage extends EffectModifier {
 		effect.reduceDamage(removeDamage);
 	}
 
+	@Override
+	public void printInfo() {
+		System.out.println(
+			String.format("	- %s: [Removed Dmg: %f]", getClass().getSimpleName(), removeDamage)
+		);
+	}
+
 	public double getRemoveDamage() {
 		return removeDamage;
 	}

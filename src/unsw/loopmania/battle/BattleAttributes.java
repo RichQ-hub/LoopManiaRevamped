@@ -79,6 +79,38 @@ public class BattleAttributes {
 	}
 
 	// ==================================================================================
+	// Print Info.
+	// ==================================================================================
+
+	public void printBattleAttributesInfo() {
+		// Print Active Effects.
+		System.out.println("  HEALTH: " + getHealth());
+
+		System.out.println("  BATTLE STATE: " + getBattleState().getClass().getSimpleName());
+
+		// Print Active Effects.
+		System.out.println("  ACTIVE EFFECTS: {");
+		for (Effect e : activeEffects) {
+			e.printInfo();
+		}
+		System.out.println("  }");
+
+		// Print Defense Modifiers.
+		System.out.println("  DEFENSE MODIFIERS: {");
+		for (EffectModifier m : defenseModifiers) {
+			m.printInfo();
+		}
+		System.out.println("  }");
+
+		// Print Attack Modifiers.
+		System.out.println("  ATTACK MODIFIERS: {");
+		for (EffectModifier m : attackModifiers) {
+			m.printInfo();
+		}
+		System.out.println("  }");
+	}
+
+	// ==================================================================================
 	// Attack Object Methods.
 	// ==================================================================================
 

@@ -14,4 +14,11 @@ public class DamageMultiplier extends EffectModifier {
 		effect.setDmg(effect.getDmg() * multiplier);
 		return;
 	}
+
+	@Override
+	public void printInfo() {
+		System.out.println(
+			String.format("	- %s: [Multiplier: %f]", getClass().getSimpleName(), multiplier)
+		);
+	}
 }

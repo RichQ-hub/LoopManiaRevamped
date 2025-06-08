@@ -138,7 +138,7 @@ public class LoopManiaApplication extends Application {
     }
 
     /**
-     * switch to a different Root
+     * Switch to a different Root.
      */
     private void switchToRoot(Scene scene, Parent root, Stage stage) {
         scene.setRoot(root);
