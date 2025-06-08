@@ -19,7 +19,7 @@ import unsw.loopmania.battle.battleState.AlliedState;
 import unsw.loopmania.battle.battleState.BattleState;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.Effect;
-import unsw.loopmania.battle.effects.modifiers.EffectModifier;
+import unsw.loopmania.battle.effects.Effect.EffectTrigger;
 import unsw.loopmania.battle.effects.modifiers.ZombieBiteImmunity;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.entity.MovingEntity;
@@ -111,6 +111,9 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 			Attack attack = buildAttack();
 			opp.takeAttack(attack);
 
+			// Trigger on-attack effects.
+			battleAttributes.triggerEffects(EffectTrigger.ON_ATTACK);
+
 			// Log info.
 			opp.printInfo();
 		}
@@ -167,44 +170,39 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 	@Override
 	public void printInfo() {
-		System.out.println(String.format("  Health: %f", getBattleAttributes().getHealth()));
+		battleAttributes.printBattleAttributesInfo();
 
 		// Print equipment.
-		System.out.print("  Equipment: [");
-		for (EquipmentSlot slot : inventory.getEquippedInventory().getSlots()) {
-			EquipmentItem item = slot.getItem();
+		// System.out.print("  EQUIPMENT: [");
+		// for (EquipmentSlot slot : inventory.getEquippedInventory().getSlots()) {
+		// 	EquipmentItem item = slot.getItem();
+		// 	if (item == null) {
+		// 		System.out.print("null");
+		// 	} else {
+		// 		System.out.print(item.getClass().getSimpleName());
+		// 	}
+		// 	System.out.print(", ");
+		// }
+		// System.out.print("]\n");
+
+		System.out.print("  EQUIPMENT: [");
+		List<EquipmentSlot> slots = inventory.getEquippedInventory().getSlots();
+		for (int i = 0; i < slots.size(); i++) {
+			EquipmentItem item = slots.get(i).getItem();
 			if (item == null) {
-				System.out.print("null");
+				System.out.print("*");
 			} else {
 				System.out.print(item.getClass().getSimpleName());
 			}
-			System.out.print(", ");
+			
+			if (i < slots.size() - 1) {
+				System.out.print(", ");
+			}
 		}
 		System.out.print("]\n");
 
-		// Print Active Effects.
-		System.out.println("  Active Effects: {");
-		for (Effect e : getBattleAttributes().getActiveEffects()) {
-			e.printInfo();
-		}
-		System.out.println("  }");
-
-		// Print Defense Modifiers.
-		System.out.println("  Defense Modifiers: {");
-		for (EffectModifier m : getBattleAttributes().getDefenseModifiers()) {
-			System.out.println(m.getClass().getSimpleName());
-		}
-		System.out.println("  }");
-
-		// Print Attack Modifiers.
-		System.out.println("  Attack Modifiers: {");
-		for (EffectModifier m : getBattleAttributes().getAttackModifiers()) {
-			System.out.println(m.getClass().getSimpleName());
-		}
-		System.out.println("  }");
-
 		// Print Allied Soldier count.
-		System.out.println("  Allied Soldiers: " + alliedSoldiers.size());
+		System.out.println("  ALLIED SOLDIER COUNT: " + alliedSoldiers.size());
 	}
 
 	@Override

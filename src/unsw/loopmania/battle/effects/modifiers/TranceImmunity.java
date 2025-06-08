@@ -7,4 +7,11 @@ public class TranceImmunity extends EffectModifier {
 	public void visitTranceEffect(TranceEffect effect) {
 		effect.setUses(0);
 	}
+
+	@Override
+	public void printInfo() {
+		System.out.println(
+			String.format("	- %s", getClass().getSimpleName())
+		);
+	}
 }

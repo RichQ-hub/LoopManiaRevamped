@@ -14,4 +14,11 @@ public class VampireBiteModifier extends EffectModifier {
 		effect.setUses(uses);
 		return;
 	}
+
+	@Override
+	public void printInfo() {
+		System.out.println(
+			String.format("	- %s: [New Uses: %d]", getClass().getSimpleName(), uses)
+		);
+	}
 }

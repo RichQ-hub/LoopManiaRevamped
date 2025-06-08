@@ -43,7 +43,7 @@ public class ElanMuske extends Enemy {
 		Random rand = new Random();
 		if (rand.nextDouble() < 0.5) {
 			System.out.println("  * Elan heals all enemies by 5 health!");
-			List<Battleable> enemies = battleEntities.stream().filter(e -> e.isAlive() && isEnemy()).toList();
+			List<Battleable> enemies = battleEntities.stream().filter(e -> e.isAlive() && e.isEnemy()).toList();
 			for (Battleable enemy : enemies) {
 				BattleAttributes attr = enemy.getBattleAttributes();
 				attr.setHealth(attr.getHealth() + 5);

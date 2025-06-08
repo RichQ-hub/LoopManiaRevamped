@@ -11,7 +11,7 @@ public class StunnedEffect extends Effect {
 	private BattleState prevBattleState;
 
 	public StunnedEffect() {
-		super(3, EffectTrigger.ON_HIT);
+		super(3, EffectTrigger.ON_ATTACK);
 	}
 
 	@Override

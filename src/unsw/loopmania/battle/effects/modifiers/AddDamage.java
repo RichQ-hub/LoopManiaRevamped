@@ -14,6 +14,13 @@ public class AddDamage extends EffectModifier {
 		effect.addDamage(addedDamage);
 	}
 
+	@Override
+	public void printInfo() {
+		System.out.println(
+			String.format("	- %s: [Added Dmg: %f]", getClass().getSimpleName(), addedDamage)
+		);
+	}
+
 	public double getAddedDamage() {
 		return addedDamage;
 	}
@@ -21,4 +28,5 @@ public class AddDamage extends EffectModifier {
 	public void setAddedDamage(double addedDamage) {
 		this.addedDamage = addedDamage;
 	}
+
 }

@@ -10,6 +10,9 @@ import unsw.loopmania.battle.effects.VampireBite;
 import unsw.loopmania.battle.effects.ZombieBite;
 
 public abstract class EffectModifier {
+
+	public abstract void printInfo();
+
 	public void visitDamageEffect(DamageEffect effect) {
 		return;
 	}

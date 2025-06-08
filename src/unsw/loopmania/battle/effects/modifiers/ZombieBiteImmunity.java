@@ -7,4 +7,11 @@ public class ZombieBiteImmunity extends EffectModifier {
 	public void visitZombieBiteEffect(ZombieBite effect) {
 		effect.setUses(0);
 	}
+
+	@Override
+	public void printInfo() {
+		System.out.println(
+			String.format("	- %s", getClass().getSimpleName())
+		);
+	}
 }
