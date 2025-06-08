@@ -6,6 +6,7 @@ import java.util.List;
 import unsw.loopmania.LoopManiaWorld;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.inventory.InventoryManager;
+import unsw.loopmania.items.Anduril;
 import unsw.loopmania.items.Armour;
 import unsw.loopmania.items.HealthPotion;
 import unsw.loopmania.items.Helmet;
@@ -36,6 +37,7 @@ public class Shop {
 		buyStock.add(new Staff());
 		buyStock.add(new HealthPotion());
 		buyStock.add(new TheOneRing());
+		buyStock.add(new Anduril());
 	}
 
 	public Item buyItem(Item item) {

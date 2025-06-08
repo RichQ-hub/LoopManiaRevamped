@@ -73,13 +73,13 @@ A turn-based 2D RPG game incorporating OOP design principles and design.
 
 ## 1. Aims
 
-* Apply object-oriented programming principles and design patterns
-* Synthesise and adapt to changes in user requirements
-* Practice agile software development in a team environment
-* Work with the Java Programming Language and Java Class Libraries
-* Learn practical aspects of graphical user interface development
-* Appreciate issues in design and development
-* Design reusable software solutions
+- Apply object-oriented programming principles and design patterns
+- Synthesise and adapt to changes in user requirements
+- Practice agile software development in a team environment
+- Work with the Java Programming Language and Java Class Libraries
+- Learn practical aspects of graphical user interface development
+- Appreciate issues in design and development
+- Design reusable software solutions
 
 ## 2. Client Requirements 🧳 
 
@@ -87,15 +87,16 @@ The client wants you to develop a game application called "Loop Mania" as descri
 
 The following describes the features the client wants in Loop Mania.
 
-![image](examples/simple_example_annotated.png)
+<img src="examples/simple_example_annotated.png" width="400">
 
 The game world contains a path composed of image tiles ([see more details in this document](TILES_README.md)) which forms a loop. The Character automatically moves clockwise from position to position through this path, starting from the Hero's Castle <img src="src/images/heros_castle.png" width="16"> (see [example in separate file:moving through path](examples/moving_through_path_simple_example.png)).
 
 The game world contains buildings (see [buildings table below](#22-buildings-%EF%B8%8F)), enemies (see [enemies table below](#21-enemies-)), gold <img src="src/images/gold_pile.png" width="16">, health potions <img src="src/images/brilliant_blue_new.png" width="16">, and the Character <img src="src/images/human_new.png" width="16">. You can see more information about gold and health potions in the [items table below](#23-basic-items-%EF%B8%8F). Enemies will move around the path, and their method of doing so depends on the enemy type.
 
 It is important to note that in this document, the *Human Player* and *Character* are distinct:
-* The **Character** refers to the main Character within the game which the Human Player wishes to help win the game, represented by a picture of a person <img src="src/images/human_new.png" width="16">. The Character completes many interactions such as moving around and fighting battles automatically, without input from the Human Player.
-* The **Human Player** refers to the user playing the game application. The Human Player wishes to win the game by helping the Character complete all goals, and is able to help the Character win the game by creating buildings (see [buildings table below](#22-buildings-%EF%B8%8F)), equipping items (see [items table below](#23-basic-items-%EF%B8%8F)), purchasing and selling items, consuming health potions, and pausing the game (pausing makes it easier to drag and drop).
+
+- The **Character** refers to the main Character within the game which the Human Player wishes to help win the game, represented by a picture of a person <img src="src/images/human_new.png" width="16">. The Character completes many interactions such as moving around and fighting battles automatically, without input from the Human Player.
+- The **Human Player** refers to the user playing the game application. The Human Player wishes to win the game by helping the Character complete all goals, and is able to help the Character win the game by creating buildings (see [buildings table below](#22-buildings-%EF%B8%8F)), equipping items (see [items table below](#23-basic-items-%EF%B8%8F)), purchasing and selling items, consuming health potions, and pausing the game (pausing makes it easier to drag and drop).
 
 When the Character is attacked by an enemy, a battle is started involving nearby enemies and the Character, and either the Character will defeat all enemies within this battle and win rewards, which can consist of cards (see [buildings table below](#22-buildings-%EF%B8%8F)), experience, gold, and equipment (see [items table below](#23-basic-items-%EF%B8%8F)). Alternatively, the Character will be killed and the Human Player loses the game, and the game ends. The battle is automatically played - the Human Player has no ability to perform any game interactions during a battle.
 
@@ -104,7 +105,7 @@ More precisely, when the Character moves within the `battle radius` of an enemy 
 > [!Important]
 > `Support radius` and `battle radius` are not always the same!
 
-<img src="examples/simple_example_influence_radius.png" width="400">
+![img](examples/simple_example_influence_radius.png)
 
 In the example above, when the Character moves to the position indicated by the red arrow, the Character will be within the battle radius of the slug, and within the support radius of the vampire, so a battle will be started between the Character and the slug, and the vampire will join the battle in support of the slug.
 These radii are calculated as a straight-line distance in the above example (the circles are drawn to indicate the distance around the vampire/slug, you do not need to draw circles in your application). You can implement calculation of distance differently if you prefer.
@@ -315,18 +316,9 @@ Notice however, that whilst there are several features implemented in the starte
 
 The client has given you free reign over the visual design of the program. Included in the starter code are some example assets, but you are free to use different ones. You can find them elsewhere or even create your own. Many examples came from http://opengameart.org, some were generated by COMP2511 staff.
 
-## 3. Code Walkthrough
+## 3. Milestone 1: Requirements Analysis and Preliminary Design
 
-### 3.1 Maps
-
-Several base maps are included (seen in the main menu). These include unique paths, goals, and world size.
-
-> [!IMPORTANT]
-> 
-
-## 4. Milestone 1: Requirements Analysis and Preliminary Design
-
-### 4.1 Task
+### 3.1 Task
 
 In this Milestone, you are expected to:
 

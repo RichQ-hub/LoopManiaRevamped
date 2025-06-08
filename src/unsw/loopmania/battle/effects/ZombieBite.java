@@ -48,7 +48,7 @@ public class ZombieBite extends Effect {
 	@Override
 	public void printInfo() {
 		System.out.println(
-			String.format("	- %s: [Bonus Dmg: %f, Uses: %d]", getClass().getSimpleName(), zombieBonusAttack.getAddedDamage(), getUses())
+			String.format("	- %s: [Dmg Buff: %f, Uses: %d]", getClass().getSimpleName(), zombieBonusAttack.getAddedDamage(), getUses())
 		);
 	}
 	
