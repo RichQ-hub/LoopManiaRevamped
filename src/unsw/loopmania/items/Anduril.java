@@ -25,7 +25,6 @@ public class Anduril extends EquipmentItem {
 	public void modifyOutgoingAttack(Attack attack) {
 		attack.applyModifier(new AddDamage(DMG));
 		attack.addEffect(new AndurilEffect());
-
 	}
 
 	@Override
