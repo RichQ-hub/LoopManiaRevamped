@@ -5,15 +5,16 @@ import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
 /**
- * Occurs 40% of the time the vampire attacks, inflicting the VampireBleed effect
- * which deals 10 - 15 damage on each subsequent hit
- * Inflicts the VampireBleed effect on the target which triggers on hit
+ * Occurs 40% of the time the vampire attacks, inflicting additional damage on
+ * every subsequent hit (for a random number of hits) from a vampire ONLY.
+ * Hence, this effect can only be triggered by the VampireHit effect, not
+ * EffectTrigger.ON_HIT.
  */
 public class VampireBite extends Effect {
 	private double dmg;
 
 	public VampireBite(int uses, double dmg) {
-		super(uses, EffectTrigger.ON_HIT);
+		super(uses, EffectTrigger.NONE);
 		this.dmg = dmg;
 	}
 
