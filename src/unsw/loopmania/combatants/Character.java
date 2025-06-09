@@ -112,6 +112,11 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 			opp.takeAttack(attack);
 
 			// Trigger on-attack effects.
+
+			// TODO: Could move this outside of this for loop. For example we run into problems when we are a tranced
+			// enemy that lasts only 2 attacks, but the getEntitiesToAttack() returns 3 enemies. The trance effect should
+			// end by the 2nd enemy, but we continue attacking the 3rd enemy even though we reverted back to EnemyState
+			// since the trance ended. This is becase we still continue to the 3rd enemy dur to this for loop.
 			battleAttributes.triggerEffects(EffectTrigger.ON_ATTACK);
 
 			// Log info.
