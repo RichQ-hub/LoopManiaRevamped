@@ -60,7 +60,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 100, 0, 0, new AlliedState());
-		attr.addBaseAttackEffect(new DamageEffect(10));
+		attr.addBaseAttackEffect(new DamageEffect(5));
 		attr.addDefenseModifier(new ZombieBiteImmunity());
 
 		this.battleAttributes = attr;

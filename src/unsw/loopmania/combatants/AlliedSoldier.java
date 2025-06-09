@@ -24,7 +24,7 @@ public class AlliedSoldier extends StaticEntity implements Battleable {
 		super(position);
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 30, 0, 0, new AlliedState());
-		attr.addBaseAttackEffect(new DamageEffect(7));
+		attr.addBaseAttackEffect(new DamageEffect(3));
 
 		this.battleAttributes = attr;
 	}

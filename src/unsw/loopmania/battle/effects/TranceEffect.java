@@ -9,16 +9,13 @@ import unsw.loopmania.battle.effects.modifiers.ZombieBiteImmunity;
 
 /**
  * Trance effect lasts for 3 attacks on the entity it is inflicted upon.
- * TODO: Add a initial setup function which triggers as soon as the effect is placed on the opponent during an attack.
- * This enables us to chance the Battlestate (as seen below) so that we don't have to wait until the tranced enemy has to
- * attack first for this to chance its state. We should do this for the StunnedEffect as well and ZombieBite. 
  */
 public class TranceEffect extends Effect {
 
 	private ZombieBiteImmunity zombieBiteImmunity;
 
 	public TranceEffect() {
-		super(3, EffectTrigger.ON_ATTACK);
+		super(2, EffectTrigger.ON_ATTACK);
 		this.zombieBiteImmunity = new ZombieBiteImmunity();
 	}
 
