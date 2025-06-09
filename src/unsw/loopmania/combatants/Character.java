@@ -60,7 +60,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 100, 0, 0, new AlliedState());
-		attr.addBaseAttackEffect(new DamageEffect(15));
+		attr.addBaseAttackEffect(new DamageEffect(10));
 		attr.addDefenseModifier(new ZombieBiteImmunity());
 
 		this.battleAttributes = attr;
@@ -176,19 +176,6 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	@Override
 	public void printInfo() {
 		battleAttributes.printBattleAttributesInfo();
-
-		// Print equipment.
-		// System.out.print("  EQUIPMENT: [");
-		// for (EquipmentSlot slot : inventory.getEquippedInventory().getSlots()) {
-		// 	EquipmentItem item = slot.getItem();
-		// 	if (item == null) {
-		// 		System.out.print("null");
-		// 	} else {
-		// 		System.out.print(item.getClass().getSimpleName());
-		// 	}
-		// 	System.out.print(", ");
-		// }
-		// System.out.print("]\n");
 
 		System.out.print("  EQUIPMENT: [");
 		List<EquipmentSlot> slots = inventory.getEquippedInventory().getSlots();

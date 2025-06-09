@@ -6,6 +6,7 @@ import unsw.loopmania.battle.battleState.AlliedState;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.modifiers.AddDamage;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
+import unsw.loopmania.battle.effects.modifiers.TranceImmunity;
 
 /**
  * Units are converted to zombies (EnemyState) and last for 3 attacks. Zombified allies
@@ -14,10 +15,12 @@ import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 public class ZombieBite extends Effect {
 
 	private AddDamage zombieBonusAttack;
+	private TranceImmunity tranceImmunity;
 
 	public ZombieBite() {
 		super(3, EffectTrigger.ON_ATTACK);
 		this.zombieBonusAttack = new AddDamage(3);
+		this.tranceImmunity = new TranceImmunity();
 	}
 
 	/**
@@ -31,6 +34,7 @@ public class ZombieBite extends Effect {
 			BattleAttributes attr = target.getBattleAttributes();
 			attr.setBattleState(new AlliedState());
 			attr.removeAttackModifier(zombieBonusAttack);
+			attr.removeDefenseModifier(tranceImmunity);
 		}
 	}
 
@@ -40,6 +44,7 @@ public class ZombieBite extends Effect {
 		BattleAttributes attr = target.getBattleAttributes();
 		attr.setBattleState(new EnemyState());
 		attr.addAttackModifier(zombieBonusAttack);
+		attr.addDefenseModifier(tranceImmunity);
 	}
 
 	@Override

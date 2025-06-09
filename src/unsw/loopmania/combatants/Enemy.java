@@ -115,13 +115,7 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 
 	@Override
 	public void printInfo() {
-		System.out.println(String.format("  Health: %f", getBattleAttributes().getHealth()));
-
-		System.out.println("  Active Effects: {");
-		for (Effect e : getBattleAttributes().getActiveEffects()) {
-			e.printInfo();
-		}
-		System.out.println("  }");
+		battleAttributes.printBattleAttributesInfo();
 	}
 
 	@Override

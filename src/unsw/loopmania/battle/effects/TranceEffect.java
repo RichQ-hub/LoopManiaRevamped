@@ -5,6 +5,7 @@ import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.AlliedState;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
+import unsw.loopmania.battle.effects.modifiers.ZombieBiteImmunity;
 
 /**
  * Trance effect lasts for 3 attacks on the entity it is inflicted upon.
@@ -14,8 +15,11 @@ import unsw.loopmania.battle.effects.modifiers.EffectModifier;
  */
 public class TranceEffect extends Effect {
 
+	private ZombieBiteImmunity zombieBiteImmunity;
+
 	public TranceEffect() {
 		super(3, EffectTrigger.ON_ATTACK);
+		this.zombieBiteImmunity = new ZombieBiteImmunity();
 	}
 
 	@Override
@@ -25,6 +29,7 @@ public class TranceEffect extends Effect {
 			Battleable target = super.getTarget();
 			BattleAttributes attr = target.getBattleAttributes();
 			attr.setBattleState(new EnemyState());
+			attr.removeDefenseModifier(zombieBiteImmunity);
 		}
 	}
 
@@ -33,6 +38,9 @@ public class TranceEffect extends Effect {
 		Battleable target = getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
 		attr.setBattleState(new AlliedState());
+
+		// Tranced enemies cannot be converted back to an enemy via a zombie bite.
+		attr.addDefenseModifier(zombieBiteImmunity);
 	}
 
 	@Override
