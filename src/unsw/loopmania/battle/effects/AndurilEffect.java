@@ -22,6 +22,11 @@ public class AndurilEffect extends Effect {
 	}
 
 	@Override
+	public void setupEffect() {
+		return;
+	}
+
+	@Override
 	public Effect copyEffect() {
 		return new AndurilEffect();
 	}

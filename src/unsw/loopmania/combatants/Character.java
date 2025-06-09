@@ -60,7 +60,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 100, 0, 0, new AlliedState());
-		attr.addBaseAttackEffect(new DamageEffect(15));
+		attr.addBaseAttackEffect(new DamageEffect(5));
 		attr.addDefenseModifier(new ZombieBiteImmunity());
 
 		this.battleAttributes = attr;
@@ -112,6 +112,11 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 			opp.takeAttack(attack);
 
 			// Trigger on-attack effects.
+
+			// TODO: Could move this outside of this for loop. For example we run into problems when we are a tranced
+			// enemy that lasts only 2 attacks, but the getEntitiesToAttack() returns 3 enemies. The trance effect should
+			// end by the 2nd enemy, but we continue attacking the 3rd enemy even though we reverted back to EnemyState
+			// since the trance ended. This is becase we still continue to the 3rd enemy dur to this for loop.
 			battleAttributes.triggerEffects(EffectTrigger.ON_ATTACK);
 
 			// Log info.
@@ -156,6 +161,11 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 		// Add all offensive effects onto the person.
 		for (Effect e : attack.getEffects()) {
 			e.setTarget(this);
+
+			// Run initial setup code when the effect is added.
+			e.setupEffect();
+
+			// Add the effect to the list of active effects.
 			battleAttributes.addActiveEffect(e);
 		}
 
@@ -171,19 +181,6 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	@Override
 	public void printInfo() {
 		battleAttributes.printBattleAttributesInfo();
-
-		// Print equipment.
-		// System.out.print("  EQUIPMENT: [");
-		// for (EquipmentSlot slot : inventory.getEquippedInventory().getSlots()) {
-		// 	EquipmentItem item = slot.getItem();
-		// 	if (item == null) {
-		// 		System.out.print("null");
-		// 	} else {
-		// 		System.out.print(item.getClass().getSimpleName());
-		// 	}
-		// 	System.out.print(", ");
-		// }
-		// System.out.print("]\n");
 
 		System.out.print("  EQUIPMENT: [");
 		List<EquipmentSlot> slots = inventory.getEquippedInventory().getSlots();

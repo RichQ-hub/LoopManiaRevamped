@@ -28,6 +28,11 @@ public class VampireBite extends Effect {
 	}
 
 	@Override
+	public void setupEffect() {
+		return;
+	}
+
+	@Override
 	public Effect copyEffect() {
 		return new VampireBite(getUses(), dmg);
 	}
@@ -43,5 +48,4 @@ public class VampireBite extends Effect {
 			String.format("	- %s: [Dmg: %f, Uses: %d]", getClass().getSimpleName(), dmg, getUses())
 		);
 	}
-	
 }

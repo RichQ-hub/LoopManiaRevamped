@@ -86,6 +86,11 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 		for (Effect e : attack.getEffects()) {
 			// Ensure the effect's target is this class.
 			e.setTarget(this);
+
+			// Run initial setup code when the effect is added.
+			e.setupEffect();
+
+			// Add the effect to the list of active effects.
 			battleAttributes.addActiveEffect(e);
 		}
 
@@ -110,13 +115,7 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 
 	@Override
 	public void printInfo() {
-		System.out.println(String.format("  Health: %f", getBattleAttributes().getHealth()));
-
-		System.out.println("  Active Effects: {");
-		for (Effect e : getBattleAttributes().getActiveEffects()) {
-			e.printInfo();
-		}
-		System.out.println("  }");
+		battleAttributes.printBattleAttributesInfo();
 	}
 
 	@Override

@@ -6,14 +6,21 @@ import unsw.loopmania.battle.battleState.AlliedState;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.modifiers.AddDamage;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
+import unsw.loopmania.battle.effects.modifiers.TranceImmunity;
 
+/**
+ * Units are converted to zombies (EnemyState) and last for 3 attacks. Zombified allies
+ * cannot be tranced back.
+ */
 public class ZombieBite extends Effect {
 
 	private AddDamage zombieBonusAttack;
+	private TranceImmunity tranceImmunity;
 
 	public ZombieBite() {
-		super(3, EffectTrigger.ON_HIT);
+		super(3, EffectTrigger.ON_ATTACK);
 		this.zombieBonusAttack = new AddDamage(3);
+		this.tranceImmunity = new TranceImmunity();
 	}
 
 	/**
@@ -22,17 +29,22 @@ public class ZombieBite extends Effect {
 	 */
 	@Override
 	public void useEffect() {
-		Battleable target = super.getTarget();
-		BattleAttributes attr = target.getBattleAttributes();
-		if (getUses() == 3) {
-			// We are on the first call, so on initial attack, which we use to convert
-			// the target into an enemy and apply the bonus attack.
-			attr.setBattleState(new EnemyState());
-			attr.addAttackModifier(zombieBonusAttack);
-		} else if (getUses() == 1) {
+		if (getUses() == 1) {
+			Battleable target = super.getTarget();
+			BattleAttributes attr = target.getBattleAttributes();
 			attr.setBattleState(new AlliedState());
 			attr.removeAttackModifier(zombieBonusAttack);
+			attr.removeDefenseModifier(tranceImmunity);
 		}
+	}
+
+	@Override
+	public void setupEffect() {
+		Battleable target = getTarget();
+		BattleAttributes attr = target.getBattleAttributes();
+		attr.setBattleState(new EnemyState());
+		attr.addAttackModifier(zombieBonusAttack);
+		attr.addDefenseModifier(tranceImmunity);
 	}
 
 	@Override

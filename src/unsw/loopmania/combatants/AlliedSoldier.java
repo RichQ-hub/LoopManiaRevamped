@@ -24,7 +24,7 @@ public class AlliedSoldier extends StaticEntity implements Battleable {
 		super(position);
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 30, 0, 0, new AlliedState());
-		attr.addBaseAttackEffect(new DamageEffect(7));
+		attr.addBaseAttackEffect(new DamageEffect(3));
 
 		this.battleAttributes = attr;
 	}
@@ -76,6 +76,11 @@ public class AlliedSoldier extends StaticEntity implements Battleable {
 		for (Effect e : attack.getEffects()) {
 			// Ensure the effect's target is this class.
 			e.setTarget(this);
+
+			// Run initial setup code when the effect is added.
+			e.setupEffect();
+
+			// Add the effect to the list of active effects.
 			battleAttributes.addActiveEffect(e);
 		}
 
@@ -120,13 +125,7 @@ public class AlliedSoldier extends StaticEntity implements Battleable {
 
 	@Override
 	public void printInfo() {
-		System.out.println(String.format("  Health: %f", getBattleAttributes().getHealth()));
-
-		System.out.println("  Active Effects: {");
-		for (Effect e : getBattleAttributes().getActiveEffects()) {
-			e.printInfo();
-		}
-		System.out.println("  }");
+		battleAttributes.printBattleAttributesInfo();
 	}
 
 	@Override
