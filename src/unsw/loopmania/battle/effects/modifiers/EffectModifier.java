@@ -7,6 +7,7 @@ import unsw.loopmania.battle.effects.StakeEffect;
 import unsw.loopmania.battle.effects.StunnedEffect;
 import unsw.loopmania.battle.effects.TranceEffect;
 import unsw.loopmania.battle.effects.VampireBite;
+import unsw.loopmania.battle.effects.VampireHit;
 import unsw.loopmania.battle.effects.ZombieBite;
 
 public abstract class EffectModifier {
@@ -45,6 +46,10 @@ public abstract class EffectModifier {
 	}
 
 	public void visitStunnedEffect(StunnedEffect effect) {
+		return;
+	}
+
+	public void visitVampireHitEffect(VampireHit effect) {
 		return;
 	}
 }

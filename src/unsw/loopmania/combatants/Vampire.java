@@ -8,6 +8,7 @@ import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.VampireBite;
+import unsw.loopmania.battle.effects.VampireHit;
 import unsw.loopmania.battle.effects.modifiers.StakeEffectModifier;
 import unsw.loopmania.battle.loot.LootItem;
 import unsw.loopmania.battle.loot.LootTable;
@@ -64,5 +65,9 @@ public class Vampire extends Enemy {
 		if (rand.nextDouble() < 0.4) {
 			attack.addEffect(new VampireBite(uses, dmg));
 		}
+
+		// Always add a VampireHit effect which is solely responsible for activating
+		// the above VampireBite effect if the opponent has it.
+		attack.addEffect(new VampireHit());
 	}	
 }

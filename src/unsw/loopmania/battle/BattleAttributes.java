@@ -55,7 +55,7 @@ public class BattleAttributes {
 	 */
 	public void triggerEffects(Effect.EffectTrigger trigger) {
 		for (Effect e : activeEffects) {
-			if (e.getTrigger() == trigger) {
+			if (e.getTrigger() == trigger && e.getUses() > 0) {
 				e.activate();
 			}
 		}
