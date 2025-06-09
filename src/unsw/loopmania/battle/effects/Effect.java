@@ -13,6 +13,7 @@ public abstract class Effect {
 		ON_HIT,
 		ON_ATTACK,
 		ON_DEATH,
+		NONE
 	}
 
 	public Effect(int uses, EffectTrigger trigger) {
@@ -21,6 +22,7 @@ public abstract class Effect {
 	}
 
 	public abstract void useEffect();
+	public abstract void setupEffect();
 	public abstract Effect copyEffect();
 	public abstract void acceptModifier(EffectModifier modifier);
 	public abstract void printInfo();

@@ -11,19 +11,24 @@ public class StunnedEffect extends Effect {
 	private BattleState prevBattleState;
 
 	public StunnedEffect() {
-		super(3, EffectTrigger.ON_ATTACK);
+		super(3, EffectTrigger.ON_HIT);
 	}
 
 	@Override
 	public void useEffect() {
-		Battleable target = getTarget();
-		BattleAttributes attr = target.getBattleAttributes();
-		if (getUses() == 3) {
-			this.prevBattleState = attr.getBattleState();
-			attr.setBattleState(new StunnedState(prevBattleState.isEnemy()));
-		} else if (getUses() == 1) {
+		if (getUses() == 1) {
+			Battleable target = getTarget();
+			BattleAttributes attr = target.getBattleAttributes();
 			attr.setBattleState(prevBattleState);
 		}
+	}
+
+	@Override
+	public void setupEffect() {
+		Battleable target = getTarget();
+		BattleAttributes attr = target.getBattleAttributes();
+		this.prevBattleState = attr.getBattleState();
+		attr.setBattleState(new StunnedState(prevBattleState.isEnemy()));
 	}
 
 	@Override

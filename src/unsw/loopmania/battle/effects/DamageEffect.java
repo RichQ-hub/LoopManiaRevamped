@@ -26,6 +26,11 @@ public class DamageEffect extends Effect {
 	}
 
 	@Override
+	public void setupEffect() {
+		return;
+	}
+
+	@Override
 	public void printInfo() {
 		System.out.println(
 			String.format("	- %s: [Dmg: %f, Uses: %d]", getClass().getSimpleName(), dmg, getUses())

@@ -21,6 +21,11 @@ public class OneRingEffect extends Effect {
 	}
 
 	@Override
+	public void setupEffect() {
+		return;
+	}
+
+	@Override
 	public Effect copyEffect() {
 		return new OneRingEffect();
 	}

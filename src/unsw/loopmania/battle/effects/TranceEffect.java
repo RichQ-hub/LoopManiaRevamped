@@ -20,14 +20,19 @@ public class TranceEffect extends Effect {
 
 	@Override
 	public void useEffect() {
-		Battleable target = super.getTarget();
-		BattleAttributes attr = target.getBattleAttributes();
 		if (getUses() == 1) {
 			// We are on our last call, so we revert the enemy back to its enemy state.
+			Battleable target = super.getTarget();
+			BattleAttributes attr = target.getBattleAttributes();
 			attr.setBattleState(new EnemyState());
-		} else {
-			attr.setBattleState(new AlliedState());
 		}
+	}
+
+	@Override
+	public void setupEffect() {
+		Battleable target = getTarget();
+		BattleAttributes attr = target.getBattleAttributes();
+		attr.setBattleState(new AlliedState());
 	}
 
 	@Override
