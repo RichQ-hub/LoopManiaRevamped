@@ -18,6 +18,7 @@ public class TowerBuilding extends Building implements Battleable {
 
 	public TowerBuilding(Pair<Integer, Integer> position) {
 		super(position, LIFESPAN);
+		super.setEntityImageByPath("src/images/tower.png");
 	}
 
 	@Override

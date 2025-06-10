@@ -10,7 +10,6 @@ public interface Battleable {
 	public void attackOpponents(List<Battleable> battleEntities);
 	public Attack buildAttack();
 	public void takeAttack(Attack attack);
-
 	public boolean isEnemy();
 	public boolean isAlive();
 	public boolean isWithinBattleRadius(Character character);
@@ -19,10 +18,11 @@ public interface Battleable {
 	public void move();
 	public Loot dropLoot();
 	public void printInfo();
-
 	public List<Battleable> getEntitiesToAttack(List<Battleable> battleEntities);
-
 	public void addToBattleManager(BattleManager manager);
-
 	public BattleAttributes getBattleAttributes();
+
+	// Position
+	public int getX();
+	public int getY();
 }

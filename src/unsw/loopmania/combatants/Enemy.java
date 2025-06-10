@@ -8,8 +8,6 @@ import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.BattleState;
-import unsw.loopmania.battle.effects.Effect;
-import unsw.loopmania.battle.effects.Effect.EffectTrigger;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.battle.loot.LootTable;
 import unsw.loopmania.entity.MovingEntity;
@@ -39,68 +37,23 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 
 	@Override
 	public void attackOpponents(List<Battleable> battleEntities) {
-		// Get opponents that are alive.
-		List<Battleable> opponents = getEntitiesToAttack(battleEntities);
-		for (Battleable opp : opponents) {
-			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
-			Attack attack = buildAttack();
-			opp.takeAttack(attack);
-
-			// Trigger on-attack effects.
-			battleAttributes.triggerEffects(EffectTrigger.ON_ATTACK);
-
-			// Log info.
-			opp.printInfo();
-		}
+		battleAttributes.attackOpponents(battleEntities);
 	}
 
 	@Override
 	public Attack buildAttack() {
-		Attack attack = new Attack();
-		
-		battleAttributes.insertBaseAttackEffects(attack);
+		Attack attack = battleAttributes.buildAttack();
 
-		// DEBUG: Print attack.
-		attack.printInfo("Base Attack");
-
+		// TODO: Could move this inside the build attack method, AND add it as a method inside Battleable interface.
+		// This is because we might want to apply modifiers AFTER we add special attack effects.
 		specialAttack(attack);
-
-		// Apply attack modifiers (buffs) this enemy might have.
-		battleAttributes.modifyOutgoingAttack(attack);
-
-		// DEBUG: Print attack.
-		attack.printInfo("Outgoing Attack");
 
 		return attack;
 	}
 
 	@Override
 	public void takeAttack(Attack attack) {
-		// Modify any incoming effects.
-		battleAttributes.modifyIncomingAttack(attack);
-
-		// DEBUG: Print attack.
-		attack.printInfo("Incoming Attack");
-
-		// Add all offensive effects onto the person.
-		for (Effect e : attack.getEffects()) {
-			// Ensure the effect's target is this class.
-			e.setTarget(this);
-
-			// Run initial setup code when the effect is added.
-			e.setupEffect();
-
-			// Add the effect to the list of active effects.
-			battleAttributes.addActiveEffect(e);
-		}
-
-		// Trigger on-hit effects.
-		battleAttributes.triggerEffects(Effect.EffectTrigger.ON_HIT);
-
-		// Trigger death effects if health drops below 0.
-		if (!isAlive()) {
-			battleAttributes.triggerEffects(Effect.EffectTrigger.ON_DEATH);
-		}
+		battleAttributes.takeAttack(attack);
 	}
 
 	@Override
