@@ -8,12 +8,12 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import unsw.loopmania.battle.battleState.BattleState;
 import unsw.loopmania.battle.effects.Effect;
+import unsw.loopmania.battle.effects.Effect.EffectTrigger;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 import unsw.loopmania.combatants.Character;
-import unsw.loopmania.entity.Entity;
 
 public class BattleAttributes {
-	private Entity combatant;
+	private Battleable combatant;
 	private DoubleProperty health;
 	private double maxHealth;
 
@@ -28,7 +28,7 @@ public class BattleAttributes {
 	private List<EffectModifier> defenseModifiers;
 	private List<EffectModifier> attackModifiers;
 
-	public BattleAttributes(Entity combatant, double maxHealth, double battleRadius, double supportRadius, BattleState battleState) {
+	public BattleAttributes(Battleable combatant, double maxHealth, double battleRadius, double supportRadius, BattleState battleState) {
 		this.combatant = combatant;
 		this.maxHealth = maxHealth;
 		this.health = new SimpleDoubleProperty(maxHealth);
@@ -41,33 +41,94 @@ public class BattleAttributes {
 		this.attackModifiers = new ArrayList<>();
 	}
 
-	public void applyModifiers(List<EffectModifier> modifiers) {
-		for (EffectModifier m : modifiers) {
-			for (Effect e : activeEffects) {
-				e.acceptModifier(m);
-			}
+	// ==================================================================================
+	// Health Methods.
+	// ==================================================================================
+
+	// TODO: Incorporate these methods in effects.
+
+	public void addHealth(double amount) {
+		double newHealth = getHealth() + amount;
+		if (newHealth > maxHealth) {
+			newHealth = maxHealth;
+		}
+		setHealth(newHealth);
+	}
+
+	public void reduceHealth(double amount) {
+		setHealth(getHealth() - amount);
+	}
+
+	// ==================================================================================
+	// Battle Methods.
+	// ==================================================================================
+
+	public void attackOpponents(List<Battleable> battleEntities) {
+		// Get opponents that are alive.
+		List<Battleable> opponents = combatant.getEntitiesToAttack(battleEntities);
+		for (Battleable opp : opponents) {
+			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
+			// Build attack.
+			Attack attack = combatant.buildAttack();
+
+			// Print Outgoing attack.
+			attack.printInfo("Outgoing Attack");
+
+			// Let the opponent take the attack.
+			opp.takeAttack(attack);
+
+			// Trigger on-attack effects.
+
+			// TODO: Could move this outside of this for loop. For example we run into problems when we are a tranced
+			// enemy that lasts only 2 attacks, but the getEntitiesToAttack() returns 3 enemies. The trance effect should
+			// end by the 2nd enemy, but we continue attacking the 3rd enemy even though we reverted back to EnemyState
+			// since the trance ended. This is becase we still continue to the 3rd enemy dur to this for loop.
+			triggerEffects(EffectTrigger.ON_ATTACK);
+
+			// Log info.
+			opp.printInfo();
 		}
 	}
 
-	/**
-	 * Trigger any effects that match the trigger.
-	 * @param trigger
-	 */
-	public void triggerEffects(Effect.EffectTrigger trigger) {
-		for (Effect e : activeEffects) {
-			if (e.getTrigger() == trigger && e.getUses() > 0) {
-				e.activate();
-			}
-		}
+	public Attack buildAttack() {
+		Attack attack = new Attack();
+		
+		insertBaseAttackEffects(attack);
 
-		cleanseActiveEffects();
+		// DEBUG: Print attack.
+		attack.printInfo("Base Attack");
+
+		// Apply attack modifiers (buffs) the character might have.
+		modifyOutgoingAttack(attack);
+
+		return attack;
 	}
 
-	/**
-	 * Remove any inactive effects.
-	 */
-	public void cleanseActiveEffects() {
-		this.activeEffects = activeEffects.stream().filter(effect -> effect.isActive()).collect(Collectors.toList());
+	public void takeAttack(Attack attack) {
+		// Modify any incoming effects by the combatant's pre-existing defense modifiers.
+		modifyIncomingAttack(attack);
+
+		// DEBUG: Print attack.
+		attack.printInfo("Incoming Attack");
+
+		// Add all offensive effects onto the person.
+		for (Effect e : attack.getEffects()) {
+			e.setTarget(combatant);
+
+			// Run initial setup code when the effect is added.
+			e.setupEffect();
+
+			// Add the effect to the list of active effects.
+			addActiveEffect(e);
+		}
+
+		// Trigger on-hit effects.
+		triggerEffects(Effect.EffectTrigger.ON_HIT);
+
+		// Trigger death effects if health drops below 0.
+		if (!combatant.isAlive()) {
+			triggerEffects(Effect.EffectTrigger.ON_DEATH);
+		}
 	}
 
 	public boolean isWithinBattleRadius(Character character) {
@@ -79,41 +140,46 @@ public class BattleAttributes {
 	}
 
 	// ==================================================================================
-	// Print Info.
+	// Effect Methods.
 	// ==================================================================================
 
-	public void printBattleAttributesInfo() {
-		// Print Active Effects.
-		System.out.println("  HEALTH: " + getHealth());
-
-		System.out.println("  BATTLE STATE: " + getBattleState().getClass().getSimpleName());
-
-		// Print Active Effects.
-		System.out.println("  ACTIVE EFFECTS: {");
+	/**
+	 * Trigger any effects that match the trigger.
+	 * @param trigger
+	 */
+	public void triggerEffects(Effect.EffectTrigger trigger) {
 		for (Effect e : activeEffects) {
-			e.printInfo();
+			if (e.getTrigger() == trigger && e.isActive()) {
+				e.activate();
+			}
 		}
-		System.out.println("  }");
 
-		// Print Defense Modifiers.
-		System.out.println("  DEFENSE MODIFIERS: {");
-		for (EffectModifier m : defenseModifiers) {
-			m.printInfo();
-		}
-		System.out.println("  }");
+		cleanseActiveEffects();
+	}
 
-		// Print Attack Modifiers.
-		System.out.println("  ATTACK MODIFIERS: {");
-		for (EffectModifier m : attackModifiers) {
-			m.printInfo();
+	public void applyModifiers(List<EffectModifier> modifiers) {
+		for (EffectModifier m : modifiers) {
+			for (Effect e : activeEffects) {
+				e.acceptModifier(m);
+			}
 		}
-		System.out.println("  }");
+	}
+
+	/**
+	 * Remove any inactive effects.
+	 */
+	public void cleanseActiveEffects() {
+		this.activeEffects = activeEffects.stream().filter(effect -> effect.isActive()).collect(Collectors.toList());
 	}
 
 	// ==================================================================================
 	// Attack Object Methods.
 	// ==================================================================================
 
+	/**
+	 * Inserts base attack effects present in the current combatant.
+	 * @param attack
+	 */
 	public void insertBaseAttackEffects(Attack attack) {
 		for (Effect baseEffect : baseAttackEffects) {
 			Effect copy = baseEffect.copyEffect();
@@ -122,7 +188,7 @@ public class BattleAttributes {
 	}
 
 	/**
-	 * Applies all equipment modifiers onto the incoming attack.
+	 * Applies all attack modifiers onto the outgoing attack.
 	 * @param attack
 	 */
 	public void modifyOutgoingAttack(Attack attack) {
@@ -132,7 +198,7 @@ public class BattleAttributes {
 	}
 
 	/**
-	 * Applies all equipment modifiers onto the incoming attack.
+	 * Applies all defensive modifiers onto the incoming attack.
 	 * @param attack
 	 */
 	public void modifyIncomingAttack(Attack attack) {
@@ -204,6 +270,38 @@ public class BattleAttributes {
 	// TODO: Could replace the above with this function.
 	public <T> boolean effectExists(T effect, List<T> effectList) {
 		return effectList.stream().anyMatch(e -> e.getClass().equals(effect.getClass()));
+	}
+
+	// ==================================================================================
+	// Print Info.
+	// ==================================================================================
+
+	public void printBattleAttributesInfo() {
+		// Print Active Effects.
+		System.out.println("  HEALTH: " + getHealth());
+
+		System.out.println("  BATTLE STATE: " + getBattleState().getClass().getSimpleName());
+
+		// Print Active Effects.
+		System.out.println("  ACTIVE EFFECTS: {");
+		for (Effect e : activeEffects) {
+			e.printInfo();
+		}
+		System.out.println("  }");
+
+		// Print Defense Modifiers.
+		System.out.println("  DEFENSE MODIFIERS: {");
+		for (EffectModifier m : defenseModifiers) {
+			m.printInfo();
+		}
+		System.out.println("  }");
+
+		// Print Attack Modifiers.
+		System.out.println("  ATTACK MODIFIERS: {");
+		for (EffectModifier m : attackModifiers) {
+			m.printInfo();
+		}
+		System.out.println("  }");
 	}
 
 	// ==================================================================================
@@ -282,11 +380,11 @@ public class BattleAttributes {
 		this.defenseModifiers = defenseModifiers;
 	}
 
-	public Entity getCombatant() {
+	public Battleable getCombatant() {
 		return combatant;
 	}
 
-	public void setCombatant(Entity combatant) {
+	public void setCombatant(Battleable combatant) {
 		this.combatant = combatant;
 	}
 

@@ -18,8 +18,6 @@ import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.AlliedState;
 import unsw.loopmania.battle.battleState.BattleState;
 import unsw.loopmania.battle.effects.DamageEffect;
-import unsw.loopmania.battle.effects.Effect;
-import unsw.loopmania.battle.effects.Effect.EffectTrigger;
 import unsw.loopmania.battle.effects.modifiers.ZombieBiteImmunity;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.entity.MovingEntity;
@@ -60,7 +58,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 100, 0, 0, new AlliedState());
-		attr.addBaseAttackEffect(new DamageEffect(5));
+		attr.addBaseAttackEffect(new DamageEffect(8));
 		attr.addDefenseModifier(new ZombieBiteImmunity());
 
 		this.battleAttributes = attr;
@@ -104,78 +102,27 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 
 	@Override
 	public void attackOpponents(List<Battleable> battleEntities) {
-		// Get opponents that are alive.
-		List<Battleable> opponents = getEntitiesToAttack(battleEntities);
-		for (Battleable opp : opponents) {
-			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
-			Attack attack = buildAttack();
-			opp.takeAttack(attack);
-
-			// Trigger on-attack effects.
-
-			// TODO: Could move this outside of this for loop. For example we run into problems when we are a tranced
-			// enemy that lasts only 2 attacks, but the getEntitiesToAttack() returns 3 enemies. The trance effect should
-			// end by the 2nd enemy, but we continue attacking the 3rd enemy even though we reverted back to EnemyState
-			// since the trance ended. This is becase we still continue to the 3rd enemy dur to this for loop.
-			battleAttributes.triggerEffects(EffectTrigger.ON_ATTACK);
-
-			// Log info.
-			opp.printInfo();
-		}
+		battleAttributes.attackOpponents(battleEntities);
 	}
 
 	@Override
 	public Attack buildAttack() {
-		Attack attack = new Attack();
+		Attack attack = battleAttributes.buildAttack();
 		
-		battleAttributes.insertBaseAttackEffects(attack);
-
-		// DEBUG: Print attack.
-		attack.printInfo("Base Attack");
-
-		// Apply outgoing attack modifiers provided by equipped items.
+		// Apply equipment modifiers.
 		EquippedInventory eInv = inventory.getEquippedInventory();
 		eInv.modifyOutgoingAttack(attack);
-
-		// Apply attack modifiers (buffs) the character might have.
-		battleAttributes.modifyOutgoingAttack(attack); 
-
-		// DEBUG: Print attack.
-		attack.printInfo("Outgoing Attack");
-
+		
 		return attack;
 	}
 
 	@Override
 	public void takeAttack(Attack attack) {
-		// Modify incoming attack with equipment defense modifiers.
+		// Modify incoming attack with equipment.
 		EquippedInventory eInv = inventory.getEquippedInventory();
 		eInv.modifyIncomingAttack(attack);
 
-		// Modify any incoming effects by the characters pre-existing defense modifiers.
-		battleAttributes.modifyIncomingAttack(attack);
-
-		// DEBUG: Print attack.
-		attack.printInfo("Incoming Attack");
-
-		// Add all offensive effects onto the person.
-		for (Effect e : attack.getEffects()) {
-			e.setTarget(this);
-
-			// Run initial setup code when the effect is added.
-			e.setupEffect();
-
-			// Add the effect to the list of active effects.
-			battleAttributes.addActiveEffect(e);
-		}
-
-		// Trigger on-hit effects.
-		battleAttributes.triggerEffects(Effect.EffectTrigger.ON_HIT);
-
-		// Trigger death effects if health drops below 0.
-		if (!isAlive()) {
-			battleAttributes.triggerEffects(Effect.EffectTrigger.ON_DEATH);
-		}
+		battleAttributes.takeAttack(attack);
 	}
 
 	@Override
