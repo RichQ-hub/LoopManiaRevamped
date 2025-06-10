@@ -43,7 +43,11 @@ public abstract class Enemy extends MovingEntity implements Battleable, Location
 	@Override
 	public Attack buildAttack() {
 		Attack attack = battleAttributes.buildAttack();
-		specialAttack(attack); // TODO: Could move this inside the build attack method, AND add it as a method inside Battleable interface.
+
+		// TODO: Could move this inside the build attack method, AND add it as a method inside Battleable interface.
+		// This is because we might want to apply modifiers AFTER we add special attack effects.
+		specialAttack(attack);
+
 		return attack;
 	}
 
