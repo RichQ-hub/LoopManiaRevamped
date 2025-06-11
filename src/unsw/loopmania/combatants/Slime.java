@@ -1,5 +1,6 @@
 package unsw.loopmania.combatants;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -21,15 +22,23 @@ public class Slime extends Enemy {
 	// Can only split once.
 	private boolean canSplit;
 
+	private boolean isRevived;
+
+	private List<BabySlime> babySlimes;
+
 	public Slime(PathPosition position) {
 		super(position);
-		super.setEntityImageByPath("src/images/fire_dragon.png");
+		super.setEntityImageByPath("src/images/slime.png");
 
 		// Custom variables.
 		this.canSplit = true;
+		this.isRevived = false;
+		this.babySlimes = new ArrayList<>();
+		babySlimes.add(new BabySlime(position, this));
+		babySlimes.add(new BabySlime(position, this));
 
 		// Set battle attributes.
-		BattleAttributes attr = new BattleAttributes(this, 30, 4, 20, new EnemyState());
+		BattleAttributes attr = new BattleAttributes(this, 40, 4, 10, new EnemyState());
 		attr.addBaseAttackEffect(new DamageEffect(7));
 
 		super.setBattleAttributes(attr);
@@ -44,8 +53,10 @@ public class Slime extends Enemy {
 	public void takeAttack(Attack attack, List<Battleable> battleEntities, List<Battleable> battleEntitiesInRound) {
 		super.takeAttack(attack, battleEntities, battleEntitiesInRound);
 		
-		if (getBattleAttributes().getHealth() <= 15 && canSplit) {
+		if (getBattleAttributes().getHealth() <= 20 && canSplit) {
 			// Split.
+			battleEntities.addAll(babySlimes);
+			battleEntities.remove(this);
 
 			this.canSplit = false;
 		}
@@ -66,6 +77,34 @@ public class Slime extends Enemy {
 	@Override
 	public void specialAttack(Attack attack) {
 		return;
+	}
+
+	public boolean isAnyBabiesAlive() {
+		return babySlimes.stream().anyMatch(s -> s.isAlive());
+	}
+
+	public boolean isCanSplit() {
+		return canSplit;
+	}
+
+	public void setCanSplit(boolean canSplit) {
+		this.canSplit = canSplit;
+	}
+
+	public boolean isRevived() {
+		return isRevived;
+	}
+
+	public void setRevived(boolean isRevived) {
+		this.isRevived = isRevived;
+	}
+
+	public List<BabySlime> getBabySlimes() {
+		return babySlimes;
+	}
+
+	public void setBabySlimes(List<BabySlime> babySlimes) {
+		this.babySlimes = babySlimes;
 	}
 	
 }

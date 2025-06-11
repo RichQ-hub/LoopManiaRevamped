@@ -11,6 +11,8 @@ public class StunnedEffect extends Effect {
 	private BattleState prevBattleState;
 
 	public StunnedEffect() {
+		// TODO: Could change it so that the subject is stunned for a number of rounds. Adding a new
+		// EffectTrigger.ON_ROUND_END trigger.
 		super(3, EffectTrigger.ON_HIT);
 	}
 

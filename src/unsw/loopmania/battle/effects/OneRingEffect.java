@@ -14,10 +14,8 @@ public class OneRingEffect extends Effect {
 	public void useEffect() {
 		Battleable target = getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
-		if (attr.getHealth() < 0) {
-			attr.setHealth(attr.getMaxHealth());
-			setUses(0);
-		}
+		attr.setHealth(attr.getMaxHealth());
+		setUses(0);
 	}
 
 	@Override
