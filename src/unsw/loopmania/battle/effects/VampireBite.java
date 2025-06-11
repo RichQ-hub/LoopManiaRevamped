@@ -25,7 +25,7 @@ public class VampireBite extends Effect {
 	public void useEffect() {
 		Battleable target = super.getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
-		attr.setHealth(attr.getHealth() - dmg);
+		attr.reduceHealth(dmg);
 	}
 
 	@Override

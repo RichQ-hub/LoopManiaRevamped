@@ -32,7 +32,7 @@ public class ZombieBite extends Effect {
 		if (getUses() == 1) {
 			Battleable target = super.getTarget();
 			BattleAttributes attr = target.getBattleAttributes();
-			attr.setBattleState(new AlliedState());
+			attr.setBattleState(new AlliedState()); // TODO: Change this since tranced zombies that bite enemies become allies.
 			attr.removeAttackModifier(zombieBonusAttack);
 			attr.removeDefenseModifier(tranceImmunity);
 		}

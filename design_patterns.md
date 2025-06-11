@@ -27,3 +27,7 @@ We can introduce new effects to the opponent without breaking existing code stru
 **Single Responsibility Principle**
 
 Decouples effect objects from the attack objects.
+
+## 6. Entity UI (Observer Pattern)
+
+A form of observer pattern is implemented in the `destroy()` method in entities. The frontend javafx listens for the `shouldExist` property in entities, that when it is changed to `false`, it signals to the frontend that it should remove its corresponding **ImageView** from the frontend gridpanes. This decouples the frontend from the backend as the loopmania backend model doesn't need to know about the existence of the frontend. It only needs to call `destroy()` for the frontend to react to the change.

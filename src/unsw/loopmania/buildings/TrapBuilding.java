@@ -36,7 +36,7 @@ public class TrapBuilding extends Building implements LocationObserver<Enemy> {
 		if (entity.getX() == getX() && entity.getY() == getY()) {
             BattleAttributes attr = entity.getBattleAttributes();
 
-			attr.setHealth(attr.getHealth() - 20);
+			attr.reduceHealth(20);
 
 			System.out.println(String.format("%s stepped on a trap, its health now is %f", entity.getClass().getSimpleName(), attr.getHealth()));
 

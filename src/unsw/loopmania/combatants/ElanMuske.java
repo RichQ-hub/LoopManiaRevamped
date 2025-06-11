@@ -36,17 +36,17 @@ public class ElanMuske extends Enemy {
 	}
 
 	@Override
-	public void attackOpponents(List<Battleable> battleEntities) {
+	public void attackOpponents(List<Battleable> battleEntities, List<Battleable> battleEntitiesInRound) {
 		// On attack opponents, Muske has a 30% chance of healing all enemies (IN BATTLE) by 5 health.
-		super.attackOpponents(battleEntities);
+		super.attackOpponents(battleEntities, battleEntitiesInRound);
 
 		Random rand = new Random();
 		if (rand.nextDouble() < 0.5) {
 			System.out.println("  * Elan heals all enemies by 5 health!");
-			List<Battleable> enemies = battleEntities.stream().filter(e -> e.isAlive() && e.isEnemy()).toList();
+			List<Battleable> enemies = battleEntitiesInRound.stream().filter(e -> e.isAlive() && e.isEnemy()).toList();
 			for (Battleable enemy : enemies) {
 				BattleAttributes attr = enemy.getBattleAttributes();
-				attr.setHealth(attr.getHealth() + 5);
+				attr.addHealth(5);
 			}
 		}
 	}

@@ -24,6 +24,7 @@ import unsw.loopmania.spawners.DoggieSpawner;
 import unsw.loopmania.spawners.ElanMuskeSpawner;
 import unsw.loopmania.spawners.GoldSpawner;
 import unsw.loopmania.spawners.HealthPotionSpawner;
+import unsw.loopmania.spawners.SlimeSpawner;
 import unsw.loopmania.spawners.SlugSpawner;
 
 /**
@@ -114,6 +115,7 @@ public class LoopManiaWorld {
 		buildingManager.addSpawner(new SlugSpawner(this));
 		buildingManager.addSpawner(new ElanMuskeSpawner(this));
 		buildingManager.addSpawner(new DoggieSpawner(this));
+		buildingManager.addSpawner(new SlimeSpawner(this));
     }
 
 	public boolean isGoalAchieved() {

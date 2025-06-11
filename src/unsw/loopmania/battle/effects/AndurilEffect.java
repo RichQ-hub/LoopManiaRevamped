@@ -18,7 +18,7 @@ public class AndurilEffect extends Effect {
 	public void useEffect() {
 		Battleable target = getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
-		attr.setHealth(attr.getHealth() - dmg);
+		attr.reduceHealth(dmg);
 	}
 
 	@Override

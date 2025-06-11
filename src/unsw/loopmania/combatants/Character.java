@@ -101,8 +101,8 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	// ==================================================================================
 
 	@Override
-	public void attackOpponents(List<Battleable> battleEntities) {
-		battleAttributes.attackOpponents(battleEntities);
+	public void attackOpponents(List<Battleable> battleEntities, List<Battleable> battleEntitiesInRound) {
+		battleAttributes.attackOpponents(battleEntities, battleEntitiesInRound);
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class Character extends MovingEntity implements Battleable, LocationPubli
 	}
 
 	@Override
-	public void takeAttack(Attack attack) {
+	public void takeAttack(Attack attack, List<Battleable> battleEntities, List<Battleable> battleEntitiesInRound) {
 		// Modify incoming attack with equipment.
 		EquippedInventory eInv = inventory.getEquippedInventory();
 		eInv.modifyIncomingAttack(attack);

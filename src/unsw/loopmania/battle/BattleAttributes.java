@@ -45,8 +45,6 @@ public class BattleAttributes {
 	// Health Methods.
 	// ==================================================================================
 
-	// TODO: Incorporate these methods in effects.
-
 	public void addHealth(double amount) {
 		double newHealth = getHealth() + amount;
 		if (newHealth > maxHealth) {
@@ -63,9 +61,9 @@ public class BattleAttributes {
 	// Battle Methods.
 	// ==================================================================================
 
-	public void attackOpponents(List<Battleable> battleEntities) {
+	public void attackOpponents(List<Battleable> battleEntities, List<Battleable> battleEntitiesInRound) {
 		// Get opponents that are alive.
-		List<Battleable> opponents = combatant.getEntitiesToAttack(battleEntities);
+		List<Battleable> opponents = combatant.getEntitiesToAttack(battleEntitiesInRound);
 		for (Battleable opp : opponents) {
 			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
 			// Build attack.
@@ -75,7 +73,7 @@ public class BattleAttributes {
 			attack.printInfo("Outgoing Attack");
 
 			// Let the opponent take the attack.
-			opp.takeAttack(attack);
+			opp.takeAttack(attack, battleEntities, battleEntitiesInRound);
 
 			// Trigger on-attack effects.
 
