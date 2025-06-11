@@ -2,7 +2,7 @@ package unsw.loopmania.battle.effects;
 
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
-import unsw.loopmania.battle.battleState.AlliedState;
+import unsw.loopmania.battle.battleState.BattleState;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.modifiers.AddDamage;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
@@ -14,6 +14,7 @@ import unsw.loopmania.battle.effects.modifiers.TranceImmunity;
  */
 public class ZombieBite extends Effect {
 
+	private BattleState prevBattleState;
 	private AddDamage zombieBonusAttack;
 	private TranceImmunity tranceImmunity;
 
@@ -32,7 +33,7 @@ public class ZombieBite extends Effect {
 		if (getUses() == 1) {
 			Battleable target = super.getTarget();
 			BattleAttributes attr = target.getBattleAttributes();
-			attr.setBattleState(new AlliedState()); // TODO: Change this since tranced zombies that bite enemies become allies.
+			attr.setBattleState(prevBattleState);
 			attr.removeAttackModifier(zombieBonusAttack);
 			attr.removeDefenseModifier(tranceImmunity);
 		}
@@ -42,6 +43,7 @@ public class ZombieBite extends Effect {
 	public void setupEffect() {
 		Battleable target = getTarget();
 		BattleAttributes attr = target.getBattleAttributes();
+		this.prevBattleState = attr.getBattleState();
 		attr.setBattleState(new EnemyState());
 		attr.addAttackModifier(zombieBonusAttack);
 		attr.addDefenseModifier(tranceImmunity);

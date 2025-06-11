@@ -81,7 +81,6 @@ public class LoopManiaWorld {
 	// Items spawns in the map path for the character to pick up.
 	private List<Entity> pathEntities;
 
-	// TODO: Have an actual pathItems variable that stores List<Item>.
 	private List<Item> pathItems;
 
 	/**
