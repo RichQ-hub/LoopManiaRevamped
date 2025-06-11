@@ -65,7 +65,7 @@ public class BattleAttributes {
 		// Get opponents that are alive.
 		List<Battleable> opponents = combatant.getEntitiesToAttack(battleEntitiesInRound);
 		for (Battleable opp : opponents) {
-			System.out.println(String.format("\nAttacking -- {%s}: {%f}", opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
+			System.out.println(String.format("\n%s Attacking -- {%s}: {%f}", combatant.getClass().getSimpleName(), opp.getClass().getSimpleName(), opp.getBattleAttributes().getHealth()));
 			// Build attack.
 			Attack attack = combatant.buildAttack();
 
