@@ -46,7 +46,7 @@ public class ElanMuske extends Enemy {
 			List<Battleable> enemies = battleEntities.stream().filter(e -> e.isAlive() && e.isEnemy()).toList();
 			for (Battleable enemy : enemies) {
 				BattleAttributes attr = enemy.getBattleAttributes();
-				attr.setHealth(attr.getHealth() + 5);
+				attr.addHealth(5);
 			}
 		}
 	}

@@ -22,7 +22,7 @@ public class HealthPotion extends Item {
 	@Override
 	public void useItem(Character character, InventoryManager inventoryManager) {
 		BattleAttributes attr = character.getBattleAttributes();
-		attr.setHealth(attr.getHealth() + 10);
+		attr.addHealth(10);
 		destroy();
 		inventoryManager.removeItemFromInventory(this);
 	}

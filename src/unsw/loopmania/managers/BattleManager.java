@@ -2,6 +2,7 @@ package unsw.loopmania.managers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.stream.Collectors;
 
 import unsw.loopmania.LoopManiaWorld;
@@ -33,7 +34,7 @@ public class BattleManager {
 				battleEnemies.addAll(supportEnemies);
 				battleEnemies.add(enemy);
 
-				return runBattle(battleEnemies);
+				return runBattle2(battleEnemies);
 			}
 		}
 		return null;
@@ -90,8 +91,69 @@ public class BattleManager {
 
 				System.out.println("\n--------------------------------------------");
 
-				e.attackOpponents(battleEntities);
+				// e.attackOpponents(battleEntities);
             }
+
+            // Remove all dead entities from the battle AFTER each entity had their turn attacking.
+            List<Battleable> deadEntities = battleEntities.stream()
+                .filter(e -> !e.isAlive())
+                .collect(Collectors.toList());
+            battleEntities.removeAll(deadEntities);
+        }
+
+		// If there are still enemies in the battleEnemies list (which can happen if there are tranced enemies),
+		// then we add them to the list of dead enemies too.
+		for (Battleable e : battleEnemies) {
+			killEnemy(e);
+			deadEnemies.add(e);
+		}
+
+		// Remove dead allied soldiers from the character.
+		character.removeDeadAlliedSoldiers();
+
+		return deadEnemies;
+    }
+
+	public List<Battleable> runBattle2(List<Battleable> battleEnemies) {
+
+		List<Battleable> deadEnemies = new ArrayList<>();
+
+		List<Battleable> battleEntities = new ArrayList<>();
+		battleEntities.add(character);
+		battleEntities.addAll(character.getAlliedSoldiers());
+		battleEntities.addAll(battleEnemies);
+
+		// While character is not defeated and there are no more enemies in battle.
+        while (character.isAlive() && battleEntities.stream().anyMatch(Battleable::isEnemy)) {
+			ListIterator<Battleable> battleEntitiesIterator = battleEntities.listIterator();
+			while (battleEntitiesIterator.hasNext()) {
+				Battleable e = battleEntitiesIterator.next();
+
+				if (!e.isAlive()) {
+					continue;
+				}
+
+				List<Battleable> entitiesToAttack = e.getEntitiesToAttack(battleEntities);
+				if (entitiesToAttack.isEmpty()) {
+					// If there are no entities to attack, that means other allies have killed the
+					// opponent on this for loop.
+					continue;
+				}
+
+				System.out.println("============================================");
+				System.out.println(e.getClass().getSimpleName().toUpperCase() + "\n");
+
+				e.getBattleAttributes().printBattleAttributesInfo();
+
+				System.out.println("\nOpponents:");
+				for (Battleable o : entitiesToAttack) {
+					System.out.println(" - " + o.getClass().getSimpleName());
+				}
+
+				System.out.println("\n--------------------------------------------");
+
+				e.attackOpponents(battleEntities);
+			}
 
             // Remove all dead entities from the battle AFTER each entity had their turn attacking.
             List<Battleable> deadEntities = battleEntities.stream()

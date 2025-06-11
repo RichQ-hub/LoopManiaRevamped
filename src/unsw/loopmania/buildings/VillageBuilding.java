@@ -23,7 +23,7 @@ public class VillageBuilding extends Building implements LocationObserver<Charac
 	public void update(Character entity) {
 		if ((entity.getX() == getX()) && (entity.getY() == getY())) {
 			BattleAttributes attr = entity.getBattleAttributes();
-			attr.setHealth(attr.getHealth() + 8);
+			attr.addHealth(8);
 		}
 	}
 
