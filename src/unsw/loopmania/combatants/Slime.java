@@ -1,10 +1,12 @@
 package unsw.loopmania.combatants;
 
+import java.util.List;
 import java.util.Random;
 
 import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
+import unsw.loopmania.battle.Battleable;
 import unsw.loopmania.battle.battleState.EnemyState;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.loot.LootItem;
@@ -39,8 +41,8 @@ public class Slime extends Enemy {
 	}
 
 	@Override
-	public void takeAttack(Attack attack) {
-		super.takeAttack(attack);
+	public void takeAttack(Attack attack, List<Battleable> battleEntities, List<Battleable> battleEntitiesInRound) {
+		super.takeAttack(attack, battleEntities, battleEntitiesInRound);
 		
 		if (getBattleAttributes().getHealth() <= 15 && canSplit) {
 			// Split.

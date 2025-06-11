@@ -28,8 +28,8 @@ public class AlliedSoldier extends StaticEntity implements Battleable {
 	}
 
 	@Override
-	public void attackOpponents(List<Battleable> battleEntities) {
-		battleAttributes.attackOpponents(battleEntities);
+	public void attackOpponents(List<Battleable> battleEntities, List<Battleable> battleEntitiesInRound) {
+		battleAttributes.attackOpponents(battleEntities, battleEntitiesInRound);
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class AlliedSoldier extends StaticEntity implements Battleable {
 	}
 
 	@Override
-	public void takeAttack(Attack attack) {
+	public void takeAttack(Attack attack, List<Battleable> battleEntities, List<Battleable> battleEntitiesInRound) {
 		battleAttributes.takeAttack(attack);
 	}
 

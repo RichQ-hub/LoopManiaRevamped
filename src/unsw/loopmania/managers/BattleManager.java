@@ -2,7 +2,6 @@ package unsw.loopmania.managers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.stream.Collectors;
 
 import unsw.loopmania.LoopManiaWorld;
@@ -125,15 +124,16 @@ public class BattleManager {
 
 		// While character is not defeated and there are no more enemies in battle.
         while (character.isAlive() && battleEntities.stream().anyMatch(Battleable::isEnemy)) {
-			ListIterator<Battleable> battleEntitiesIterator = battleEntities.listIterator();
-			while (battleEntitiesIterator.hasNext()) {
-				Battleable e = battleEntitiesIterator.next();
-
+			// Creates an immutable copy of the battleEntities list, preventing removals or additions
+			// to the current entities in the round. However, additions (or removals) can be made to the
+			// battleEntities list, during a round, which will appear in the next round.
+			List<Battleable> battleEntitiesInRound = List.copyOf(battleEntities);
+			for (Battleable e : battleEntitiesInRound) {
 				if (!e.isAlive()) {
 					continue;
 				}
 
-				List<Battleable> entitiesToAttack = e.getEntitiesToAttack(battleEntities);
+				List<Battleable> entitiesToAttack = e.getEntitiesToAttack(battleEntitiesInRound);
 				if (entitiesToAttack.isEmpty()) {
 					// If there are no entities to attack, that means other allies have killed the
 					// opponent on this for loop.
@@ -152,7 +152,7 @@ public class BattleManager {
 
 				System.out.println("\n--------------------------------------------");
 
-				e.attackOpponents(battleEntities);
+				e.attackOpponents(battleEntities, battleEntitiesInRound);
 			}
 
             // Remove all dead entities from the battle AFTER each entity had their turn attacking.
