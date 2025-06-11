@@ -39,6 +39,8 @@ public class BabySlime extends Enemy {
 
 		// If the baby slime was not killed within 2 hits, then we revive the parent slime which
 		// will appear in the next round.
+
+		// TODO: Test that baby slimes don't revive parent if they are both killed.
 		if (duration == 0 && parent.isAnyBabiesAlive() && !parent.isRevived()) {
 			BattleAttributes attr = parent.getBattleAttributes();
 			attr.setHealth(attr.getMaxHealth());

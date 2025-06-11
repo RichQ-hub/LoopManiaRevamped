@@ -148,6 +148,7 @@ Possible enemy types are listed below:
 | Slug | ![Slug][slug] | A standard enemy type. Low health and low damage. The battle radius is the same as the support radius for a slug. | Spawns randomly on path tiles |
 | Zombie | ![Zombie][zombie] | *Braaaaaaiiiinnnnnssss!*<br/>Zombies have low health, moderate damage, and are slower compared to other enemies. A critical bite from a zombie against an allied soldier (which has a random chance of occurring) will transform the allied soldier into a zombie, which will then proceed to fight against the Character until it is killed. Zombies have a higher battle radius than slugs | Spawns from zombie pit every time the Character completes a cycle of the path |
 | Vampire | ![Vampire][vampire] | *I vant to suck your blood!*<br/>Vampires have high damage, are susceptible to the *stake* weapon, and run away from campfires. They have a higher battle radius than slugs, and an even higher support radius. A critical bite (which has a random chance of occurring) from a vampire causes random additional damage with every vampire attack, for a random number of vampire attacks | Spawns from vampire castle every 5 cycles of the path completed by the Character |
+| Slime | ![Slime][slime] | An enemy that splits into 2 baby slimes (on the next battle round) should its health drop below 50% during the battle. Should any of the baby slimes survive after 2 hits, it will revive back into the original adult form with full health. You should kill the babies quickly! | Spawns every 2 cycles of the path completed by the Character |
 | Doggie | ![Doggie][doggie] | *Wow much coin how money so crypto plz mine v rich very currency*<br/>A special boss which spawns the DoggieCoin upon defeat, which randomly fluctuates in sellable price to an extraordinary extent. It has high health and can stun the character, which prevents the character from making an attack temporarily. The battle and support radii are the same as for slugs | Spawns after 20 cycles |
 | Elan Muske | ![Elan Muske][elan_muske] | *To the moon!*<br/>An incredibly tough boss which, when appears, causes the price of DoggieCoin to increase drastically. Defeating this boss causes the price of DoggieCoin to plummet. Elan has the ability to heal other enemy NPCs. The battle and support radii are the same as for slugs | Spawns after 40 cycles, and the player has reached 10000 experience points |
 
@@ -747,6 +748,7 @@ Note, you will not be penalised if your work has the potential to be taken witho
 [barracks]:                  src/images/barracks.png
 [barracks_card]:             src/images/barracks_card.png
 [allied_soldier]:            src/images/deep_elf_master_archer.png
+[slime]:            				 src/images/slime.png
 
 [the_one_ring]:              src/images/the_one_ring.png
 [anduril_flame_of_the_west]: src/images/anduril_flame_of_the_west.png
