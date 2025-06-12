@@ -22,7 +22,7 @@ public class BabySlime extends Enemy {
 		// Note: Contains no image.
 
 		// Set battle attributes.
-		BattleAttributes attr = new BattleAttributes(this, 30, 0, 0, new EnemyState());
+		BattleAttributes attr = new BattleAttributes(this, 20, 0, 0, new EnemyState());
 		attr.addBaseAttackEffect(new DamageEffect(4));
 		super.setBattleAttributes(attr);
 
@@ -39,9 +39,7 @@ public class BabySlime extends Enemy {
 
 		// If the baby slime was not killed within 2 hits, then we revive the parent slime which
 		// will appear in the next round.
-
-		// TODO: Test that baby slimes don't revive parent if they are both killed.
-		if (duration == 0 && parent.isAnyBabiesAlive() && !parent.isRevived()) {
+		if (parent.areAllBabiesExpired() && parent.isAnyBabiesAlive() && !parent.isRevived()) {
 			BattleAttributes attr = parent.getBattleAttributes();
 			attr.setHealth(attr.getMaxHealth());
 			battleEntities.add(parent);
@@ -58,6 +56,14 @@ public class BabySlime extends Enemy {
 	@Override
 	public void specialAttack(Attack attack) {
 		return;
+	}
+
+	public int getDuration() {
+		return duration;
+	}
+
+	public void setDuration(int duration) {
+		this.duration = duration;
 	}
 	
 }

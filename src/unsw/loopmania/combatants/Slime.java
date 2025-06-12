@@ -83,6 +83,10 @@ public class Slime extends Enemy {
 		return babySlimes.stream().anyMatch(s -> s.isAlive());
 	}
 
+	public boolean areAllBabiesExpired() {
+		return babySlimes.stream().allMatch(s -> (s.getDuration() == 0));
+	}
+
 	public boolean isCanSplit() {
 		return canSplit;
 	}
