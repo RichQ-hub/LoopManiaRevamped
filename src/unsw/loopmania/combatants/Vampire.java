@@ -27,7 +27,7 @@ public class Vampire extends Enemy {
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 40, 4, 20, new EnemyState());
-		attr.addBaseAttackEffect(new DamageEffect(7));
+		attr.addBaseAttackEffect(new DamageEffect(8));
 		attr.addDefenseModifier(new StakeEffectModifier(5)); // Weak to stake attacks.
 
 		super.setBattleAttributes(attr);
@@ -59,8 +59,8 @@ public class Vampire extends Enemy {
 		// Number of uses for the effect between 2 - 4.
 		int uses = rand.nextInt(3) + 2;
 
-		// Do a random amount of damage between 10 - 15.
-		int dmg = rand.nextInt(6) + 10;
+		// Do a random amount of damage between 4 - 6.
+		int dmg = rand.nextInt(3) + 4;
 		
 		if (rand.nextDouble() < 0.4) {
 			attack.addEffect(new VampireBite(uses, dmg));

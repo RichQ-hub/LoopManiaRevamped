@@ -51,6 +51,7 @@ import unsw.loopmania.items.Staff;
 import unsw.loopmania.items.Stake;
 import unsw.loopmania.items.Sword;
 import unsw.loopmania.items.TheOneRing;
+import unsw.loopmania.items.TreeStump;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.managers.CardManager;
@@ -316,6 +317,7 @@ public class LoopManiaWorldController {
 		Staff staff = new Staff();
 		TheOneRing ring = new TheOneRing();
 		Anduril anduril = new Anduril();
+		TreeStump stump = new TreeStump();
 		onLoadItem(inventoryManager.addItemToInventory(sword));
 		onLoadItem(inventoryManager.addItemToInventory(shield));
 		onLoadItem(inventoryManager.addItemToInventory(stake));
@@ -324,6 +326,7 @@ public class LoopManiaWorldController {
 		onLoadItem(inventoryManager.addItemToInventory(staff));
 		onLoadItem(inventoryManager.addItemToInventory(ring));
 		onLoadItem(inventoryManager.addItemToInventory(anduril));
+		onLoadItem(inventoryManager.addItemToInventory(stump));
 
 		BarracksCard barracksCard = new BarracksCard();
 		TrapCard trap1 = new TrapCard();

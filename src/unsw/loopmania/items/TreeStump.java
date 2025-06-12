@@ -1,6 +1,8 @@
 package unsw.loopmania.items;
 
 import unsw.loopmania.battle.Attack;
+import unsw.loopmania.battle.effects.modifiers.ReduceBossDamage;
+import unsw.loopmania.battle.effects.modifiers.RemoveDamage;
 import unsw.loopmania.inventory.EquipmentType;
 
 public class TreeStump extends EquipmentItem {
@@ -13,9 +15,13 @@ public class TreeStump extends EquipmentItem {
 		super.setEntityImageByPath("src/images/tree_stump.png");
 	}
 
+	/**
+	 * Reduce both basic and boss dmg.
+	 */
 	@Override
 	public void modifyIncomingAttack(Attack attack) {
-		// TODO
+		attack.applyModifier(new ReduceBossDamage(5));
+		attack.applyModifier(new RemoveDamage(3));
 	}
 
 	@Override
