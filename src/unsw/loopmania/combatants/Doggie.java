@@ -6,6 +6,7 @@ import unsw.loopmania.PathPosition;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.battleState.EnemyState;
+import unsw.loopmania.battle.effects.BossDamage;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.StunnedEffect;
 import unsw.loopmania.battle.effects.modifiers.AndurilProne;
@@ -23,7 +24,8 @@ public class Doggie extends Enemy {
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 50, 4, 20, new EnemyState());
-		attr.addBaseAttackEffect(new DamageEffect(18));
+		attr.addBaseAttackEffect(new DamageEffect(8));
+		attr.addBaseAttackEffect(new BossDamage(16));
 		attr.addDefenseModifier(new TranceImmunity());
 		attr.addDefenseModifier(new AndurilProne());
 

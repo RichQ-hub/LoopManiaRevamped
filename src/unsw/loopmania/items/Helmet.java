@@ -1,6 +1,7 @@
 package unsw.loopmania.items;
 
 import unsw.loopmania.battle.Attack;
+import unsw.loopmania.battle.effects.modifiers.ReduceBossDamage;
 import unsw.loopmania.battle.effects.modifiers.RemoveDamage;
 import unsw.loopmania.inventory.EquipmentType;
 
@@ -19,7 +20,8 @@ public class Helmet extends EquipmentItem {
 	 */
 	@Override
 	public void modifyIncomingAttack(Attack attack) {
-		attack.applyModifier(new RemoveDamage(4));
+		attack.applyModifier(new RemoveDamage(2));
+		attack.applyModifier(new ReduceBossDamage(2));
 	}
 
 	/**

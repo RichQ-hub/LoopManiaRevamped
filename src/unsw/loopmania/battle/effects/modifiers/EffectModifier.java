@@ -1,6 +1,7 @@
 package unsw.loopmania.battle.effects.modifiers;
 
 import unsw.loopmania.battle.effects.AndurilEffect;
+import unsw.loopmania.battle.effects.BossDamage;
 import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.effects.OneRingEffect;
 import unsw.loopmania.battle.effects.StakeEffect;
@@ -50,6 +51,10 @@ public abstract class EffectModifier {
 	}
 
 	public void visitVampireHitEffect(VampireHit effect) {
+		return;
+	}
+
+	public void visitBossDamageEffect(BossDamage effect) {
 		return;
 	}
 }

@@ -1,16 +1,17 @@
 package unsw.loopmania.battle.effects.modifiers;
 
-import unsw.loopmania.battle.effects.DamageEffect;
+import unsw.loopmania.battle.effects.BossDamage;
 
-public class DamageMultiplier extends EffectModifier {
+public class BossDamageMultiplier extends EffectModifier {
+
 	private double multiplier;
 
-	public DamageMultiplier(double multiplier) {
+	public BossDamageMultiplier(double multiplier) {
 		this.multiplier = multiplier;
 	}
 
 	@Override
-	public void visitDamageEffect(DamageEffect effect) {
+	public void visitBossDamageEffect(BossDamage effect) {
 		effect.setDmg(effect.getDmg() * multiplier);
 	}
 
@@ -20,4 +21,5 @@ public class DamageMultiplier extends EffectModifier {
 			String.format("	- %s: [Multiplier: %f]", getClass().getSimpleName(), multiplier)
 		);
 	}
+	
 }

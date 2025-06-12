@@ -23,7 +23,7 @@ public class Zombie extends Enemy {
 
 		// Set battle attributes.
 		BattleAttributes attr = new BattleAttributes(this, 30, 4, 10, new EnemyState());
-		attr.addBaseAttackEffect(new DamageEffect(5));
+		attr.addBaseAttackEffect(new DamageEffect(8));
 
 		super.setBattleAttributes(attr);
 
