@@ -7,6 +7,9 @@ import org.javatuples.Pair;
 import unsw.loopmania.battle.Attack;
 import unsw.loopmania.battle.BattleAttributes;
 import unsw.loopmania.battle.Battleable;
+import unsw.loopmania.battle.battleState.AlliedState;
+import unsw.loopmania.battle.battleState.BattleState;
+import unsw.loopmania.battle.effects.DamageEffect;
 import unsw.loopmania.battle.loot.Loot;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.managers.BattleManager;
@@ -16,9 +19,16 @@ public class TowerBuilding extends Building implements Battleable {
 
 	private static final int LIFESPAN = 3;
 
+	private BattleAttributes battleAttributes;
+
 	public TowerBuilding(Pair<Integer, Integer> position) {
 		super(position, LIFESPAN);
 		super.setEntityImageByPath("src/images/tower.png");
+
+		// Set battle attributes.
+		BattleAttributes attr = new BattleAttributes(this, 1, 0, 0, new AlliedState());
+		attr.addBaseAttackEffect(new DamageEffect(2));
+		this.battleAttributes = attr;
 	}
 
 	@Override
@@ -39,79 +49,71 @@ public class TowerBuilding extends Building implements Battleable {
 
 	@Override
 	public void attackOpponents(List<Battleable> battleEntities, List<Battleable> battleEntitiesInRound) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'attackOpponents'");
+		battleAttributes.attackOpponents(battleEntities, battleEntitiesInRound);
 	}
 
+	/**
+	 * Takes no damage.
+	 */
 	@Override
 	public void takeAttack(Attack attack, List<Battleable> battleEntities, List<Battleable> battleEntitiesInRound) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'takeAttack'");
+		return;
 	}
 
 	@Override
 	public Attack buildAttack() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'buildAttack'");
+		Attack attack = battleAttributes.buildAttack();
+		return attack;
 	}
 
 	@Override
 	public boolean isEnemy() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'isEnemy'");
+		return battleAttributes.getBattleState().isEnemy();
 	}
 
 	@Override
 	public boolean isAlive() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'isAlive'");
+		return battleAttributes.getHealth() > 0;
 	}
 
 	@Override
 	public boolean isWithinBattleRadius(Character character) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'isWithinBattleRadius'");
+		return false;
 	}
 
 	@Override
 	public boolean isWithinSupportRadius(Character character) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'isWithinSupportRadius'");
+		return false;
 	}
 
 	@Override
 	public void move() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'move'");
+		return;
 	}
 
 	@Override
 	public Loot dropLoot() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'dropLoot'");
+		return null;
 	}
 
 	@Override
 	public void printInfo() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'printInfo'");
+		battleAttributes.printBattleAttributesInfo();
 	}
 
 	@Override
 	public List<Battleable> getEntitiesToAttack(List<Battleable> battleEntities) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getEntitiesToAttack'");
+		BattleState state = battleAttributes.getBattleState();
+		return state.getOpponents(battleEntities);
 	}
 
 	@Override
 	public void addToBattleManager(BattleManager manager) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'addToBattleManager'");
+		return;
 	}
 
 	@Override
 	public BattleAttributes getBattleAttributes() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getBattleAttributes'");
+		return battleAttributes;
 	}
 }
