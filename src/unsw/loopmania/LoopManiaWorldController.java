@@ -37,6 +37,7 @@ import unsw.loopmania.buildings.Building;
 import unsw.loopmania.cards.BarracksCard;
 import unsw.loopmania.cards.CampfireCard;
 import unsw.loopmania.cards.Card;
+import unsw.loopmania.cards.TowerCard;
 import unsw.loopmania.cards.TrapCard;
 import unsw.loopmania.cards.ZombiePitCard;
 import unsw.loopmania.entity.Entity;
@@ -333,11 +334,13 @@ public class LoopManiaWorldController {
 		CampfireCard camp = new CampfireCard();
 		ZombiePitCard zombiePit = new ZombiePitCard();
 		ZombiePitCard zombiePit1 = new ZombiePitCard();
+		TowerCard tower = new TowerCard();
 		onLoadCard(cardManager.addCard(barracksCard));
 		onLoadCard(cardManager.addCard(trap1));
 		onLoadCard(cardManager.addCard(camp));
 		onLoadCard(cardManager.addCard(zombiePit));
 		onLoadCard(cardManager.addCard(zombiePit1));
+		onLoadCard(cardManager.addCard(tower));
     }
 
 	public Image loadImage(String pathname) {
