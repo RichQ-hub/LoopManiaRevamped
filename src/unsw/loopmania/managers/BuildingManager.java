@@ -86,6 +86,20 @@ public class BuildingManager {
 	}
 
 	// ==================================================================================
+	// Battleable Buidlings.
+	// ==================================================================================
+
+	public List<Battleable> getBattleSupportBuildingsInRange(Character character) {
+		List<Battleable> support = new ArrayList<>();
+		for (Battleable b : battleBuildings) {
+			if (b.isWithinBattleRadius(character)) {
+				support.add(b);
+			}
+		}
+		return support;
+	}
+
+	// ==================================================================================
 	// Append methods.
 	// ==================================================================================
 
@@ -166,7 +180,6 @@ public class BuildingManager {
 		Character character = world.getCharacter();
 		character.unsubscribe(observer);
 	}
-
 
 	// ==================================================================================
 	// Getters and Setters.

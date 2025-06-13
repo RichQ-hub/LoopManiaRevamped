@@ -17,7 +17,7 @@ import unsw.loopmania.managers.BuildingManager;
 
 public class TowerBuilding extends Building implements Battleable {
 
-	private static final int LIFESPAN = 3;
+	private static final int LIFESPAN = -1;
 
 	private BattleAttributes battleAttributes;
 
@@ -26,7 +26,7 @@ public class TowerBuilding extends Building implements Battleable {
 		super.setEntityImageByPath("src/images/tower.png");
 
 		// Set battle attributes.
-		BattleAttributes attr = new BattleAttributes(this, 1, 0, 0, new AlliedState());
+		BattleAttributes attr = new BattleAttributes(this, 1, 8, 0, new AlliedState());
 		attr.addBaseAttackEffect(new DamageEffect(2));
 		this.battleAttributes = attr;
 	}
@@ -78,7 +78,7 @@ public class TowerBuilding extends Building implements Battleable {
 
 	@Override
 	public boolean isWithinBattleRadius(Character character) {
-		return false;
+		return battleAttributes.isWithinBattleRadius(character);
 	}
 
 	@Override

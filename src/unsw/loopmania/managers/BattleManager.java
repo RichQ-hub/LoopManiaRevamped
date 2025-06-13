@@ -119,6 +119,7 @@ public class BattleManager {
 
 		List<Battleable> battleEntities = new ArrayList<>();
 		battleEntities.add(character);
+		battleEntities.addAll(world.getBuildingManager().getBattleSupportBuildingsInRange(character));
 		battleEntities.addAll(character.getAlliedSoldiers());
 		battleEntities.addAll(battleEnemies);
 
