@@ -53,6 +53,7 @@ import unsw.loopmania.items.Stake;
 import unsw.loopmania.items.Sword;
 import unsw.loopmania.items.TheOneRing;
 import unsw.loopmania.items.TreeStump;
+import unsw.loopmania.items.VampiricBlade;
 import unsw.loopmania.managers.BattleManager;
 import unsw.loopmania.managers.BuildingManager;
 import unsw.loopmania.managers.CardManager;
@@ -311,6 +312,7 @@ public class LoopManiaWorldController {
 
 		// TESTING: Initially give the character all items.
 		Sword sword = new Sword();
+		VampiricBlade blade = new VampiricBlade();
 		Shield shield = new Shield();
 		Stake stake = new Stake();
 		Armour armour = new Armour();
@@ -320,6 +322,7 @@ public class LoopManiaWorldController {
 		Anduril anduril = new Anduril();
 		TreeStump stump = new TreeStump();
 		onLoadItem(inventoryManager.addItemToInventory(sword));
+		onLoadItem(inventoryManager.addItemToInventory(blade));
 		onLoadItem(inventoryManager.addItemToInventory(shield));
 		onLoadItem(inventoryManager.addItemToInventory(stake));
 		onLoadItem(inventoryManager.addItemToInventory(armour));
