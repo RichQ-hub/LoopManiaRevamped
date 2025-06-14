@@ -8,10 +8,12 @@ import unsw.loopmania.battle.effects.Effect;
 import unsw.loopmania.battle.effects.modifiers.EffectModifier;
 
 public class Attack {
+	private Battleable sender;
 	private List<Effect> effects;
 	private List<EffectModifier> effectModifiers;
 
-	public Attack() {
+	public Attack(Battleable sender) {
+		this.sender = sender;
 		this.effects = new ArrayList<>();
 		this.effectModifiers = new ArrayList<>();
 	}
@@ -73,6 +75,14 @@ public class Attack {
 
 	public void setEffectModifiers(List<EffectModifier> effectModifiers) {
 		this.effectModifiers = effectModifiers;
+	}
+
+	public Battleable getSender() {
+		return sender;
+	}
+
+	public void setSender(Battleable sender) {
+		this.sender = sender;
 	}
 
 }

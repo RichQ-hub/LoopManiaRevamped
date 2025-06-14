@@ -3,6 +3,7 @@ package unsw.loopmania.battle.effects.modifiers;
 import unsw.loopmania.battle.effects.AndurilEffect;
 import unsw.loopmania.battle.effects.BossDamage;
 import unsw.loopmania.battle.effects.DamageEffect;
+import unsw.loopmania.battle.effects.Lifesteal;
 import unsw.loopmania.battle.effects.OneRingEffect;
 import unsw.loopmania.battle.effects.StakeEffect;
 import unsw.loopmania.battle.effects.StunnedEffect;
@@ -55,6 +56,10 @@ public abstract class EffectModifier {
 	}
 
 	public void visitBossDamageEffect(BossDamage effect) {
+		return;
+	}
+
+	public void visitLifestealEffect(Lifesteal effect) {
 		return;
 	}
 }
