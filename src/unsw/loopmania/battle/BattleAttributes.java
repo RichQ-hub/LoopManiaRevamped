@@ -89,7 +89,7 @@ public class BattleAttributes {
 	}
 
 	public Attack buildAttack() {
-		Attack attack = new Attack();
+		Attack attack = new Attack(combatant);
 		
 		insertBaseAttackEffects(attack);
 
