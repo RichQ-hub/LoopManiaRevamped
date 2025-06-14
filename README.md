@@ -180,6 +180,7 @@ Possible basic item types are listed below:
 | Armour | ![Armour][armour] | Body armour, provides defence and halves enemy attack | Purchase in Hero's Castle, loot from enemies, or obtained from cards lost due to being the oldest and replaced |
 | Shield | ![Shield][shield] | Defends against enemy attacks, critical vampire attacks have a 60% lower chance of occurring | Purchase in Hero's Castle, loot from enemies, or obtained from cards lost due to being the oldest and replaced |
 | Helmet | ![Helmet][helmet] | Defends against enemy attacks, enemy attacks are reduced by a scalar value. The damage inflicted by the Character against enemies is reduced (since it is harder to see) | Purchase in Hero's Castle, loot from enemies, or obtained from cards lost due to being the oldest and replaced |
+| Vampiric Blade | ![VampiricBlade][vampiricblade] | A demonic blade that saps 15% of the enemy's health on every hit, adding it onto the wielder. | Purchase in Hero's Castle or loot from enemies. |
 | Gold | ![Gold][gold] | Money, used to buy things | Obtain in Hero's Castle by selling items, loot from enemies, pick up off the ground, or obtained from cards/items lost due to being the oldest and replaced. Spawns randomly on path tiles |
 | Health potion | ![Potion][health_potion] | Refills Character health | Purchase from Hero's Castle, loot from enemies, pick up off the ground, or obtained from cards lost due to being the oldest and replaced. Spawns randomly on path tiles |
 | DoggieCoin | ![DoggieCoin][doggiecoin] | A revolutionary asset type, which randomly fluctuates in sellable price to an extraordinary extent. Can sell at shop | Obtained when defeat Doggie |
@@ -756,6 +757,7 @@ Note, you will not be penalised if your work has the potential to be taken witho
 [elan_muske]:                src/images/ElanMuske.png
 [doggie]:                    src/images/doggie.png
 [doggiecoin]:                src/images/doggiecoin.png
+[vampiricblade]:             src/images/vampiric_blade.png
 
 [simple_example_annotated]:            examples/simple_example_annotated.png
 [simple_example_influence_radius]:     examples/simple_example_influence_radius.png
