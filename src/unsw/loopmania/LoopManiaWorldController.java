@@ -364,10 +364,10 @@ public class LoopManiaWorldController {
 				if (world.isGoalAchieved()) {
 					pause();
 					switchToVictoryMenu();
+				} else {
+					// Open shop menu.
+					switchToShop();
 				}
-
-				// Open shop menu.
-				switchToShop();
 				
 				// Spawn new enemies when the character is at the start.
 				List<Entity> newMapEntities = buildingManager.spawnEntities(world.getCycleCount(), world.getOrderedPath());

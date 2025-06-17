@@ -46,7 +46,6 @@ The player can access the shop when the character enters the hero's castle at th
 
 The player can obtain cards to spawn buildings as drops from enemies. They can be used for a variety of functions to dynamically alter the game state.
 
-
 **Lifespan**
 
 Buildings once spawned only last a specified number of rounds before they despawn. The player should effectively manage what buildings to spawn to adequately progress the game.
@@ -62,6 +61,9 @@ In order to progress through each cycle, you must equip your character with adeq
 #### Goals
 
 To complete the game, you MUST achieve the required goals set for the current world.
+
+> [!NOTE]
+> The goal gets checked once the character enters back into the castle! Hence, even if the character achieves the goal during the middle of a cycle, the game will only complete once they enter back into the castle. Keep surviving through the round!
 
 ## 2. Core Systems
 
@@ -110,8 +112,6 @@ Simply drag an equipped item back into the unequipped inventory pane (any tile w
 #### Swapping Items
 
 The game can handle equipping an item into its corresponding spot even if it already contains an equipped item. 
-
-
 
 ## 3. Game Entities
 
