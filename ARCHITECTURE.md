@@ -282,3 +282,30 @@ Starting from the hero's castle, the player can specify the direction of the pat
 | `DOWN`     |
 | `LEFT`     |
 | `RIGHT`    |
+
+### 4.5 Map Class
+
+Each json map file MUST be associated with a unique subclass of the `GameMap` class inside `src/unsw/loopmania/maps` specifying the official name of the map as well as it's filename.
+
+Additionally, you must include the map as an option for play inside `MainMenuController.java` inside the constructor.
+
+```java
+public MainMenuController() {
+	this.maps = new LinkedHashMap<>();
+
+	// Specify maps here:
+	GameMap originalMap = new OriginalMap();
+	GameMap ringMap = new RingMap();
+	GameMap bigRingMap = new BigRingMap();
+
+	this.maps.put(originalMap.getMapName(), originalMap);
+	this.maps.put(ringMap.getMapName(), ringMap);
+	this.maps.put(bigRingMap.getMapName(), bigRingMap);
+
+	// Initially the map is the original map.
+	this.selectedMap = originalMap;
+}
+```
+
+> [!NOTE]
+> This is subject to change.
