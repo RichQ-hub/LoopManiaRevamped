@@ -3,13 +3,14 @@
 LoopMania is a turn-based RPG where players guide a hero through looping maps filled with enemies, treasures, and tactical challenges. Inspired by roguelike and strategy games, LoopMania combines map-based progression with a robust battle and inventory system.
 
 ## Table of Contents
+
 - [1. Gameplay Loop](#1-gameplay-loop)
-		- [Hero's Castle](#heros-castle)
-		- [Shop](#shop)
-		- [Cards/Buildings](#cardsbuildings)
-		- [Items](#items)
-		- [Enemies](#enemies)
-		- [Goals](#goals)
+	- [1.1 Hero's Castle](#11-heros-castle)
+	- [1.2 Shop](#12-shop)
+	- [1.3 Cards/Buildings](#13-cardsbuildings)
+	- [1.4 Items](#14-items)
+	- [1.5 Enemies](#15-enemies)
+	- [1.6 Goals](#16-goals)
 - [2. Core Systems](#2-core-systems)
 	- [2.1 Maps](#21-maps)
 	- [2.2 Battle System](#22-battle-system)
@@ -28,21 +29,24 @@ LoopMania is a turn-based RPG where players guide a hero through looping maps fi
 	- [3.3 Buildings/Cards 🏛️](#33-buildingscards-️)
 - [4. World Config](#4-world-config)
 	- [4.1 Format](#41-format)
-		- [4.1.1 Entities](#411-entities)
-		- [4.1.2 Goal](#412-goal)
-		- [4.1.3 Path](#413-path)
+	- [4.2 Entities](#42-entities)
+	- [4.3 Goal](#43-goal)
+		- [4.3.1 Concrete Goals](#431-concrete-goals)
+		- [4.3.2 Composite Goals](#432-composite-goals)
+	- [4.4 Path](#44-path)
+	- [4.5 Map Class](#45-map-class)
 
 ## 1. Gameplay Loop
 
-#### Hero's Castle
+### 1.1 Hero's Castle
 
 The character always starts here, regardless of the map. The player can access the shop here at the end of every cycle.
 
-#### Shop
+### 1.2 Shop
 
 The player can access the shop when the character enters the hero's castle at the start of every loop. The player can sell or buy items here.
 
-#### Cards/Buildings
+### 1.3 Cards/Buildings
 
 The player can obtain cards to spawn buildings as drops from enemies. They can be used for a variety of functions to dynamically alter the game state.
 
@@ -50,15 +54,15 @@ The player can obtain cards to spawn buildings as drops from enemies. They can b
 
 Buildings once spawned only last a specified number of rounds before they despawn. The player should effectively manage what buildings to spawn to adequately progress the game.
 
-#### Items
+### 1.4 Items
 
 Item management is a core mechanic in order to survive the onslaught of enemies during a round. Picking and choosing the right equipment BEFORE engaging an enemy in battle is key to winning in this game. For example, equipping a stake is highly effective in dispatching vampires during a battle, but may be deemed futile against other enemies.
 
-#### Enemies
+### 1.5 Enemies
 
 In order to progress through each cycle, you must equip your character with adequate resources (i.e. support buildings, allied soldiers, equipment) to face any enemy you may encounter.
 
-#### Goals
+### 1.6 Goals
 
 To complete the game, you MUST achieve the required goals set for the current world.
 
