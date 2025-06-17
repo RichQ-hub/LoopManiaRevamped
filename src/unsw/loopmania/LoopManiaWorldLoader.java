@@ -13,6 +13,7 @@ import unsw.loopmania.buildings.HeroCastleBuilding;
 import unsw.loopmania.combatants.Character;
 import unsw.loopmania.entity.Entity;
 import unsw.loopmania.entity.PathTile;
+import unsw.loopmania.goals.Goal;
 import unsw.loopmania.maps.GameMap;
 
 import java.util.List;
@@ -46,7 +47,10 @@ public abstract class LoopManiaWorldLoader {
         // path variable is collection of coordinates with directions of path taken...
         List<Pair<Integer, Integer>> orderedPath = loadPathTiles(json.getJSONObject("path"), width, height);
 
-        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, gameMap.getGoal());
+		Goal mapGoal = gameMap.buildGoal(json.getJSONObject("goal-condition"));
+		System.out.println(mapGoal.prettyPrint());
+
+        LoopManiaWorld world = new LoopManiaWorld(width, height, orderedPath, mapGoal);
 
         JSONArray jsonEntities = json.getJSONArray("entities");
 
