@@ -259,7 +259,7 @@ public class ShopController {
 
 
 	// ==================================================================================
-	// Pair backendmodel entities with frontend entities.
+	// Pair backend model entities with frontend entities.
 	// ==================================================================================
 
 	/**
